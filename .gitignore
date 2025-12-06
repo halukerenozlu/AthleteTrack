@@ -1,0 +1,55 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+
+Client/node_modules/
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# .NET / C# / API (Backend)
+# ========================
+# Derleme ve Geçici Dosyalar (Asla yükleme, çok yer kaplar)
+API/bin/
+API/obj/
+bin/
+obj/
+
+
+# Veritabanı Bağlantı Dosyaları (GÜVENLİK İÇİN ÖNEMLİ!)
+API/appsettings.json
+# Ama Development versiyonu genelde kişiseldir, yükleme.
+API/appsettings.Development.json
+
+
+# Derleme Çıktıları
+Client/dist/
+Client/build/
+
+
+# Ortam Değişkenleri (API Key vs. varsa)
+.env
+.env.local
+.env.*.local
+
+# Vite / Test dosyaları
+coverage/
+*.tfstate
