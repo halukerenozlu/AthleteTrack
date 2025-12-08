@@ -12,6 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Servisleri Tanıtıyoruz (Dependency Injection)
 builder.Services.AddScoped<API.Services.AuthService>();
+builder.Services.AddScoped<API.Services.TeamService>();
 
 // 1. Controller desteğini ekle (Bizim mimari için şart)
 builder.Services.AddControllers();

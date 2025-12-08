@@ -20,6 +20,10 @@ namespace API.Models.Entities
         [ForeignKey("CoachId")]
         public User? Coach { get; set; }
 
+        // Bu takımın oyuncuları kimler? (One-to-Many)
+        public ICollection<Athlete> Athletes { get; set; } = new List<Athlete>();
+
+    
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

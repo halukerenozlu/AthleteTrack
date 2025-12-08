@@ -23,3 +23,20 @@ export interface ChangePasswordRequest {
   currentPassword: string;
   newPassword: string;
 }
+
+// --- TAKIM TİPLERİ ---
+
+// Takım Listesi için (Backend: TeamResponseDto)
+export interface Team {
+  id: number;
+  name: string;
+  category: string;
+  playerCount: number;
+}
+
+// Yeni Takım Eklerken gidecek veri (Backend: CreateTeamDto)
+export interface CreateTeamRequest {
+  name: string;
+  category: string;
+  coachId: number;
+}

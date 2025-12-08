@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
+import TeamsPage from "./pages/TeamsPage";
 import LoginPage from "./pages/LoginPage";
+import TeamDetailsPage from "./pages/TeamDetailsPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import DashboardHome from "./pages/DashboardHome";
 import SettingsPage from "./pages/SettingsPage";
@@ -25,6 +27,9 @@ function App() {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="teams" element={<TeamsPage />} />
+          {/* YENİ ROTA: :id kısmı değişkendir */}
+          <Route path="teams/:id" element={<TeamDetailsPage />} />
           {/* Gelecek sayfalar buraya... */}
         </Route>
       </Routes>
