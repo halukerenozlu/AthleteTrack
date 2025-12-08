@@ -3,6 +3,7 @@ import LandingPage from "./pages/LandingPage";
 import TeamsPage from "./pages/TeamsPage";
 import LoginPage from "./pages/LoginPage";
 import TeamDetailsPage from "./pages/TeamDetailsPage";
+import AthletesPage from "./pages/AthletesPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import DashboardHome from "./pages/DashboardHome";
 import SettingsPage from "./pages/SettingsPage";
@@ -30,6 +31,7 @@ function App() {
           <Route path="teams" element={<TeamsPage />} />
           {/* YENİ ROTA: :id kısmı değişkendir */}
           <Route path="teams/:id" element={<TeamDetailsPage />} />
+          <Route path="athletes" element={<AthletesPage />} />
           {/* Gelecek sayfalar buraya... */}
         </Route>
       </Routes>

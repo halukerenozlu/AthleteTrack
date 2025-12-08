@@ -40,3 +40,35 @@ export interface CreateTeamRequest {
   category: string;
   coachId: number;
 }
+export interface Athlete {
+  id: number;
+  fullName: string;
+  jerseyNumber: number;
+  position: string;
+  teamName: string;
+  age: number;
+  hasImage: boolean;
+  height: number;
+  weight: number;
+  phone?: string;
+  birthDate: string;
+}
+
+export interface CreateAthleteRequest {
+  firstName: string;
+  lastName: string;
+  jerseyNumber?: number; // Opsiyonel
+  height: number;
+  weight: number;
+  phone?: string;
+  teamId: number; // Hangi takım?
+  positionId: number; // Hangi mevki?
+  birthDate: string; // Tarih
+}
+
+// Mevki Tipi
+export interface Position {
+  id: number;
+  name: string;
+  shortName: string;
+}
