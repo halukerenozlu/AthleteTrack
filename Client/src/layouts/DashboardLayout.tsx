@@ -12,6 +12,7 @@ import {
   LayoutDashboard,
   Shield,
   Stethoscope,
+  Trophy,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -89,6 +90,11 @@ export default function DashboardLayout() {
             icon={<Stethoscope size={20} />}
             label="Sağlık Merkezi"
             path="/dashboard/health"
+          />
+          <SidebarItem
+            icon={<Trophy size={20} />}
+            label="Fikstür / Maçlar"
+            path="/dashboard/matches"
           />
         </nav>
 

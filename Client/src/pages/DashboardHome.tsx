@@ -1,5 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
-import { Users, Activity, Calendar, Stethoscope, Trophy } from "lucide-react";
+import {
+  Users,
+  Activity,
+  Calendar,
+  Stethoscope,
+  Trophy,
+  Medal,
+  Flame,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -9,6 +17,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/dashboard/StatCard"; // StatCard bileşenini çağırdık
 import { dashboardApi } from "@/api/dashboardApi";
 import type { DashboardSummary } from "@/types";
@@ -62,7 +72,7 @@ export default function DashboardHome() {
   if (!summary) return null;
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in pb-10">
       {/* 1. İSTATİSTİK KARTLARI (Gerçek Veri) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
@@ -92,9 +102,9 @@ export default function DashboardHome() {
         />
       </div>
 
-      {/* 2. GRAFİKLER (Takım Dağılımı) */}
+      {/* 2. GRAFİKLER (Takım Dağılımı ve Sağlık) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* SOL: Çubuk Grafik */}
+        {/* SOL: Çubuk Grafik (Takım Oyuncu Sayıları) */}
         <Card className="lg:col-span-2 bg-zinc-900/50 border-zinc-800">
           <CardHeader>
             <CardTitle className="text-lg text-white">
@@ -102,7 +112,6 @@ export default function DashboardHome() {
             </CardTitle>
           </CardHeader>
           <CardContent className="h-80">
-            {/* Recharts Grafiği */}
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={summary.teamStats}>
                 <CartesianGrid
@@ -154,7 +163,7 @@ export default function DashboardHome() {
           <div className="relative w-40 h-40 flex items-center justify-center mb-4">
             {/* Daire Efekti */}
             <div className="absolute inset-0 rounded-full border-8 border-zinc-800"></div>
-            {/* Kırmızı Daire Dilimi (Sakatlık varsa) */}
+            {/* Kırmızı Daire Dilimi (Sakatlık varsa döner) */}
             {summary.activeInjuries > 0 && (
               <div className="absolute inset-0 rounded-full border-8 border-t-red-600 border-r-transparent border-b-transparent border-l-transparent rotate-45 animate-spin-slow"></div>
             )}
@@ -186,54 +195,166 @@ export default function DashboardHome() {
         </Card>
       </div>
 
-      {/* 3. SON AKTİVİTELER TABLOSU */}
-      <Card className="bg-zinc-900/50 border-zinc-800">
-        <CardHeader>
-          <CardTitle className="text-lg text-white flex items-center gap-2">
-            <Trophy className="h-5 w-5 text-yellow-500" />
-            Son Aktiviteler
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow className="border-zinc-800 hover:bg-zinc-900">
-                <TableHead className="text-zinc-400">Aktivite</TableHead>
-                <TableHead className="text-right text-zinc-400">
-                  Tarih
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {summary.recentActivities.length === 0 ? (
-                <TableRow className="hover:bg-transparent">
-                  <TableCell
-                    colSpan={2}
-                    className="text-center py-8 text-zinc-500"
-                  >
-                    Henüz aktivite yok.
-                  </TableCell>
+      {/* 3. ALT BÖLÜM: AKTİVİTELER VE LİDERLİK TABLOSU */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* SOL: SON AKTİVİTELER (Geniş - 2 Birim) */}
+        <Card className="lg:col-span-2 bg-zinc-900/50 border-zinc-800">
+          <CardHeader>
+            <CardTitle className="text-lg text-white flex items-center gap-2">
+              <Activity className="h-5 w-5 text-blue-500" />
+              Son Aktiviteler
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow className="border-zinc-800 hover:bg-zinc-900">
+                  <TableHead className="text-zinc-400">Aktivite</TableHead>
+                  <TableHead className="text-right text-zinc-400">
+                    Tarih
+                  </TableHead>
                 </TableRow>
-              ) : (
-                summary.recentActivities.map((item, i) => (
-                  <TableRow
-                    key={i}
-                    className="border-zinc-800 hover:bg-zinc-900/20"
-                  >
-                    <TableCell className="font-medium text-zinc-200 flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
-                      {item.title}
-                    </TableCell>
-                    <TableCell className="text-right text-zinc-400 text-sm">
-                      {item.date}
+              </TableHeader>
+              <TableBody>
+                {summary.recentActivities.length === 0 ? (
+                  <TableRow className="hover:bg-transparent">
+                    <TableCell
+                      colSpan={2}
+                      className="text-center py-8 text-zinc-500"
+                    >
+                      Henüz aktivite yok.
                     </TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+                ) : (
+                  summary.recentActivities.map((item, i) => (
+                    <TableRow
+                      key={i}
+                      className="border-zinc-800 hover:bg-zinc-900/20"
+                    >
+                      <TableCell className="font-medium text-zinc-200 flex items-center gap-3">
+                        <div
+                          className={`w-2 h-2 rounded-full ${
+                            item.type === "Injury"
+                              ? "bg-red-500"
+                              : "bg-blue-500"
+                          } shadow-[0_0_8px_rgba(59,130,246,0.8)]`}
+                        ></div>
+                        {item.title}
+                      </TableCell>
+                      <TableCell className="text-right text-zinc-400 text-sm">
+                        {item.date}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
+        {/* SAĞ: EN İYİLER / LİDERLİK TABLOSU (Dar - 1 Birim) */}
+        <Card className="bg-zinc-900/50 border-zinc-800">
+          <CardHeader>
+            <CardTitle className="text-lg text-white flex items-center gap-2">
+              <Trophy className="h-5 w-5 text-yellow-500" />
+              Liderlik Tablosu
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* A. Gol Krallığı */}
+            <div>
+              <h4 className="text-sm font-semibold text-zinc-400 mb-3 flex items-center gap-2">
+                <Flame className="h-4 w-4 text-orange-500" /> Gol Krallığı
+              </h4>
+              <div className="space-y-3">
+                {summary.topScorers.length === 0 ? (
+                  <p className="text-xs text-zinc-500">Veri yok</p>
+                ) : (
+                  summary.topScorers.map((p) => (
+                    <div
+                      key={p.athleteId}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-8 w-8 border border-zinc-700">
+                          {p.image ? (
+                            <AvatarImage
+                              src={`data:image/jpeg;base64,${p.image}`}
+                              className="object-cover"
+                            />
+                          ) : null}
+                          <AvatarFallback className="bg-zinc-800 text-xs">
+                            {p.name.substring(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="text-sm font-medium text-white">
+                            {p.name}
+                          </p>
+                          <p className="text-xs text-zinc-500">{p.teamName}</p>
+                        </div>
+                      </div>
+                      <Badge
+                        variant="secondary"
+                        className="bg-zinc-800 text-orange-400 font-bold"
+                      >
+                        {p.value} Gol
+                      </Badge>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+            <div className="h-px bg-zinc-800 my-4"></div>
+
+            {/* B. En Yüksek Puanlılar */}
+            <div>
+              <h4 className="text-sm font-semibold text-zinc-400 mb-3 flex items-center gap-2">
+                <Medal className="h-4 w-4 text-purple-500" /> En Yüksek Puan
+              </h4>
+              <div className="space-y-3">
+                {summary.topRatedPlayers.length === 0 ? (
+                  <p className="text-xs text-zinc-500">Veri yok</p>
+                ) : (
+                  summary.topRatedPlayers.map((p) => (
+                    <div
+                      key={p.athleteId}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-8 w-8 border border-zinc-700">
+                          {p.image ? (
+                            <AvatarImage
+                              src={`data:image/jpeg;base64,${p.image}`}
+                              className="object-cover"
+                            />
+                          ) : null}
+                          <AvatarFallback className="bg-zinc-800 text-xs">
+                            {p.name.substring(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="text-sm font-medium text-white">
+                            {p.name}
+                          </p>
+                          <p className="text-xs text-zinc-500">{p.teamName}</p>
+                        </div>
+                      </div>
+                      <Badge
+                        variant="secondary"
+                        className="bg-zinc-800 text-purple-400 font-bold"
+                      >
+                        {p.value}
+                      </Badge>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

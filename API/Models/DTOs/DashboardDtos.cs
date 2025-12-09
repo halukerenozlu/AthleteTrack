@@ -14,6 +14,10 @@ namespace API.Models.DTOs
         
         // 3. Son Aktiviteler
         public List<RecentActivityDto> RecentActivities { get; set; } = new();
+
+        // --- YENİ: Liderlik Tabloları ---
+        public List<TopPerformerDto> TopScorers { get; set; } = new(); // Gol Kralları
+        public List<TopPerformerDto> TopRatedPlayers { get; set; } = new(); // En Yüksek Puanlılar
     }
 
     public class TeamStatDto
@@ -34,5 +38,15 @@ namespace API.Models.DTOs
         public string Title { get; set; } = string.Empty; // "Ahmet antrenmana katıldı"
         public string Date { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty; // "Training", "Injury" vb.
+    }
+
+    public class TopPerformerDto
+    {
+        public int AthleteId { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string TeamName { get; set; } = string.Empty;
+        public byte[]? Image { get; set; }
+        public double Value { get; set; } // Gol sayısı veya Puan
+        public string Label { get; set; } = string.Empty; // "12 Gol" veya "8.5 Puan"
     }
 }

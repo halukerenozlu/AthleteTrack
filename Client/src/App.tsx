@@ -7,6 +7,8 @@ import AthletesPage from "./pages/AthletesPage";
 import TrainingsPage from "./pages/TrainingsPage";
 import TrainingDetailsPage from "./pages/TrainingDetailsPage";
 import InjuriesPage from "./pages/InjuriesPage";
+import MatchesPage from "./pages/MatchesPage";
+import MatchStatsPage from "./pages/MatchStatsPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import DashboardHome from "./pages/DashboardHome";
 import SettingsPage from "./pages/SettingsPage";
@@ -38,6 +40,8 @@ function App() {
           <Route path="trainings" element={<TrainingsPage />} />
           <Route path="trainings/:id" element={<TrainingDetailsPage />} />
           <Route path="health" element={<InjuriesPage />} />
+          <Route path="matches" element={<MatchesPage />} />
+          <Route path="matches/:id/stats" element={<MatchStatsPage />} />
           {/* Gelecek sayfalar buraya... */}
         </Route>
       </Routes>

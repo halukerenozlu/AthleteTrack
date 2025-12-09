@@ -172,4 +172,62 @@ export interface DashboardSummary {
   teamStats: TeamStat[];
   injuryStats: InjuryStat[]; // Backend'e eklemediysek boş gelebilir, sorun değil
   recentActivities: RecentActivity[];
+  topScorers: TopPerformer[];
+  topRatedPlayers: TopPerformer[];
+}
+
+// (MATCHES / FIXTURE)
+export interface Match {
+  id: number;
+  matchDate: string; // ISO string
+  opponent: string;
+  isHome: boolean;
+  teamName: string;
+  teamScore?: number;
+  opponentScore?: number;
+  status: string; // "Planlandı" veya "Tamamlandı"
+}
+
+export interface CreateMatchRequest {
+  matchDate: string;
+  opponent: string;
+  isHome: boolean;
+  teamId: number;
+}
+
+//(STATS)
+
+export interface MatchStatItem {
+  id: number;
+  athleteId: number;
+  athleteName: string;
+  jerseyNumber?: number;
+  position: string;
+  athleteImage: string; // Base64
+  minutesPlayed: number;
+  goals: number;
+  assists: number;
+  rating: number;
+  distanceCovered: number;
+}
+
+export interface SaveMatchStatsRequest {
+  matchId: number;
+  stats: {
+    athleteId: number;
+    minutesPlayed: number;
+    goals: number;
+    assists: number;
+    rating: number;
+    distanceCovered: number;
+  }[];
+}
+// GÜNCELLENEN KISIM: Liderlik tabloları eklendi
+export interface TopPerformer {
+  athleteId: number;
+  name: string;
+  teamName: string;
+  image: string;
+  value: number;
+  label: string;
 }
