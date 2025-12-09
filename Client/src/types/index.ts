@@ -116,3 +116,31 @@ export interface SaveAttendanceRequest {
     performanceRating?: number;
   }[];
 }
+
+// --- SAĞLIK MERKEZİ TİPLERİ ---
+
+export interface InjuryType {
+  id: number;
+  name: string;
+  description?: string;
+}
+
+export interface Injury {
+  id: number;
+  athleteName: string;
+  teamName: string;
+  athleteImage: string; // Backend byte[] gönderiyor, JSON'da base64 string olur
+  injuryTypeName: string;
+  injuryDate: string;
+  expectedReturnDate?: string;
+  isActive: boolean;
+  notes?: string;
+}
+
+export interface CreateInjuryRequest {
+  athleteId: number;
+  injuryTypeId: number;
+  injuryDate: string;
+  expectedReturnDate?: string;
+  notes?: string;
+}
