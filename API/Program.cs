@@ -16,6 +16,7 @@ builder.Services.AddScoped<API.Services.TeamService>();
 builder.Services.AddScoped<API.Services.AthleteService>();
 builder.Services.AddScoped<API.Services.TrainingService>();
 builder.Services.AddScoped<API.Services.InjuryService>();
+builder.Services.AddScoped<API.Services.DashboardService>();
 
 // 1. Controller desteğini ekle (Bizim mimari için şart)
 builder.Services.AddControllers();

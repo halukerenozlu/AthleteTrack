@@ -144,3 +144,32 @@ export interface CreateInjuryRequest {
   expectedReturnDate?: string;
   notes?: string;
 }
+
+// --- DASHBOARD TİPLERİ ---
+
+export interface TeamStat {
+  teamName: string;
+  athleteCount: number;
+}
+
+export interface InjuryStat {
+  typeName: string;
+  count: number;
+}
+
+export interface RecentActivity {
+  id: number;
+  title: string;
+  date: string;
+  type: string; // 'Training', 'Injury' vb.
+}
+
+export interface DashboardSummary {
+  totalAthletes: number;
+  activeInjuries: number;
+  attendanceRate: number;
+  nextMatchDate: string;
+  teamStats: TeamStat[];
+  injuryStats: InjuryStat[]; // Backend'e eklemediysek boş gelebilir, sorun değil
+  recentActivities: RecentActivity[];
+}
