@@ -72,3 +72,47 @@ export interface Position {
   name: string;
   shortName: string;
 }
+
+// --- ANTRENMAN TİPLERİ ---
+
+export interface TrainingType {
+  id: number;
+  name: string;
+  colorCode: string;
+}
+
+export interface Training {
+  id: number;
+  date: string; // ISO string gelir
+  durationMinutes: number;
+  notes?: string;
+  teamName: string;
+  typeName: string;
+  colorCode: string;
+  participantCount: number;
+}
+
+export interface CreateTrainingRequest {
+  date: string;
+  durationMinutes: number;
+  notes?: string;
+  teamId: number;
+  trainingTypeId: number;
+}
+
+// Yoklama Tipleri
+export interface AttendanceItem {
+  athleteId: number;
+  athleteName: string;
+  isPresent: boolean;
+  performanceRating?: number;
+}
+
+export interface SaveAttendanceRequest {
+  trainingId: number;
+  attendances: {
+    athleteId: number;
+    isPresent: boolean;
+    performanceRating?: number;
+  }[];
+}

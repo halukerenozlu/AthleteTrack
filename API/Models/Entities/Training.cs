@@ -26,6 +26,11 @@ namespace API.Models.Entities
         public int TrainingTypeId { get; set; }
         [ForeignKey("TrainingTypeId")]
         public TrainingType? TrainingType { get; set; }
+
+        // 3. EKLENEN KISIM: Yoklama Listesi (One-to-Many)
+        // Bu satır sayesinde "Include(t => t.TrainingAttendances)" hatası düzelecek.
+        public ICollection<TrainingAttendance> TrainingAttendances { get; set; } = new List<TrainingAttendance>();
+
         
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }

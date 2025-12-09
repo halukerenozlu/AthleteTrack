@@ -32,31 +32,36 @@ namespace API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // MatchStatistic tablosunda döngüsel silmeyi engelle (Restrict yap)
+            // --- BURAYI DÜZELTİYORUZ ---
+            // Training tablosunda TrainingAttendances listesi olduğu için 
+            // .WithMany() parantezini boş bırakmamalıyız.
+            
+            modelBuilder.Entity<TrainingAttendance>()
+                .HasOne(t => t.Training)
+                .WithMany(t => t.TrainingAttendances) // <-- DÜZELTME: Listeyi gösterdik
+                .HasForeignKey(t => t.TrainingId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Athlete tablosunda henüz bir liste (attendance list) tanımlamadığımız için
+            // burası boş kalabilir (.WithMany())
+            modelBuilder.Entity<TrainingAttendance>()
+                .HasOne(a => a.Athlete)
+                .WithMany()
+                .HasForeignKey(a => a.AthleteId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // MatchStatistic ayarları aynen kalabilir
             modelBuilder.Entity<MatchStatistic>()
                 .HasOne(m => m.Match)
                 .WithMany()
                 .HasForeignKey(m => m.MatchId)
-                .OnDelete(DeleteBehavior.Restrict); // Maç silinirse istatistik silinmesin, hata versin
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<MatchStatistic>()
                 .HasOne(a => a.Athlete)
                 .WithMany()
                 .HasForeignKey(a => a.AthleteId)
                 .OnDelete(DeleteBehavior.Restrict); 
-
-            // Aynı önlemi TrainingAttendance için de alalım (Garanti olsun)
-            modelBuilder.Entity<TrainingAttendance>()
-                .HasOne(t => t.Training)
-                .WithMany()
-                .HasForeignKey(t => t.TrainingId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<TrainingAttendance>()
-                .HasOne(a => a.Athlete)
-                .WithMany()
-                .HasForeignKey(a => a.AthleteId)
-                .OnDelete(DeleteBehavior.Restrict);
         }
         // -----------------------------------------------------------
     }

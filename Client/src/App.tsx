@@ -4,6 +4,8 @@ import TeamsPage from "./pages/TeamsPage";
 import LoginPage from "./pages/LoginPage";
 import TeamDetailsPage from "./pages/TeamDetailsPage";
 import AthletesPage from "./pages/AthletesPage";
+import TrainingsPage from "./pages/TrainingsPage";
+import TrainingDetailsPage from "./pages/TrainingDetailsPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import DashboardHome from "./pages/DashboardHome";
 import SettingsPage from "./pages/SettingsPage";
@@ -32,6 +34,8 @@ function App() {
           {/* YENİ ROTA: :id kısmı değişkendir */}
           <Route path="teams/:id" element={<TeamDetailsPage />} />
           <Route path="athletes" element={<AthletesPage />} />
+          <Route path="trainings" element={<TrainingsPage />} />
+          <Route path="trainings/:id" element={<TrainingDetailsPage />} />
           {/* Gelecek sayfalar buraya... */}
         </Route>
       </Routes>
