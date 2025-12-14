@@ -16,6 +16,8 @@ import FeaturesPage from "./pages/FeaturesPage";
 import PricingPage from "./pages/PricingPage";
 import FAQPage from "./pages/FAQPage";
 
+import { Toaster } from "@/components/ui/sonner";
+
 function App() {
   return (
     <Router>
@@ -45,6 +47,7 @@ function App() {
           {/* Gelecek sayfalar buraya... */}
         </Route>
       </Routes>
+      <Toaster position="top-right" theme="dark" richColors />
     </Router>
   );
 }

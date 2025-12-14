@@ -547,6 +547,7 @@ export default function AthletesPage() {
                 <Input
                   id="birthDate"
                   type="date"
+                  max="9999-12-31"
                   className="bg-zinc-950 border-zinc-800 block w-full"
                   value={formData.birthDate}
                   onChange={(e) =>
@@ -561,8 +562,9 @@ export default function AthletesPage() {
                 <Input
                   id="phone"
                   className="bg-zinc-950 border-zinc-800"
-                  placeholder="555..."
+                  placeholder="0555..."
                   value={formData.phone}
+                  maxLength={11}
                   onChange={(e) =>
                     setFormData({ ...formData, phone: e.target.value })
                   }

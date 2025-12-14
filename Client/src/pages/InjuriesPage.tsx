@@ -365,6 +365,7 @@ export default function InjuriesPage() {
                 <Label>Sakatlanma Tarihi</Label>
                 <Input
                   type="date"
+                  max="9999-12-31"
                   className="bg-zinc-950 border-zinc-800 block w-full"
                   value={formData.date}
                   onChange={(e) =>
@@ -376,6 +377,7 @@ export default function InjuriesPage() {
                 <Label>Tahmini Dönüş (Opsiyonel)</Label>
                 <Input
                   type="date"
+                  max="9999-12-31"
                   className="bg-zinc-950 border-zinc-800 block w-full"
                   value={formData.returnDate}
                   onChange={(e) =>

@@ -322,6 +322,7 @@ export default function MatchesPage() {
                 <Label>Tarih</Label>
                 <Input
                   type="date"
+                  max="9999-12-31"
                   className="bg-zinc-950 border-zinc-800 text-white block w-full"
                   value={formData.date}
                   onChange={(e) =>

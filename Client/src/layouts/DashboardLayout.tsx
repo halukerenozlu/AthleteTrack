@@ -17,12 +17,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { toast } from "sonner"; // Toast mesajı için gerekli
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
   const API_URL = "http://localhost:5028/api";
-  // TİP TANIMI GÜNCELLENDİ:
-  // Artık TypeScript 'id' ve 'username' alanlarını tanıyor.
+
   const [user, setUser] = useState<{
     id: number;
     username: string;
@@ -33,28 +33,25 @@ export default function DashboardLayout() {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  // ÇIKIŞ YAP FONKSİYONU
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
     navigate("/login");
   };
 
-  // 1. DİNAMİK TARİH OLUŞTURMA (Türkçe)
   const today = new Date().toLocaleDateString("tr-TR", {
-    weekday: "long", // Cumartesi
-    year: "numeric", // 2024
-    month: "long", // Kasım
-    day: "numeric", // 30
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 
-  // 2. İSİM GÖSTERİMİ (DÜZELTİLDİ) ✅
-  // Username ("keremhoca") yerine FullName'in ilk kelimesini ("Kerem") alıyoruz.
-  // Böylece aşağıda "Kerem Hocam" diye boşluklu yazdırabileceğiz.
-  const firstName =
-    user?.fullName?.split(" ")[0] || user?.username || "Misafir";
+  const displayName = user?.fullName || user?.username || "Hocam";
+  // Sadece ilk ismi alıyoruz (Örn: "Kerem Antrenör" -> "Kerem")
+  const firstName = displayName.split(" ")[0];
 
   return (
+    // Sabit Karanlık Tema (bg-black)
     <div className="min-h-screen bg-black text-white font-sans flex">
       {/* ============ SABİT SIDEBAR ============ */}
       <aside className="w-64 border-r border-zinc-800 bg-zinc-950 hidden md:flex flex-col fixed h-full z-10">
@@ -91,6 +88,7 @@ export default function DashboardLayout() {
             label="Sağlık Merkezi"
             path="/dashboard/health"
           />
+          {/* EKLENEN KISIM: Maçlar Menüsü */}
           <SidebarItem
             icon={<Trophy size={20} />}
             label="Fikstür / Maçlar"
@@ -105,7 +103,6 @@ export default function DashboardLayout() {
             path="/dashboard/settings"
           />
 
-          {/* ÇIKIŞ BUTONU */}
           <button
             onClick={handleLogout}
             className="w-full flex items-center gap-3 px-3 py-2 rounded-md transition-all text-red-400 hover:text-red-300 hover:bg-red-900/10 cursor-pointer"
@@ -118,17 +115,15 @@ export default function DashboardLayout() {
         {/* User Profile Mini */}
         <div className="p-4 bg-zinc-900/50 flex items-center gap-3">
           <Avatar>
-            {/* DÜZELTME: Artık resmi Backend'den çekiyoruz */}
-            {/* user.id varsa resim yolunu oluştur, yoksa null geç */}
             <AvatarImage
               src={
                 user?.id
                   ? `${API_URL}/auth/profile-image/${user.id}`
                   : undefined
               }
-              className="object-cover" // Resim düzgün dolsun
+              className="object-cover"
             />
-            <AvatarFallback>
+            <AvatarFallback className="bg-zinc-800 text-zinc-400">
               {user ? user.fullName.substring(0, 2).toUpperCase() : "U"}
             </AvatarFallback>
           </Avatar>
@@ -143,13 +138,12 @@ export default function DashboardLayout() {
         </div>
       </aside>
 
-      {/* ============ DEĞİŞKEN İÇERİK ALANI ============ */}
+      {/* ============ MAIN CONTENT ============ */}
       <main className="flex-1 md:ml-64 p-8 overflow-y-auto">
-        {/* SABİT TOP BAR */}
+        {/* TOP BAR */}
         <header className="flex justify-between items-center mb-8">
           <div>
-            {/* BURASI GÜNCELLENDİ: İsim ve 'Hocam' arasına boşluk geldi */}
-            <h1 className="text-2xl font-bold capitalize">
+            <h1 className="text-2xl font-bold capitalize tracking-tight">
               Hoşgeldin, {firstName} Hocam 👋
             </h1>
             <p className="text-zinc-400 text-sm">
@@ -161,14 +155,20 @@ export default function DashboardLayout() {
             <div className="relative w-64">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-zinc-500" />
               <Input
-                placeholder="Sporcu ara..."
-                className="pl-8 bg-zinc-900 border-zinc-800 focus:border-blue-500"
+                placeholder="Genel arama..."
+                className="pl-8 bg-zinc-900 border-zinc-800 focus:border-blue-500 text-white placeholder:text-zinc-500"
+                // ARAMA MESAJI
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") toast.info("Küresel Arama Yakında...");
+                }}
               />
             </div>
             <Button
               variant="outline"
               size="icon"
-              className="border-zinc-800 bg-zinc-900 hover:bg-zinc-800"
+              className="border-zinc-800 bg-zinc-900 hover:bg-zinc-800 text-white"
+              // BİLDİRİM MESAJI
+              onClick={() => toast.info("Bildirim özelliği çok yakında...")}
             >
               <Bell className="h-4 w-4" />
             </Button>

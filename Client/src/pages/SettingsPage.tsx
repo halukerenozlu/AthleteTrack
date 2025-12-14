@@ -268,6 +268,7 @@ export default function SettingsPage() {
                       id="phone"
                       placeholder="0555 123 45 67"
                       value={phone}
+                      maxLength={11}
                       onChange={(e) => setPhone(e.target.value)}
                       className="pl-9 bg-zinc-950 border-zinc-800 text-white"
                     />
