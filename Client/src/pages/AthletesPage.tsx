@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { Search, Plus, Upload, Loader2, Pencil, Trash2 } from "lucide-react"; // Filter kaldırıldı
+import { Search, Plus, Upload, Loader2, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -43,7 +43,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import type { Team, Athlete, Position } from "@/types";
+import type { Team, Athlete } from "@/types";
+
+interface Position {
+  id: number;
+  name: string;
+  shortName: string;
+}
 
 export default function AthletesPage() {
   const [athletes, setAthletes] = useState<Athlete[]>([]);
@@ -56,14 +62,12 @@ export default function AthletesPage() {
   const [selectedAthleteId, setSelectedAthleteId] = useState<number | null>(
     null
   );
-  const [athleteToDelete, setAthleteToDelete] = useState<number | null>(null); // Silme onayı için
+  const [athleteToDelete, setAthleteToDelete] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Dropdown Verileri
   const [teams, setTeams] = useState<Team[]>([]);
   const [positions, setPositions] = useState<Position[]>([]);
 
-  // Form Verileri
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -81,7 +85,6 @@ export default function AthletesPage() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const API_URL = "http://localhost:5028/api";
 
-  // --- VERİLERİ ÇEK ---
   const fetchData = useCallback(async () => {
     if (!user.id) return;
     try {
@@ -107,10 +110,8 @@ export default function AthletesPage() {
     fetchData();
   }, [fetchData]);
 
-  // --- MODAL AÇ (EKLE veya DÜZENLE) ---
   const openModal = (athlete?: Athlete) => {
     if (athlete) {
-      // DÜZENLEME MODU
       setIsEditMode(true);
       setSelectedAthleteId(athlete.id);
 
@@ -118,7 +119,6 @@ export default function AthletesPage() {
       const firstName = names[0];
       const lastName = names.slice(1).join(" ");
 
-      // Takım ve Mevki eşleştirme
       const foundTeam = teams.find((t) => t.name === athlete.teamName);
       const foundPosition = positions.find((p) => p.name === athlete.position);
 
@@ -126,20 +126,14 @@ export default function AthletesPage() {
         firstName: firstName || "",
         lastName: lastName || "",
         jerseyNumber: athlete.jerseyNumber?.toString() || "",
-
-        // DÜZELTME BURADA: Artık verileri listeden alıyoruz
         height: athlete.height?.toString() || "",
         weight: athlete.weight?.toString() || "",
         phone: athlete.phone || "",
-
         teamId: foundTeam ? foundTeam.id.toString() : "",
         positionId: foundPosition ? foundPosition.id.toString() : "",
-
-        // Tarih formatını (YYYY-MM-DD) inputa uygun hale getiriyoruz
         birthDate: athlete.birthDate ? athlete.birthDate.split("T")[0] : "",
       });
     } else {
-      // YENİ EKLEME MODU (Boşalt)
       setIsEditMode(false);
       setSelectedAthleteId(null);
       setFormData({
@@ -157,11 +151,32 @@ export default function AthletesPage() {
     setSelectedFile(null);
     setIsDialogOpen(true);
   };
-  // --- KAYDET (EKLE veya GÜNCELLE) ---
+
+  // --- KAYDETME İŞLEMİ (KONTROLLER EKLENDİ) ---
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // 1. Zorunlu Alan Kontrolü
     if (!formData.teamId || !formData.positionId) {
       toast.warning("Lütfen takım ve mevki seçin.");
+      return;
+    }
+
+    // 2. ASTRONOMİK SAYI KONTROLÜ (YENİ) 🛡️
+    const jersey = parseInt(formData.jerseyNumber);
+    const height = parseInt(formData.height);
+    const weight = parseFloat(formData.weight);
+
+    if (jersey > 99 || jersey < 1) {
+      toast.warning("Forma numarası 1-99 arasında olmalıdır.");
+      return;
+    }
+    if (height > 250 || height < 100) {
+      toast.warning("Boy 100-250 cm arasında olmalıdır.");
+      return;
+    }
+    if (weight > 150 || weight < 50) {
+      toast.warning("Kilo 50-150 kg arasında olmalıdır.");
       return;
     }
 
@@ -170,11 +185,9 @@ export default function AthletesPage() {
       const payload = {
         firstName: formData.firstName,
         lastName: formData.lastName,
-        jerseyNumber: formData.jerseyNumber
-          ? parseInt(formData.jerseyNumber)
-          : undefined,
-        height: formData.height ? parseInt(formData.height) : 0,
-        weight: formData.weight ? parseFloat(formData.weight) : 0,
+        jerseyNumber: formData.jerseyNumber ? jersey : undefined,
+        height: height || 0,
+        weight: weight || 0,
         phone: formData.phone,
         teamId: parseInt(formData.teamId),
         positionId: parseInt(formData.positionId),
@@ -182,18 +195,14 @@ export default function AthletesPage() {
       };
 
       if (isEditMode && selectedAthleteId) {
-        // GÜNCELLEME
         await athleteApi.updateAthlete(selectedAthleteId, payload);
 
-        // Resim varsa güncelle
         if (selectedFile) {
           await athleteApi.uploadPhoto(selectedAthleteId, selectedFile);
         }
         toast.success("Sporcu güncellendi! ✅");
       } else {
-        // YENİ EKLEME
         const newAthlete = await athleteApi.addAthlete(payload);
-        // Tip güvenliği için dönüşüm
         const createdAthlete = newAthlete as { id: number };
 
         if (selectedFile && createdAthlete.id) {
@@ -203,7 +212,7 @@ export default function AthletesPage() {
       }
 
       setIsDialogOpen(false);
-      fetchData(); // Listeyi yenile
+      fetchData();
     } catch {
       toast.error("İşlem başarısız.");
     } finally {
@@ -211,7 +220,6 @@ export default function AthletesPage() {
     }
   };
 
-  // --- SİLME İŞLEMİ ---
   const handleDelete = async () => {
     if (!athleteToDelete) return;
     try {
@@ -225,7 +233,6 @@ export default function AthletesPage() {
     }
   };
 
-  // Filtreleme
   const filteredAthletes = athletes.filter(
     (a) =>
       a.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -251,7 +258,6 @@ export default function AthletesPage() {
         </Button>
       </div>
 
-      {/* ARAMA */}
       <div className="flex gap-4">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
@@ -264,7 +270,6 @@ export default function AthletesPage() {
         </div>
       </div>
 
-      {/* LİSTE */}
       <Card className="bg-zinc-900/50 border-zinc-800">
         <CardHeader>
           <CardTitle className="text-white">
@@ -352,7 +357,6 @@ export default function AthletesPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        {/* DÜZELTME: Profil butonu da artık düzenleme penceresini açıyor */}
                         <Button
                           variant="ghost"
                           size="sm"
@@ -361,8 +365,6 @@ export default function AthletesPage() {
                         >
                           <Pencil className="h-4 w-4 mr-1" /> Profil
                         </Button>
-
-                        {/* Silme Butonu aynı kaldı */}
                         <Button
                           variant="ghost"
                           size="icon"
@@ -381,7 +383,6 @@ export default function AthletesPage() {
         </CardContent>
       </Card>
 
-      {/* --- SPORCU EKLEME MODALI --- */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="bg-zinc-900 border-zinc-800 text-white sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -394,7 +395,6 @@ export default function AthletesPage() {
           </DialogHeader>
 
           <form onSubmit={handleSave} className="space-y-4 py-2">
-            {/* Fotoğraf Seçimi */}
             <div className="flex justify-center mb-4">
               <div
                 className="w-24 h-24 rounded-full bg-zinc-800 border-2 border-dashed border-zinc-600 flex items-center justify-center cursor-pointer hover:border-blue-500 hover:bg-zinc-800/80 transition-all overflow-hidden"
@@ -494,6 +494,7 @@ export default function AthletesPage() {
               </div>
             </div>
 
+            {/* ASTRONOMİK SAYILARA KARŞI KORUMA EKLENDİ */}
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="jersey" className="text-zinc-300">
@@ -502,6 +503,8 @@ export default function AthletesPage() {
                 <Input
                   id="jersey"
                   type="number"
+                  max={99}
+                  min={1}
                   className="bg-zinc-950 border-zinc-800"
                   value={formData.jerseyNumber}
                   onChange={(e) =>
@@ -516,6 +519,8 @@ export default function AthletesPage() {
                 <Input
                   id="height"
                   type="number"
+                  max={250}
+                  min={100}
                   className="bg-zinc-950 border-zinc-800"
                   value={formData.height}
                   onChange={(e) =>
@@ -530,6 +535,8 @@ export default function AthletesPage() {
                 <Input
                   id="weight"
                   type="number"
+                  max={150}
+                  min={50}
                   className="bg-zinc-950 border-zinc-800"
                   value={formData.weight}
                   onChange={(e) =>
@@ -544,6 +551,7 @@ export default function AthletesPage() {
                 <Label htmlFor="birthDate" className="text-zinc-300">
                   Doğum Tarihi
                 </Label>
+                {/* TARİH KISITLAMASI */}
                 <Input
                   id="birthDate"
                   type="date"
@@ -563,10 +571,13 @@ export default function AthletesPage() {
                   id="phone"
                   className="bg-zinc-950 border-zinc-800"
                   placeholder="0555..."
-                  value={formData.phone}
                   maxLength={11}
+                  value={formData.phone}
                   onChange={(e) =>
-                    setFormData({ ...formData, phone: e.target.value })
+                    setFormData({
+                      ...formData,
+                      phone: e.target.value.replace(/\D/g, ""),
+                    })
                   }
                 />
               </div>
@@ -591,7 +602,6 @@ export default function AthletesPage() {
         </DialogContent>
       </Dialog>
 
-      {/* --- SİLME ONAY KUTUSU --- */}
       <AlertDialog
         open={!!athleteToDelete}
         onOpenChange={() => setAthleteToDelete(null)}

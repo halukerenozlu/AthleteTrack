@@ -25,10 +25,11 @@ namespace API.Models.Entities
         public byte[]? ProfileImage { get; set; } 
 
         // --- İLİŞKİLER ---
-        public int TeamId { get; set; }
+        public int? TeamId { get; set; }
         [ForeignKey("TeamId")]
         public Team? Team { get; set; }
-
+        // Sporcuyu direkt hocaya bağlıyoruz
+        public int CoachId { get; set; }
         public int PositionId { get; set; }
         [ForeignKey("PositionId")]
         public Position? Position { get; set; }

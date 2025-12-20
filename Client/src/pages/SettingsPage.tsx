@@ -30,9 +30,9 @@ interface UserProfile {
   id: number;
   username: string;
   fullName: string;
-  email?: string;
+  email?: string; // Backend'den gelmeli
   role: string;
-  isTemporaryPassword?: boolean; // Backend'den geliyor
+  isTemporaryPassword?: boolean;
 }
 
 interface ApiError {
@@ -45,11 +45,8 @@ interface ApiError {
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null); // Dosya seçici için referans
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const API_URL = "http://localhost:5028/api";
-
-  // Resim güncellenince anlık değişmesi için bir state (Tazeleme Sayacı)
-  const [imageRefreshKey, setImageRefreshKey] = useState(0);
 
   const [user, setUser] = useState<UserProfile | null>(() => {
     const storedUser = localStorage.getItem("user");
@@ -67,7 +64,7 @@ export default function SettingsPage() {
 
   // --- 1. FOTOĞRAF YÜKLEME ---
   const handlePhotoClick = () => {
-    fileInputRef.current?.click(); // Gizli input'u tetikle
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = async (
@@ -83,10 +80,7 @@ export default function SettingsPage() {
 
     try {
       await authApi.uploadPhoto(user.id, file);
-      alert("Fotoğraf yüklendi! (Sayfayı yenileyince görünecek)");
-      // Not: Gerçek uygulamada burada resmi hemen göstermek için URL.createObjectURL kullanılır
-
-      setImageRefreshKey((prev) => prev + 1); // Resim URL'sini tazele
+      alert("Fotoğraf yüklendi! (Sayfayı yenileyince görünecek) 📸");
     } catch {
       alert("Fotoğraf yüklenirken hata oluştu.");
     }
@@ -97,7 +91,6 @@ export default function SettingsPage() {
     if (!user) return;
     setLoading(true);
     try {
-      // Ad soyad sağ/sol boşluklarını temizle (Trim)
       const cleanName = fullName.trim();
 
       await authApi.updateProfile(user.id, {
@@ -142,7 +135,6 @@ export default function SettingsPage() {
 
       alert("Şifreniz başarıyla değiştirildi! 🔒");
 
-      // Şifre değiştiği için artık geçici şifre uyarısını kaldırıyoruz!
       const updatedUser = { ...user, isTemporaryPassword: false };
       localStorage.setItem("user", JSON.stringify(updatedUser));
       setUser(updatedUser);
@@ -198,23 +190,22 @@ export default function SettingsPage() {
             <CardContent className="space-y-8">
               <div className="flex items-center gap-6">
                 <Avatar className="w-24 h-24 border-2 border-zinc-700">
-                  {/* URL sonuna ?v=... ekleyerek tarayıcının önbelleğini (cache) atlatıyoruz */}
                   <AvatarImage
-                    src={`${API_URL}/auth/profile-image/${user.id}?v=${imageRefreshKey}`}
-                    className="object-cover"
+                    src={`${API_URL}/auth/profile-image/${
+                      user.id
+                    }?v=${Date.now()}`}
                   />
                   <AvatarFallback className="text-2xl bg-zinc-800">
                     {user.fullName?.substring(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="space-y-2">
-                  {/* GİZLİ INPUT (DOSYA SEÇMEK İÇİN) */}
                   <input
                     type="file"
                     ref={fileInputRef}
-                    onChange={handleFileChange}
                     className="hidden"
                     accept="image/png, image/jpeg, image/gif"
+                    onChange={handleFileChange}
                   />
                   <Button
                     onClick={handlePhotoClick}
@@ -252,9 +243,10 @@ export default function SettingsPage() {
                   <Label htmlFor="email">Email Adresi</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-2.5 h-4 w-4 text-zinc-500" />
+                    {/* DÜZELTME: Artık dinamik user.email gösteriliyor */}
                     <Input
                       id="email"
-                      defaultValue="kerem@athletetrack.com"
+                      defaultValue={user.email}
                       disabled
                       className="pl-9 bg-zinc-950/50 border-zinc-800 text-zinc-500 cursor-not-allowed"
                     />
@@ -269,7 +261,10 @@ export default function SettingsPage() {
                       placeholder="0555 123 45 67"
                       value={phone}
                       maxLength={11}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, "");
+                        setPhone(val);
+                      }}
                       className="pl-9 bg-zinc-950 border-zinc-800 text-white"
                     />
                   </div>
@@ -298,7 +293,6 @@ export default function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* DİNAMİK UYARI KUTUSU: Sadece geçici şifre ise görünür */}
               {user.isTemporaryPassword ? (
                 <Alert
                   variant="destructive"

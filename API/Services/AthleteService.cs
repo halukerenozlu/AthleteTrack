@@ -44,6 +44,10 @@ namespace API.Services
         // 2. Yeni Sporcu Ekle
         public async Task<Athlete> AddAthleteAsync(CreateAthleteDto model)
         {
+            // Önce seçilen takımın hocasını bulalım
+            var team = await _context.Teams.FindAsync(model.TeamId);
+            if (team == null) throw new Exception("Takım bulunamadı");
+
             var newAthlete = new Athlete
             {
                 FirstName = model.FirstName,
@@ -55,6 +59,7 @@ namespace API.Services
                 BirthDate = model.BirthDate,
                 TeamId = model.TeamId,
                 PositionId = model.PositionId,
+                CoachId = (int)team.CoachId!, // <-- YENİ: Hocayı takımdan alıp kaydettik
                 CreatedAt = DateTime.Now
             };
 
@@ -81,24 +86,43 @@ namespace API.Services
             return athlete?.ProfileImage;
         }
 
-        // 5. Sporcu Sil
+        // 5. SPORCU SİL (GÜÇLENDİRİLMİŞ - Manuel Cascade)
         public async Task<bool> DeleteAthleteAsync(int id)
         {
             var athlete = await _context.Athletes.FindAsync(id);
             if (athlete == null) return false;
 
+            // --- İLİŞKİLİ VERİLERİ TEMİZLE ---
+
+            // A. Sakatlık kayıtlarını sil
+            var injuries = _context.Injuries.Where(i => i.AthleteId == id);
+            _context.Injuries.RemoveRange(injuries);
+
+            // B. Yoklama kayıtlarını sil
+            var attendances = _context.TrainingAttendances.Where(ta => ta.AthleteId == id);
+            _context.TrainingAttendances.RemoveRange(attendances);
+
+            // C. Maç İstatistiklerini sil
+            var stats = _context.MatchStatistics.Where(ms => ms.AthleteId == id);
+            _context.MatchStatistics.RemoveRange(stats);
+
+            // ---------------------------------
+
+            // Artık sporcu tertemiz, silebiliriz.
             _context.Athletes.Remove(athlete);
             await _context.SaveChangesAsync();
             return true;
         }
+
         // HOCANIN TÜM SPORCULARINI GETİR (Tüm takımlardan)
        public async Task<List<AthleteResponseDto>> GetAthletesByCoachAsync(int coachId)
         {
             var athletes = await _context.Athletes
                 .Include(a => a.Team)
                 .Include(a => a.Position)
-                .Where(a => a.Team!.CoachId == coachId) // Ünlem işareti doğru (Null uyarısını susturur)
-                .OrderBy(a => a.Team!.Name)
+                // DEĞİŞEN KISIM: Artık direkt sporcunun hocasına bakıyoruz
+                .Where(a => a.CoachId == coachId) 
+                .OrderBy(a => a.Team != null ? a.Team.Name : "ZZZ") // Takımsızları sona at
                 .ToListAsync();
 
             return athletes.Select(a => new AthleteResponseDto
@@ -107,11 +131,9 @@ namespace API.Services
                 FullName = $"{a.FirstName} {a.LastName}",
                 JerseyNumber = a.JerseyNumber,
                 Position = a.Position?.Name ?? "-",
-                TeamName = a.Team?.Name ?? "-",
+                TeamName = a.Team?.Name ?? "Takımsız",
                 HasImage = a.ProfileImage != null && a.ProfileImage.Length > 0,
                 Age = DateTime.Now.Year - a.BirthDate.Year,
-                
-                // --- EKSİKLER EKLENDİ ---
                 Height = a.Height,
                 Weight = a.Weight,
                 Phone = a.Phone,
@@ -125,6 +147,12 @@ namespace API.Services
             var athlete = await _context.Athletes.FindAsync(id);
             if (athlete == null) return false;
 
+            // Takım değiştiyse, yeni takımın hocasını da güncellemek gerekebilir
+            if (athlete.TeamId != model.TeamId)
+            {
+                 var newTeam = await _context.Teams.FindAsync(model.TeamId);
+                 if (newTeam != null) athlete.CoachId = (int)newTeam.CoachId!;
+            }
             // Bilgileri güncelle
             athlete.FirstName = model.FirstName;
             athlete.LastName = model.LastName;

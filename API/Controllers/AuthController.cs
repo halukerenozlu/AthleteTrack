@@ -33,6 +33,7 @@ namespace API.Controllers
                 username = user.Username,
                 fullName = user.FullName,
                 role = user.Role,
+                email = user.Email, 
                 // YENİ: Frontend bu bilgiye göre sarı kutuyu gösterecek
                 isTemporaryPassword = user.IsTemporaryPassword,
                 message = "Giriş başarılı"
