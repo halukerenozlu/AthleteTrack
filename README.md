@@ -1,20 +1,25 @@
-# AthleteTrack - Sporcu Yönetim ve Takip Sistemi
+# AthleteTrack - Athlete Management and Tracking System
+A modern platform for sports clubs and coaches to manage athletes, training, injuries, and performance in one place.
 
-Bu proje, spor kulüpleri ve antrenörler için geliştirilmiş; sporcu, antrenman, sakatlık ve performans takibi sağlayan kapsamlı bir yönetim panelidir.
+![.NET 9](https://img.shields.io/badge/.NET-9.0-512BD4?logo=dotnet&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![MSSQL](https://img.shields.io/badge/MSSQL-Server-CC2927?logo=microsoftsqlserver&logoColor=white)
+![EF Core](https://img.shields.io/badge/EF%20Core-9-6DB33F?logo=.net&logoColor=white)
 
-## 🚀 Kullanılan Teknolojiler
+## 🚀 Technologies Used
 
 - Frontend: React (Vite), TypeScript, Tailwind CSS, shadcn/ui, Recharts
 
 - Backend: .NET 9 Web API, Entity Framework Core
 
-- Veritabanı: MS SQL Server
+- Database: MS SQL Server
 
-## Veritabanı Diyagramı
+## Database Diagram
 
 ![Database Diagram](./docs/db_diagram.png)
 
-## Ekran Görüntüleri
+## Screenshots
 
 ![Landing Page](./docs/landing.png)
 
@@ -24,50 +29,50 @@ Bu proje, spor kulüpleri ve antrenörler için geliştirilmiş; sporcu, antrenm
 
 ![Account Page](./docs/account.png)
 
-## 🛠️ Kurulum ve Çalıştırma
+## 🛠️ Getting Started
 
-Projeyi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyin:
+Follow the steps below to run the project on your machine:
 
-### 1. Veritabanı Kurulumu
+### 1. Database Setup
 
-- SQL Server Management Studio (SSMS) uygulamasını açın.
+- Open SQL Server Management Studio (SSMS).
 
-- API/Scripts/DatabaseBackup.sql dosyasını açın ve çalıştırın (veya Update-Database komutunu kullanın).
+- Open and run `API/Scripts/DatabaseBackup.sql` (or use the `Update-Database` command).
 
-- API/appsettings.json dosyasındaki "Server" bilgisinin sizin bilgisayarınızla uyumlu olduğundan emin olun.
+- Make sure the `"Server"` value in `API/appsettings.json` matches your local environment.
 
-### 2. Backend'i Başlatma
+### 2. Start the Backend
 
-- Terminalde API klasörüne gidin: `cd API`
+- Go to the API folder in your terminal: `cd API`
 
-- Komutu çalıştırın: `dotnet watch run`
+- Run the command: `dotnet watch run`
 
-- Sunucu http://localhost:5028 adresinde çalışacaktır.
+- The server will run at http://localhost:5028.
 
-### 3. Frontend'i Başlatma
+### 3. Start the Frontend
 
-- Yeni bir terminalde Client klasörüne gidin: `cd Client`
+- Open a new terminal and go to the Client folder: `cd Client`
 
-- Paketleri yükleyin (ilk kez ise): `npm install`
+- Install packages (first time only): `npm install`
 
-- Komutu çalıştırın: `npm run dev`
+- Run the command: `npm run dev`
 
-- Tarayıcıda verilen linke (örn: http://localhost:5173) gidin.
+- Open the generated link in your browser (e.g., http://localhost:5173).
 
-🔑 Giriş Bilgileri (Test Hesabı)
+🔑 Login Credentials (Test Account)
 
 - Email: kerem@athletetrack.com
 
-- Şifre: 123456
+- Password: 123456
 
-- (Not: Sistemde hashleme aktiftir, bu şifre veritabanında şifreli tutulmaktadır.)
+- (Note: Hashing is enabled in the system, so this password is stored in encrypted form in the database.)
 
-### 🌟 Öne Çıkan Özellikler
+### 🌟 Key Features
 
-- Rol Bazlı Giriş: Sadece @athletetrack.com uzantılı kurumsal hesaplar girebilir.
+- Role-Based Access: Only corporate accounts with the `@athletetrack.com` domain can sign in.
 
-- Gelişmiş Dashboard: Anlık veri analizi ve grafiksel raporlar.
+- Advanced Dashboard: Real-time data analysis and visual reporting.
 
-- İlişkisel Veritabanı: 11 Tablo ile 3NF normalizasyon kurallarına uygun yapı.
+- Relational Database: 11 tables designed according to 3NF normalization rules.
 
-- Güvenlik: Şifreleme (BCrypt), Geçici şifre uyarısı ve Soft Delete mimarisi.
+- Security: Password hashing (BCrypt), temporary password warnings, and Soft Delete architecture.
