@@ -3,7 +3,7 @@ A modern platform for sports clubs and coaches to manage athletes, training, inj
 
 ![.NET 9](https://img.shields.io/badge/.NET-9.0-512BD4?logo=dotnet&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
 ![MSSQL](https://img.shields.io/badge/MSSQL-Server-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![EF Core](https://img.shields.io/badge/EF%20Core-9-6DB33F?logo=.net&logoColor=white)
 
