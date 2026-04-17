@@ -10,6 +10,20 @@ Bu proje, spor kulüpleri ve antrenörler için geliştirilmiş; sporcu, antrenm
 
 - Veritabanı: MS SQL Server
 
+## Veritabanı Diyagramı
+
+![Database Diagram](./docs/db_diagram.png)
+
+## Ekran Görüntüleri
+
+![Landing Page](./docs/landing.png)
+
+![Login Page](./docs/login.png)
+
+![Dashboard Page](./docs/dashboard.png)
+
+![Account Page](./docs/account.png)
+
 ## 🛠️ Kurulum ve Çalıştırma
 
 Projeyi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyin:
