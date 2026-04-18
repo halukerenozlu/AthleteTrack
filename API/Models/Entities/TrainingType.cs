@@ -9,7 +9,7 @@ namespace API.Models.Entities
 
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; } = string.Empty; // Translated comment.
+        public string Name { get; set; } = string.Empty; // Örn: Kondisyon
         
         [MaxLength(7)]
         public string ColorCode { get; set; } = "#000000"; 

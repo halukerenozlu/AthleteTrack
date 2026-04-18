@@ -11,14 +11,14 @@ import {
   Calendar,
 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
-import { heroSlides } from "../constants/heroSlides"; // Translated comment.
+import { heroSlides } from "../constants/heroSlides"; // Resimler buradan geliyor
 
-// Translated comment.
+// ============ UTILITY FUNCTIONS ============
 function cn(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-// Translated comment.
+// ============ COMPONENTS ============
 
 function LiquidButton({
   children,
@@ -43,7 +43,7 @@ function LiquidButton({
   );
 }
 
-// Translated comment.
+// ============ HERO SECTION ============
 function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -59,7 +59,7 @@ function HeroSection() {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
   }, []);
 
-  // Translated comment.
+  // Otomatik slayt geçişi
   useEffect(() => {
     const timer = setInterval(nextSlide, 5000);
     return () => clearInterval(timer);
@@ -78,7 +78,7 @@ function HeroSection() {
       id="hero"
       className="relative h-screen w-full overflow-hidden bg-black"
     >
-      {/* Translated comment. */}
+      {/* Background Image */}
       {heroSlides.map((slide, index) => (
         <div
           key={index}
@@ -91,9 +91,9 @@ function HeroSection() {
         </div>
       ))}
 
-      {/* Translated comment. */}
+      {/* Navigation */}
       <nav className="relative z-20 flex items-center justify-between p-6 md:p-8 border-b border-white/10 backdrop-blur-sm">
-        {/* Translated comment. */}
+        {/* Logo */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/30">
             <BarChart3 className="w-6 h-6 text-white" />
@@ -103,7 +103,7 @@ function HeroSection() {
           </span>
         </div>
 
-        {/* Translated comment. */}
+        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
           {navItems.map((item) => (
             <button
@@ -122,7 +122,7 @@ function HeroSection() {
           </button>
         </div>
 
-        {/* Translated comment. */}
+        {/* Mobile Menu Button */}
         <button
           className="md:hidden text-white hover:text-gray-300 transition-colors"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -131,7 +131,7 @@ function HeroSection() {
         </button>
       </nav>
 
-      {/* Translated comment. */}
+      {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div className="absolute top-0 left-0 w-full h-full bg-black/95 z-30 md:hidden flex flex-col items-center justify-center space-y-8">
           <button
@@ -158,7 +158,7 @@ function HeroSection() {
         </div>
       )}
 
-      {/* Translated comment. */}
+      {/* Hero Content */}
       <div className="relative z-10 flex h-full items-center justify-center px-6 mt-[-80px]">
         <div className="text-center text-white max-w-4xl animate-fade-in-up">
           <div className="inline-block px-3 py-1 mb-4 border border-blue-500/30 rounded-full bg-blue-500/10 backdrop-blur-md">
@@ -178,7 +178,7 @@ function HeroSection() {
             takım yönetimi tek platformda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* Translated comment. */}
+            {/* GÜNCELLEME: Yönlendirme /login yerine /pricing yapıldı */}
             <LiquidButton onClick={() => navigate("/pricing")}>
               Hemen Başla
             </LiquidButton>
@@ -195,7 +195,7 @@ function HeroSection() {
   );
 }
 
-// Translated comment.
+// ============ FEATURES SECTION ============
 function FeaturesSection() {
   const features = [
     {
@@ -235,7 +235,7 @@ function FeaturesSection() {
       id="features"
       className="py-24 bg-zinc-950 relative overflow-hidden"
     >
-      {/* Translated comment. */}
+      {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
@@ -270,7 +270,7 @@ function FeaturesSection() {
   );
 }
 
-// Translated comment.
+// ============ FOOTER SECTION ============
 function Footer() {
   return (
     <footer
@@ -335,7 +335,7 @@ function Footer() {
   );
 }
 
-// Translated comment.
+// ============ MAIN PAGE EXPORT ============
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500/30">

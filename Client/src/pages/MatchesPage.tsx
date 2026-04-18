@@ -50,26 +50,26 @@ export default function MatchesPage() {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Translated comment.
+  // Dialog & Form
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [matchToDelete, setMatchToDelete] = useState<number | null>(null);
 
-  // Translated comment.
+  // Takım Listesi (Dropdown için)
   const [teams, setTeams] = useState<Team[]>([]);
 
-  // Translated comment.
+  // Form
   const [formData, setFormData] = useState({
     teamId: "",
     opponent: "",
     date: "",
     time: "14:00",
-    location: "home", // Translated comment.
+    location: "home", // home veya away
   });
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  // Translated comment.
+  // --- VERİLERİ ÇEK ---
   const fetchData = useCallback(async () => {
     if (!user.id) return;
     try {
@@ -91,7 +91,7 @@ export default function MatchesPage() {
     fetchData();
   }, [fetchData]);
 
-  // Translated comment.
+  // --- MAÇ EKLE ---
   const handleCreate = async () => {
     if (!formData.teamId || !formData.opponent || !formData.date) {
       toast.warning("Lütfen zorunlu alanları doldurun.");
@@ -111,7 +111,7 @@ export default function MatchesPage() {
 
       toast.success("Maç fikstüre eklendi! ⚽");
       setIsDialogOpen(false);
-      setFormData({ ...formData, opponent: "", date: "" }); // Translated comment.
+      setFormData({ ...formData, opponent: "", date: "" }); // Reset
       fetchData();
     } catch {
       toast.error("Kaydedilemedi.");
@@ -120,7 +120,7 @@ export default function MatchesPage() {
     }
   };
 
-  // Translated comment.
+  // --- SİLME ---
   const confirmDelete = async () => {
     if (!matchToDelete) return;
     try {
@@ -153,7 +153,7 @@ export default function MatchesPage() {
         </Button>
       </div>
 
-      {/* Translated comment. */}
+      {/* LİSTE */}
       {loading ? (
         <div className="text-zinc-500 text-center py-10">
           <Loader2 className="animate-spin h-6 w-6 mx-auto" />
@@ -170,7 +170,7 @@ export default function MatchesPage() {
               className="bg-zinc-900/50 border-zinc-800 hover:border-zinc-700 transition-all"
             >
               <CardContent className="p-6 flex flex-col md:flex-row items-center justify-between gap-6">
-                {/* Translated comment. */}
+                {/* Sol Taraf: Tarih ve Takım */}
                 <div className="flex items-center gap-6 flex-1">
                   <div className="flex flex-col items-center justify-center bg-zinc-900 border border-zinc-800 rounded-lg p-3 w-20 h-20 text-center">
                     <span className="text-xs text-zinc-500 uppercase font-bold">
@@ -206,7 +206,7 @@ export default function MatchesPage() {
                   </div>
                 </div>
 
-                {/* Translated comment. */}
+                {/* Orta: Skor (Varsa) */}
                 <div className="text-center min-w-[100px]">
                   {match.status === "Tamamlandı" ? (
                     <div className="text-2xl font-black text-white bg-zinc-950 px-4 py-2 rounded-lg border border-zinc-800">
@@ -219,9 +219,9 @@ export default function MatchesPage() {
                   )}
                 </div>
 
-                {/* Translated comment. */}
+                {/* Sağ: Aksiyonlar (BUTONLAR BURADA) */}
                 <div className="flex items-center gap-2">
-                  {/* Translated comment. */}
+                  {/* DÜZELTME: Hem Tamamlandı hem Planlandı durumu için buton göster */}
                   {match.status === "Tamamlandı" ? (
                     <Button
                       variant="ghost"
@@ -261,7 +261,7 @@ export default function MatchesPage() {
         </div>
       )}
 
-      {/* Translated comment. */}
+      {/* --- FORM MODAL --- */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="bg-zinc-900 border-zinc-800 text-white">
           <DialogHeader>
@@ -355,7 +355,7 @@ export default function MatchesPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Translated comment. */}
+      {/* --- SİLME UYARISI --- */}
       <AlertDialog
         open={!!matchToDelete}
         onOpenChange={() => setMatchToDelete(null)}

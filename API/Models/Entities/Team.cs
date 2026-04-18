@@ -10,17 +10,17 @@ namespace API.Models.Entities
 
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; } = string.Empty; // Translated comment.
+        public string Name { get; set; } = string.Empty; // Örn: U19 Takımı
 
         [MaxLength(50)]
-        public string Category { get; set; } = string.Empty; // Translated comment.
+        public string Category { get; set; } = string.Empty; // Örn: Altyapı
 
-        // Translated comment.
+        // İlişki: Hangi Hoca Yönetiyor?
         public int? CoachId { get; set; }
         [ForeignKey("CoachId")]
         public User? Coach { get; set; }
 
-        // Translated comment.
+        // Bu takımın oyuncuları kimler? (One-to-Many)
         public ICollection<Athlete> Athletes { get; set; } = new List<Athlete>();
 
     

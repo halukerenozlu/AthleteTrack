@@ -9,26 +9,26 @@ namespace API.Models.Entities
         public int Id { get; set; }
 
         [Required]
-        public DateTime Date { get; set; } // Translated comment.
+        public DateTime Date { get; set; } // Tarih ve Saat
 
         [Required]
-        public int DurationMinutes { get; set; } // Translated comment.
+        public int DurationMinutes { get; set; } // Süre (dk)
 
-        public string? Notes { get; set; } // Translated comment.
+        public string? Notes { get; set; } // Antrenman notları
 
-        // Translated comment.
-        // Translated comment.
+        // --- İLİŞKİLER ---
+        // 1. Hangi Takım?
         public int TeamId { get; set; }
         [ForeignKey("TeamId")]
         public Team? Team { get; set; }
 
-        // Translated comment.
+        // 2. Hangi Tip? (Kondisyon, Taktik...) -> TrainingTypes ile bağlanıyor!
         public int TrainingTypeId { get; set; }
         [ForeignKey("TrainingTypeId")]
         public TrainingType? TrainingType { get; set; }
 
-        // Translated comment.
-        // Translated comment.
+        // 3. EKLENEN KISIM: Yoklama Listesi (One-to-Many)
+        // Bu satır sayesinde "Include(t => t.TrainingAttendances)" hatası düzelecek.
         public ICollection<TrainingAttendance> TrainingAttendances { get; set; } = new List<TrainingAttendance>();
 
         

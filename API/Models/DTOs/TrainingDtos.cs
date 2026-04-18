@@ -1,16 +1,16 @@
 namespace API.Models.DTOs
 {
-    // Translated comment.
+    // Antrenman Ekleme
     public class CreateTrainingDto
     {
         public DateTime Date { get; set; }
         public int DurationMinutes { get; set; }
         public string? Notes { get; set; }
         public int TeamId { get; set; }
-        public int TrainingTypeId { get; set; } // Translated comment.
+        public int TrainingTypeId { get; set; } // Kondisyon, Taktik...
     }
 
-    // Translated comment.
+    // Antrenman Listeleme (Takvim İçin)
     public class TrainingResponseDto
     {
         public int Id { get; set; }
@@ -18,21 +18,21 @@ namespace API.Models.DTOs
         public int DurationMinutes { get; set; }
         public string? Notes { get; set; }
         public string TeamName { get; set; } = string.Empty;
-        public string TypeName { get; set; } = string.Empty; // Translated comment.
-        public string ColorCode { get; set; } = string.Empty; // Translated comment.
-        public int ParticipantCount { get; set; } // Translated comment.
+        public string TypeName { get; set; } = string.Empty; // Kondisyon
+        public string ColorCode { get; set; } = string.Empty; // Takvimde renklendirmek için
+        public int ParticipantCount { get; set; } // Kaç kişi katıldı?
     }
 
-    // Translated comment.
+    // Yoklama Listesi (Bir idmandaki oyuncular)
     public class AttendanceDto
     {
         public int AthleteId { get; set; }
         public string AthleteName { get; set; } = string.Empty;
-        public bool IsPresent { get; set; } // Translated comment.
-        public int? PerformanceRating { get; set; } // Translated comment.
+        public bool IsPresent { get; set; } // Geldi mi?
+        public int? PerformanceRating { get; set; } // 1-10 arası puan
     }
 
-    // Translated comment.
+    // Yoklama Kaydetme İsteği
     public class SaveAttendanceDto
     {
         public int TrainingId { get; set; }

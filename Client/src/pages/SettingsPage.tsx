@@ -30,7 +30,7 @@ interface UserProfile {
   id: number;
   username: string;
   fullName: string;
-  email?: string; // Translated comment.
+  email?: string; // Backend'den gelmeli
   role: string;
   isTemporaryPassword?: boolean;
 }
@@ -62,7 +62,7 @@ export default function SettingsPage() {
     confirm: "",
   });
 
-  // Translated comment.
+  // --- 1. FOTOĞRAF YÜKLEME ---
   const handlePhotoClick = () => {
     fileInputRef.current?.click();
   };
@@ -86,7 +86,7 @@ export default function SettingsPage() {
     }
   };
 
-  // Translated comment.
+  // --- 2. PROFİL GÜNCELLEME ---
   const handleProfileUpdate = async () => {
     if (!user) return;
     setLoading(true);
@@ -111,7 +111,7 @@ export default function SettingsPage() {
     }
   };
 
-  // Translated comment.
+  // --- 3. ŞİFRE DEĞİŞTİRME ---
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
@@ -243,7 +243,7 @@ export default function SettingsPage() {
                   <Label htmlFor="email">Email Adresi</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-2.5 h-4 w-4 text-zinc-500" />
-                    {/* Translated comment. */}
+                    {/* DÜZELTME: Artık dinamik user.email gösteriliyor */}
                     <Input
                       id="email"
                       defaultValue={user.email}

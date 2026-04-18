@@ -1,14 +1,14 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-// Translated comment.
-// Translated comment.
+// Bu versiyon "class-variance-authority" kütüphanesine ihtiyaç duymaz.
+// Stilleri manuel olarak yönetir.
 
 const Alert = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { variant?: "default" | "destructive" }
 >(({ className, variant = "default", ...props }, ref) => {
-  // Translated comment.
+  // Kütüphane yerine basit bir obje ile stilleri seçiyoruz
   const variantStyles = {
     default: "bg-background text-foreground",
     destructive:

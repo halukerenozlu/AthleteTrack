@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// Translated comment.
+// DİKKAT: Buradaki 5028 numarasını kendi API portunla değiştir!
 const BASE_URL = "http://localhost:5028/api";
 
 export const api = axios.create({

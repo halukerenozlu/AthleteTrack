@@ -47,14 +47,14 @@ export default function MatchStatsPage() {
     loadData();
   }, [id]);
 
-  // Translated comment.
+  // Input Değişikliği (Generic Handler)
   const handleChange = (
     athleteId: number,
     field: keyof MatchStatItem,
     value: string
   ) => {
-    const numValue = parseFloat(value); // Translated comment.
-    if (isNaN(numValue) && value !== "") return; // Translated comment.
+    const numValue = parseFloat(value); // Double veya Int olabilir
+    if (isNaN(numValue) && value !== "") return; // Sadece sayı kabul et
 
     setStats((prev) =>
       prev.map((item) =>
@@ -65,7 +65,7 @@ export default function MatchStatsPage() {
     );
   };
 
-  // Translated comment.
+  // Kaydet
   const handleSave = async () => {
     if (!id) return;
     setIsSaving(true);
@@ -91,7 +91,7 @@ export default function MatchStatsPage() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* Translated comment. */}
+      {/* ÜST BAŞLIK */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex items-center gap-4">
           <Link to="/dashboard/matches">
@@ -125,7 +125,7 @@ export default function MatchStatsPage() {
         </Button>
       </div>
 
-      {/* Translated comment. */}
+      {/* LİSTE */}
       <Card className="bg-zinc-900/50 border-zinc-800">
         <CardHeader>
           <CardTitle className="text-white flex items-center gap-2">
@@ -186,7 +186,7 @@ export default function MatchStatsPage() {
                     key={item.athleteId}
                     className="border-zinc-800 hover:bg-zinc-900/20"
                   >
-                    {/* Translated comment. */}
+                    {/* OYUNCU İSMİ */}
                     <TableCell className="font-medium text-white flex items-center gap-3">
                       <Avatar className="h-9 w-9 border border-zinc-700">
                         {item.athleteImage ? (
@@ -207,7 +207,7 @@ export default function MatchStatsPage() {
                       </div>
                     </TableCell>
 
-                    {/* Translated comment. */}
+                    {/* INPUTLAR */}
                     <TableCell className="text-center">
                       <Input
                         type="number"

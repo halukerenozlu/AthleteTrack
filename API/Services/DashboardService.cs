@@ -1,6 +1,6 @@
 using API.Data;
 using API.Models.DTOs;
-using API.Models.Entities; // Translated comment.
+using API.Models.Entities; // Eklendi
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Services
@@ -18,11 +18,11 @@ namespace API.Services
         {
             var summary = new DashboardSummaryDto();
 
-            // Translated comment.
+            // 1. Kart Verileri
             summary.TotalAthletes = await _context.Athletes.CountAsync(a => a.Team!.CoachId == coachId);
             summary.ActiveInjuries = await _context.Injuries.CountAsync(i => i.IsActive && i.Athlete!.Team!.CoachId == coachId);
 
-            // Translated comment.
+            // Katılım Oranı
             var lastMonthAttendances = await _context.TrainingAttendances
                 .Include(ta => ta.Training)
                 .Where(ta => ta.Training!.Team!.CoachId == coachId && ta.Training.Date >= DateTime.Now.AddDays(-30))
@@ -34,7 +34,7 @@ namespace API.Services
                 summary.AttendanceRate = Math.Round((present / lastMonthAttendances.Count) * 100, 1);
             }
 
-            // Translated comment.
+            // Sıradaki Maç
             var nextMatch = await _context.Matches
                 .Where(m => m.Team!.CoachId == coachId && m.MatchDate > DateTime.Now)
                 .OrderBy(m => m.MatchDate)
@@ -50,13 +50,13 @@ namespace API.Services
                 summary.NextMatchDate = "Yok";
             }
 
-            // Translated comment.
+            // 2. Grafikler
             summary.TeamStats = await _context.Teams
                 .Where(t => t.CoachId == coachId)
                 .Select(t => new TeamStatDto { TeamName = t.Name, AthleteCount = t.Athletes.Count() })
                 .ToListAsync();
 
-            // Translated comment.
+            // 3. Son Aktiviteler (Son 5 Antrenman)
             summary.RecentActivities = await _context.Trainings
                 .Include(t => t.Team)
                 .Include(t => t.TrainingType)
@@ -72,20 +72,20 @@ namespace API.Services
                 })
                 .ToListAsync();
 
-            // Translated comment.
+            // --- 4. GELİŞMİŞ SQL ANALİZİ (YENİ) ---
             
-            // Translated comment.
+            // A. Gol Krallığı (En çok gol atan 3 oyuncu)
             var topScorers = await _context.MatchStatistics
                 .Include(ms => ms.Athlete).ThenInclude(a => a!.Team)
-                .Where(ms => ms.Athlete!.Team!.CoachId == coachId) // Translated comment.
-                .GroupBy(ms => ms.AthleteId) // Translated comment.
+                .Where(ms => ms.Athlete!.Team!.CoachId == coachId) // Sadece bu hocanın oyuncuları
+                .GroupBy(ms => ms.AthleteId) // Oyuncuya göre grupla
                 .Select(g => new 
                 {
                     AthleteId = g.Key,
-                    TotalGoals = g.Sum(x => x.Goals), // Translated comment.
-                    Athlete = g.First().Athlete // Translated comment.
+                    TotalGoals = g.Sum(x => x.Goals), // Golleri topla
+                    Athlete = g.First().Athlete // Oyuncu bilgisini al
                 })
-                .OrderByDescending(x => x.TotalGoals) // Translated comment.
+                .OrderByDescending(x => x.TotalGoals) // En çok atana göre sırala
                 .Take(3)
                 .ToListAsync();
 
@@ -99,7 +99,7 @@ namespace API.Services
                 Label = "Gol"
             }).ToList();
 
-            // Translated comment.
+            // B. En Yüksek Puan (Ortalama Ratingi en yüksek 3 oyuncu)
             var topRated = await _context.MatchStatistics
                 .Include(ms => ms.Athlete).ThenInclude(a => a!.Team)
                 .Where(ms => ms.Athlete!.Team!.CoachId == coachId && ms.Rating > 0)
@@ -107,7 +107,7 @@ namespace API.Services
                 .Select(g => new 
                 {
                     AthleteId = g.Key,
-                    AvgRating = g.Average(x => x.Rating), // Translated comment.
+                    AvgRating = g.Average(x => x.Rating), // Ortalamayı al
                     Athlete = g.First().Athlete
                 })
                 .OrderByDescending(x => x.AvgRating)

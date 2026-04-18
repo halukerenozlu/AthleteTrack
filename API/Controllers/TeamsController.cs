@@ -15,7 +15,7 @@ namespace API.Controllers
             _teamService = teamService;
         }
 
-        // Translated comment.
+        // GET: api/teams/coach/1 (1 numaralı hocanın takımlarını getir)
         [HttpGet("coach/{coachId}")]
         public async Task<IActionResult> GetMyTeams(int coachId)
         {
@@ -23,7 +23,7 @@ namespace API.Controllers
             return Ok(teams);
         }
 
-        // Translated comment.
+        // POST: api/teams (Yeni takım ekle)
         [HttpPost]
         public async Task<IActionResult> AddTeam([FromBody] CreateTeamDto model)
         {
@@ -34,7 +34,7 @@ namespace API.Controllers
             return Ok(new { message = "Takım başarıyla oluşturuldu." });
         }
 
-        // Translated comment.
+        // DELETE: api/teams/5 (5 numaralı takımı sil)
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTeam(int id)
         {

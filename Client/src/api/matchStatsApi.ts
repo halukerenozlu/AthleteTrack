@@ -2,7 +2,7 @@ import { api } from "./axiosConfig";
 import type { MatchStatItem, SaveMatchStatsRequest } from "@/types";
 
 export const matchStatsApi = {
-  // Translated comment.
+  // Maçın istatistiklerini getir
   getStats: async (matchId: number) => {
     const response = await api.get<MatchStatItem[]>(
       `/matchstats/match/${matchId}`
@@ -10,7 +10,7 @@ export const matchStatsApi = {
     return response.data;
   },
 
-  // Translated comment.
+  // İstatistikleri kaydet
   saveStats: async (data: SaveMatchStatsRequest) => {
     const response = await api.post("/matchstats", data);
     return response.data;

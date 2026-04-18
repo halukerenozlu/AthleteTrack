@@ -13,15 +13,15 @@ namespace API.Models.Entities
 
         [Required]
         [MaxLength(100)]
-        public string Opponent { get; set; } = string.Empty; // Translated comment.
+        public string Opponent { get; set; } = string.Empty; // Rakip Takım Adı
 
-        public bool IsHome { get; set; } = true; // Translated comment.
+        public bool IsHome { get; set; } = true; // İç saha mı?
         
-        // Translated comment.
+        // Skor (Maç bitince girilecek)
         public int? TeamScore { get; set; }
         public int? OpponentScore { get; set; }
 
-        // Translated comment.
+        // Hangi Takımımız Oynuyor?
         public int TeamId { get; set; }
         [ForeignKey("TeamId")]
         public Team? Team { get; set; }

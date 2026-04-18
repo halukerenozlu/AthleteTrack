@@ -22,21 +22,21 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Translated comment. */}
+        {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
 
-        {/* Translated comment. */}
+        {/* Footer Pages */}
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/faq" element={<FAQPage />} />
 
-        {/* Translated comment. */}
+        {/* Protected Routes (Dashboard) */}
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="teams" element={<TeamsPage />} />
-          {/* Translated comment. */}
+          {/* YENİ ROTA: :id kısmı değişkendir */}
           <Route path="teams/:id" element={<TeamDetailsPage />} />
           <Route path="athletes" element={<AthletesPage />} />
           <Route path="trainings" element={<TrainingsPage />} />
@@ -44,7 +44,7 @@ function App() {
           <Route path="health" element={<InjuriesPage />} />
           <Route path="matches" element={<MatchesPage />} />
           <Route path="matches/:id/stats" element={<MatchStatsPage />} />
-          {/* Translated comment. */}
+          {/* Gelecek sayfalar buraya... */}
         </Route>
       </Routes>
       <Toaster position="top-right" theme="dark" richColors />

@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { toast } from "sonner"; // Translated comment.
+import { toast } from "sonner"; // Toast mesajı için gerekli
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
@@ -47,13 +47,13 @@ export default function DashboardLayout() {
   });
 
   const displayName = user?.fullName || user?.username || "Hocam";
-  // Translated comment.
+  // Sadece ilk ismi alıyoruz (Örn: "Kerem Antrenör" -> "Kerem")
   const firstName = displayName.split(" ")[0];
 
   return (
-    // Translated comment.
+    // Sabit Karanlık Tema (bg-black)
     <div className="min-h-screen bg-black text-white font-sans flex">
-      {/* Translated comment. */}
+      {/* ============ SABİT SIDEBAR ============ */}
       <aside className="w-64 border-r border-zinc-800 bg-zinc-950 hidden md:flex flex-col fixed h-full z-10">
         <div className="p-6 flex items-center gap-2">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -88,7 +88,7 @@ export default function DashboardLayout() {
             label="Sağlık Merkezi"
             path="/dashboard/health"
           />
-          {/* Translated comment. */}
+          {/* EKLENEN KISIM: Maçlar Menüsü */}
           <SidebarItem
             icon={<Trophy size={20} />}
             label="Fikstür / Maçlar"
@@ -112,7 +112,7 @@ export default function DashboardLayout() {
           </button>
         </div>
 
-        {/* Translated comment. */}
+        {/* User Profile Mini */}
         <div className="p-4 bg-zinc-900/50 flex items-center gap-3">
           <Avatar>
             <AvatarImage
@@ -138,9 +138,9 @@ export default function DashboardLayout() {
         </div>
       </aside>
 
-      {/* Translated comment. */}
+      {/* ============ MAIN CONTENT ============ */}
       <main className="flex-1 md:ml-64 p-8 overflow-y-auto">
-        {/* Translated comment. */}
+        {/* TOP BAR */}
         <header className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-2xl font-bold capitalize tracking-tight">
@@ -157,7 +157,7 @@ export default function DashboardLayout() {
               <Input
                 placeholder="Genel arama..."
                 className="pl-8 bg-zinc-900 border-zinc-800 focus:border-blue-500 text-white placeholder:text-zinc-500"
-                // Translated comment.
+                // ARAMA MESAJI
                 onKeyDown={(e) => {
                   if (e.key === "Enter") toast.info("Küresel Arama Yakında...");
                 }}
@@ -167,7 +167,7 @@ export default function DashboardLayout() {
               variant="outline"
               size="icon"
               className="border-zinc-800 bg-zinc-900 hover:bg-zinc-800 text-white"
-              // Translated comment.
+              // BİLDİRİM MESAJI
               onClick={() => toast.info("Bildirim özelliği çok yakında...")}
             >
               <Bell className="h-4 w-4" />
