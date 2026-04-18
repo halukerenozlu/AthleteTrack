@@ -14,7 +14,7 @@ namespace API.Services
             _context = context;
         }
 
-        // 1. Bir Takıma Ait Sporcuları Getir
+        // Translated comment.
         public async Task<List<AthleteResponseDto>> GetAthletesByTeamAsync(int teamId)
         {
             var athletes = await _context.Athletes
@@ -33,7 +33,7 @@ namespace API.Services
                 HasImage = a.ProfileImage != null && a.ProfileImage.Length > 0,
                 Age = DateTime.Now.Year - a.BirthDate.Year,
                 
-                // --- EKSİKLER EKLENDİ ---
+                // Translated comment.
                 Height = a.Height,
                 Weight = a.Weight,
                 Phone = a.Phone,
@@ -41,10 +41,10 @@ namespace API.Services
             }).ToList();
         }
 
-        // 2. Yeni Sporcu Ekle
+        // Translated comment.
         public async Task<Athlete> AddAthleteAsync(CreateAthleteDto model)
         {
-            // Önce seçilen takımın hocasını bulalım
+            // Translated comment.
             var team = await _context.Teams.FindAsync(model.TeamId);
             if (team == null) throw new Exception("Takım bulunamadı");
 
@@ -59,7 +59,7 @@ namespace API.Services
                 BirthDate = model.BirthDate,
                 TeamId = model.TeamId,
                 PositionId = model.PositionId,
-                CoachId = (int)team.CoachId!, // <-- YENİ: Hocayı takımdan alıp kaydettik
+                CoachId = (int)team.CoachId!, // Translated comment.
                 CreatedAt = DateTime.Now
             };
 
@@ -68,7 +68,7 @@ namespace API.Services
             return newAthlete;
         }
 
-        // 3. Fotoğraf Yükle (Sporcu İçin)
+        // Translated comment.
         public async Task<bool> UpdateAthleteImageAsync(int athleteId, byte[] imageBytes)
         {
             var athlete = await _context.Athletes.FindAsync(athleteId);
@@ -79,50 +79,50 @@ namespace API.Services
             return true;
         }
         
-        // 4. Fotoğrafı Getir
+        // Translated comment.
         public async Task<byte[]?> GetAthleteImageAsync(int athleteId)
         {
             var athlete = await _context.Athletes.FindAsync(athleteId);
             return athlete?.ProfileImage;
         }
 
-        // 5. SPORCU SİL (GÜÇLENDİRİLMİŞ - Manuel Cascade)
+        // Translated comment.
         public async Task<bool> DeleteAthleteAsync(int id)
         {
             var athlete = await _context.Athletes.FindAsync(id);
             if (athlete == null) return false;
 
-            // --- İLİŞKİLİ VERİLERİ TEMİZLE ---
+            // Translated comment.
 
-            // A. Sakatlık kayıtlarını sil
+            // Translated comment.
             var injuries = _context.Injuries.Where(i => i.AthleteId == id);
             _context.Injuries.RemoveRange(injuries);
 
-            // B. Yoklama kayıtlarını sil
+            // Translated comment.
             var attendances = _context.TrainingAttendances.Where(ta => ta.AthleteId == id);
             _context.TrainingAttendances.RemoveRange(attendances);
 
-            // C. Maç İstatistiklerini sil
+            // Translated comment.
             var stats = _context.MatchStatistics.Where(ms => ms.AthleteId == id);
             _context.MatchStatistics.RemoveRange(stats);
 
-            // ---------------------------------
+            // Translated comment.
 
-            // Artık sporcu tertemiz, silebiliriz.
+            // Translated comment.
             _context.Athletes.Remove(athlete);
             await _context.SaveChangesAsync();
             return true;
         }
 
-        // HOCANIN TÜM SPORCULARINI GETİR (Tüm takımlardan)
+        // Translated comment.
        public async Task<List<AthleteResponseDto>> GetAthletesByCoachAsync(int coachId)
         {
             var athletes = await _context.Athletes
                 .Include(a => a.Team)
                 .Include(a => a.Position)
-                // DEĞİŞEN KISIM: Artık direkt sporcunun hocasına bakıyoruz
+                // Translated comment.
                 .Where(a => a.CoachId == coachId) 
-                .OrderBy(a => a.Team != null ? a.Team.Name : "ZZZ") // Takımsızları sona at
+                .OrderBy(a => a.Team != null ? a.Team.Name : "ZZZ") // Translated comment.
                 .ToListAsync();
 
             return athletes.Select(a => new AthleteResponseDto
@@ -141,19 +141,19 @@ namespace API.Services
             }).ToList();
         }
 
-        // 6. SPORCU GÜNCELLEME
+        // Translated comment.
         public async Task<bool> UpdateAthleteAsync(int id, CreateAthleteDto model)
         {
             var athlete = await _context.Athletes.FindAsync(id);
             if (athlete == null) return false;
 
-            // Takım değiştiyse, yeni takımın hocasını da güncellemek gerekebilir
+            // Translated comment.
             if (athlete.TeamId != model.TeamId)
             {
                  var newTeam = await _context.Teams.FindAsync(model.TeamId);
                  if (newTeam != null) athlete.CoachId = (int)newTeam.CoachId!;
             }
-            // Bilgileri güncelle
+            // Translated comment.
             athlete.FirstName = model.FirstName;
             athlete.LastName = model.LastName;
             athlete.JerseyNumber = model.JerseyNumber;
@@ -164,8 +164,8 @@ namespace API.Services
             athlete.TeamId = model.TeamId;
             athlete.PositionId = model.PositionId;
 
-            // Takım ve Pozisyon değiştiyse ilişkileri güncellemek için Id'leri set ediyoruz
-            // EF Core SaveChanges() ile bunu halledecek.
+            // Translated comment.
+            // Translated comment.
 
             await _context.SaveChangesAsync();
             return true;

@@ -1,41 +1,41 @@
 ### 📂 Bölüm 1: Yönetimsel Sorgular (Admin İşlemleri)
 
--- 1. Yeni Antrenör (Kullanıcı) Ekleme***(Sisteme giriş yapabilen yeni bir hoca tanımlar)
+-- Translated comment.
 
 INSERT INTO Users (Username, Email, PasswordHash, FullName, Role, IsTemporaryPassword, PasswordExpiresAt, IsActive, CreatedAt)
 VALUES 
 ('yenihoca', 'yeni@athletetrack.com', '123456', 'Yeni Hoca', 'Coach', 1, '2025-12-31', 1, GETDATE());
 
 
--- 2. Bir Kullanıcıyı Pasife Alma (Soft Delete)***(Hesabı silmeden giriş yapmasını engeller)
+-- Translated comment.
 
 UPDATE Users SET IsActive = 0 WHERE Email = 'haluk@athletetrack.com';
 
 
--- 3. Geçici Şifre Süresini Uzatma***(Şifresi dolan bir hocaya ek süre verir)
+-- Translated comment.
 
 UPDATE Users 
 SET PasswordExpiresAt = DATEADD(day, 7, GETDATE()) 
 WHERE Username = 'keremhoca';
 
 
--- 4. Sistemdeki Tüm Aktif Antrenörleri Listele
+-- Translated comment.
 
 SELECT Id, FullName, Email, CreatedAt FROM Users WHERE IsActive = 1 AND Role = 'Coach';
 
 
--- 5. Yeni Bir Antrenman Tipi Tanımlama***(Sisteme "Yoga" antrenmanı ekler)
+-- Translated comment.
 
 INSERT INTO TrainingTypes (Name, ColorCode) VALUES ('Yoga', '#9C27B0');
 
 
--- 6. Yeni Bir Sakatlık Türü Ekleme
+-- Translated comment.
 
 INSERT INTO InjuryTypes (Name, Description) VALUES ('Kafa Travması', 'Darbe sonucu oluşan travma');
 
 ### 📂 Bölüm 2: Operasyonel Sorgular (Günlük İşler)
 
--- 7. Bir Takımın Tüm Oyuncularını Listele***(U19 takımındaki oyuncuların temel bilgileri)
+-- Translated comment.
 
 SELECT A.FirstName, A.LastName, A.JerseyNumber, P.Name AS Mevki
 FROM Athletes A
@@ -44,7 +44,7 @@ JOIN Positions P ON A.PositionId = P.Id
 WHERE T.Name = 'U19 Akademi';
 
 
--- 8. Belirli Bir Tarihteki Antrenmanları Bul***(Bugün hangi takımların idmanı var?)
+-- Translated comment.
 
 SELECT T.Name AS Takim, TR.Date, TT.Name AS Tip
 FROM Trainings TR
@@ -53,7 +53,7 @@ JOIN TrainingTypes TT ON TR.TrainingTypeId = TT.Id
 WHERE CAST(TR.Date AS DATE) = CAST(GETDATE() AS DATE);
 
 
--- 9. Bir Oyuncunun Sakatlık Geçmişi***(Ahmet'in bugüne kadar geçirdiği sakatlıklar)
+-- Translated comment.
 
 
 SELECT I.InjuryDate, IT.Name AS SakatlikTuru, I.Notes, I.IsActive
@@ -63,7 +63,7 @@ JOIN InjuryTypes IT ON I.InjuryTypeId = IT.Id
 WHERE A.FirstName = 'Ahmet' AND A.LastName = 'Yılmaz';
 
 
--- 10. Gelecek Maç Fikstürü***(Oynanmamış, planlanan maçlar)*
+-- Translated comment.
 
 SELECT M.MatchDate, T.Name AS BizimTakim, M.Opponent AS Rakip, 
        CASE WHEN M.IsHome = 1 THEN 'İç Saha' ELSE 'Deplasman' END AS Saha
@@ -75,9 +75,9 @@ ORDER BY M.MatchDate ASC;
 
 ### 📂 Bölüm 3: Analitik ve Raporlama (Gelişmiş SQL) 🧠
 
-*(Hocanın en çok puan vereceği kısım burasıdır)*
+-- Translated comment.
 
--- 11. Takımlara Göre Oyuncu Sayısı Dağılımı (GROUP BY)***(Hangi takımda kaç oyuncu var?)
+-- Translated comment.
 
 SELECT T.Name AS TakimAdi, COUNT(A.Id) AS OyuncuSayisi
 FROM Teams T
@@ -85,7 +85,7 @@ LEFT JOIN Athletes A ON T.Id = A.TeamId
 GROUP BY T.Name;
 
 
--- 12. En Çok Sakatlık Yaşanan Mevkiler***(Hangi mevkideki oyuncular daha çok sakatlanıyor?)*
+-- Translated comment.
 
 SELECT P.Name AS Mevki, COUNT(I.Id) AS SakatlikSayisi
 FROM Injuries I
@@ -95,7 +95,7 @@ GROUP BY P.Name
 ORDER BY SakatlikSayisi DESC;
 
 
--- 13. Antrenman Katılım Oranı (COMPLEX JOIN)***(Oyuncuların antrenmana gelme yüzdesi - %80 altı riskli)*
+-- Translated comment.
 
 SELECT 
     A.FirstName + ' ' + A.LastName AS Oyuncu,
@@ -109,7 +109,7 @@ HAVING COUNT(TA.Id) > 0
 ORDER BY KatilimOrani DESC;
 
 
--- 14. Gol Krallığı (Top Scorers)***(Tüm takımlar genelinde en çok gol atan 5 oyuncu)*
+-- Translated comment.
 
 SELECT TOP 5 
     A.FirstName + ' ' + A.LastName AS Oyuncu,
@@ -122,7 +122,7 @@ GROUP BY A.FirstName, A.LastName, T.Name
 ORDER BY ToplamGol DESC;
 
 
--- 15. Takımın Maç Başına Ortalama Gol Sayısı (AVG)***(Hücum gücü analizi)*
+-- Translated comment.
 
 SELECT T.Name AS Takim, AVG(M.TeamScore) AS OrtalamaGol
 FROM Matches M
@@ -130,7 +130,7 @@ JOIN Teams T ON M.TeamId = T.Id
 WHERE M.TeamScore IS NOT NULL
 GROUP BY T.Name;
 
--- 16. Mevkilerin Vücut Kitle İndeksi (VKE) Ortalaması***(Hangi mevki daha yapılı?)*
+-- Translated comment.
 
 
 SELECT P.Name AS Mevki, 
@@ -141,7 +141,7 @@ WHERE A.Height > 0 AND A.Weight > 0
 GROUP BY P.Name;
 
 
--- 17. En Agresif Takım (Sarı/Kırmızı Kart Analizi)***(MatchStats tablosuna kart sütunu eklenirse kullanılabilir, şimdilik faul/koşu gibi düşünelim)*
+-- Translated comment.
 
 
 - En çok koşan oyuncular (DistanceCovered)
@@ -151,7 +151,7 @@ JOIN Athletes A ON MS.AthleteId = A.Id
 GROUP BY A.FirstName
 ORDER BY ToplamKosuKM DESC;
 
--- 18. Uzun Süreli Sakatlıklar***(30 günden fazla süren sakatlıklar)*
+-- Translated comment.
 
 SELECT A.FirstName, IT.Name, DATEDIFF(day, I.InjuryDate, ISNULL(I.ExpectedReturnDate, GETDATE())) AS GunSuresi
 FROM Injuries I
@@ -160,7 +160,7 @@ JOIN InjuryTypes IT ON I.InjuryTypeId = IT.Id
 WHERE DATEDIFF(day, I.InjuryDate, ISNULL(I.ExpectedReturnDate, GETDATE())) > 30;
 
 
--- 19. Son 5 Maçın Sonuçları***(Galibiyet/Mağlubiyet durumu)*
+-- Translated comment.
 
 SELECT MatchDate, Opponent, 
        CASE 
@@ -174,7 +174,7 @@ ORDER BY MatchDate DESC
 OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY;
 
 
--- 20. Antrenman Performans Puanı En Yüksek Oyuncu***(İdmanlarda en çalışkan oyuncu)*
+-- Translated comment.
 
 SELECT TOP 1 A.FirstName, AVG(TA.PerformanceRating) AS OrtPuan
 FROM TrainingAttendances TA
@@ -187,20 +187,20 @@ ORDER BY OrtPuan DESC;
 
 ### 📂 Bölüm 4: Veritabanı Bakım ve Kontrol Sorguları
 
--- 21. Takımı Olmayan Oyuncuları Bul (Data Integrity Check
+-- Translated comment.
 
 
 SELECT * FROM Athletes WHERE TeamId IS NULL;
 
 
--- 22. Hiç İdman Yapmamış Takımlar
+-- Translated comment.
 
 SELECT T.Name 
 FROM Teams T
 LEFT JOIN Trainings TR ON T.Id = TR.TeamId
 WHERE TR.Id IS NULL;
 
--- 23. Aynı Gün Çift İdman Yapan Takımlar (Çakışma Kontrolü)
+-- Translated comment.
 
 SELECT TeamId, Date, COUNT(*) AS IdmanSayisi
 FROM Trainings
@@ -208,7 +208,7 @@ GROUP BY TeamId, Date
 HAVING COUNT(*) > 1;
 
 
--- 24. Veritabanı Boyutu ve Tablo Satır Sayıları**
+-- Translated comment.
 
 
 SELECT t.NAME AS TableName, i.rowcnt AS RowCounts
@@ -218,7 +218,7 @@ WHERE i.indid < 2  AND OBJECTPROPERTY(t.id, 'IsUserTable') = 1
 ORDER BY i.rowcnt DESC;
 
 
--- 25. Son 24 Saatte Sisteme Eklenen Veriler
+-- Translated comment.
 
 SELECT 'Athlete' as Tip, CreatedAt FROM Athletes WHERE CreatedAt > DATEADD(day, -1, GETDATE())
 UNION ALL
@@ -227,18 +227,18 @@ SELECT 'User', CreatedAt FROM Users WHERE CreatedAt > DATEADD(day, -1, GETDATE()
 
 ### 📂 Bölüm 5: Özel İhtiyaç Sorguları (Senaryo Bazlı)
 
--- 26. Mevkiye Göre Oyuncu Arama *(Sadece 'Sol Bek' oyuncularını getir)*
+-- Translated comment.
 
 SELECT * FROM Athletes WHERE PositionId = (SELECT Id FROM Positions WHERE Name = 'Sol Bek');
 
--- 27. Belirli Bir Yaşın Altındaki Oyuncular (Genç Yetenekler)
+-- Translated comment.
 
 SELECT FirstName, BirthDate, DATEDIFF(hour, BirthDate, GETDATE())/8766 AS Yas
 FROM Athletes
 WHERE DATEDIFF(hour, BirthDate, GETDATE())/8766 < 18;
 
 
--- 28. Ayın En Yoğun Antrenman Günü
+-- Translated comment.
 
 SELECT DATENAME(dw, Date) AS Gun, COUNT(*) AS Sayi
 FROM Trainings
@@ -246,7 +246,7 @@ GROUP BY DATENAME(dw, Date)
 ORDER BY Sayi DESC;
 
 
--- 29. Sakatlık Oranı En Yüksek Takım
+-- Translated comment.
 
 SELECT TOP 1 T.Name, COUNT(I.Id) as SakatlikSayisi
 FROM Injuries I
@@ -255,7 +255,7 @@ JOIN Teams T ON A.TeamId = T.Id
 GROUP BY T.Name
 ORDER BY SakatlikSayisi DESC;
 
--- 30. Sistemi Sıfırla (Dikkatli Kullanın!) *(Tüm operasyonel verileri siler, tanımları tutar)*
+-- Translated comment.
 
 SQL
 - DELETE FROM MatchStatistics;

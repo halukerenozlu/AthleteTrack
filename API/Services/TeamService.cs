@@ -14,25 +14,25 @@ namespace API.Services
             _context = context;
         }
 
-        // 1. BELİRLİ BİR HOCANIN TAKIMLARINI GETİR
+        // Translated comment.
         public async Task<List<TeamResponseDto>> GetTeamsByCoachAsync(int coachId)
         {
             var teams = await _context.Teams
-                .Where(t => t.CoachId == coachId) // Güvenlik: Sadece bu hocanın takımları!
-                .Include(t => t.Athletes) // Oyuncu sayısını saymak için ilişkili tabloyu dahil et
+                .Where(t => t.CoachId == coachId) // Translated comment.
+                .Include(t => t.Athletes) // Translated comment.
                 .Select(t => new TeamResponseDto
                 {
                     Id = t.Id,
                     Name = t.Name,
                     Category = t.Category,
-                    PlayerCount = t.Athletes.Count() // Otomatik sayım (Count)
+                    PlayerCount = t.Athletes.Count() // Translated comment.
                 })
                 .ToListAsync();
 
             return teams;
         }
 
-        // 2. YENİ TAKIM EKLE
+        // Translated comment.
         public async Task<bool> AddTeamAsync(CreateTeamDto model)
         {
             var newTeam = new Team
@@ -48,7 +48,7 @@ namespace API.Services
             return true;
         }
 
-        // 3. TAKIM SİL (GÜÇLENDİRİLMİŞ - Manuel Cascade)
+        // Translated comment.
         public async Task<bool> DeleteTeamAsync(int teamId)
         {
             var team = await _context.Teams
@@ -57,8 +57,8 @@ namespace API.Services
 
             if (team == null) return false;
 
-            // --- A. İLİŞKİLİ ANTRENMANLARI SİL ---
-            // DÜZELTME: .ToListAsync() ile veriyi hafızaya alıyoruz ki DataReader hatası vermesin.
+            // Translated comment.
+            // Translated comment.
             var trainings = await _context.Trainings
                 .Where(t => t.TeamId == teamId)
                 .ToListAsync(); 
@@ -70,8 +70,8 @@ namespace API.Services
             }
             _context.Trainings.RemoveRange(trainings);
 
-            // --- B. İLİŞKİLİ MAÇLARI SİL ---
-            // DÜZELTME: Burada da .ToListAsync() kullanıyoruz.
+            // Translated comment.
+            // Translated comment.
             var matches = await _context.Matches
                 .Where(m => m.TeamId == teamId)
                 .ToListAsync();
@@ -83,8 +83,8 @@ namespace API.Services
             }
             _context.Matches.RemoveRange(matches);
 
-            // --- C. TAKIMIN OYUNCULARINI SİL ---
-            /*
+            // Translated comment.
+            // Translated comment.
             foreach (var athlete in team.Athletes)
             {
                 var injuries = _context.Injuries.Where(i => i.AthleteId == athlete.Id);
@@ -98,16 +98,16 @@ namespace API.Services
             }
             
             _context.Athletes.RemoveRange(team.Athletes);
-            */
+            // Translated comment.
             
-            // --- D. TAKIMI SİL ---
+            // Translated comment.
             _context.Teams.Remove(team);
             
             await _context.SaveChangesAsync();
             return true;
         }
 
-        // 4. TAKIM GÜNCELLE
+        // Translated comment.
         public async Task<bool> UpdateTeamAsync(int id, CreateTeamDto model)
         {
             var team = await _context.Teams.FindAsync(id);

@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    /// <inheritdoc />
+    // Translated comment.
     public partial class AddAllTables : Migration
     {
-        /// <inheritdoc />
+        // Translated comment.
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -200,7 +200,7 @@ namespace API.Migrations
                 column: "TrainingTypeId");
         }
 
-        /// <inheritdoc />
+        // Translated comment.
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

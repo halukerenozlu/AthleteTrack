@@ -1,86 +1,86 @@
--- =============================================
--- SPORCU YÖNETİMİ (ATHLETES)
--- =============================================
+-- Translated comment.
+-- Translated comment.
+-- Translated comment.
 
--- 1. Yeni Sporcu Ekleme (CREATE)
+-- Translated comment.
 INSERT INTO Athletes (FirstName, LastName, JerseyNumber, BirthDate, Height, Weight, Phone, TeamId, PositionId, CreatedAt)
 VALUES ('Arda', 'Güler', 10, '2005-02-25', 176, 70, '05551112233', 2, 8, GETDATE());
 
--- 2. Tüm Sporcuları Listeleme (READ)
+-- Translated comment.
 SELECT A.FirstName, A.LastName, T.Name AS Takim, P.Name AS Mevki
 FROM Athletes A
 JOIN Teams T ON A.TeamId = T.Id
 JOIN Positions P ON A.PositionId = P.Id;
 
--- 3. Sporcunun Bilgilerini Güncelleme (UPDATE)
--- Örn: Kilosu değişti ve telefonunu güncelledi
+-- Translated comment.
+-- Translated comment.
 UPDATE Athletes
 SET Weight = 72, Phone = '05559998877'
 WHERE Id = 1;
 
--- 4. Sporcuyu Silme (DELETE)
+-- Translated comment.
 DELETE FROM Athletes WHERE Id = 5;
 
--- 5. Belirli Bir Takımdaki Sporcuları Bulma (FILTERING)
+-- Translated comment.
 SELECT * FROM Athletes WHERE TeamId = (SELECT Id FROM Teams WHERE Name = 'U19 Akademi');
 
 
--- =============================================
--- TAKIM YÖNETİMİ (TEAMS)
--- =============================================
+-- Translated comment.
+-- Translated comment.
+-- Translated comment.
 
--- 6. Yeni Takım Oluşturma (CREATE)
+-- Translated comment.
 INSERT INTO Teams (Name, Category, CoachId, CreatedAt)
 VALUES ('U14 Gelişim', 'Altyapı', 1, GETDATE());
 
--- 7. Takım İsmini Değiştirme (UPDATE)
+-- Translated comment.
 UPDATE Teams
 SET Name = 'U15 Elit Akademi'
 WHERE Name = 'U14 Gelişim';
 
--- 8. Hocaya Ait Takımları Getirme (READ)
+-- Translated comment.
 SELECT * FROM Teams WHERE CoachId = 1;
 
 
--- =============================================
--- ANTRENMAN VE YOKLAMA (TRAININGS & ATTENDANCE)
--- =============================================
+-- Translated comment.
+-- Translated comment.
+-- Translated comment.
 
--- 9. Yeni Antrenman Planlama (CREATE)
+-- Translated comment.
 INSERT INTO Trainings (Date, DurationMinutes, Notes, TeamId, TrainingTypeId, CreatedAt)
 VALUES ('2025-12-15 17:00:00', 90, 'Maç taktiği çalışılacak', 2, 2, GETDATE());
 
--- 10. Bir Antrenmanın Yoklamasını Alma (CREATE - Çoklu Ekleme)
--- ID'si 10 olan antrenmana, 1 ve 2 nolu sporcuların katıldığını ekle
+-- Translated comment.
+-- Translated comment.
 INSERT INTO TrainingAttendances (TrainingId, AthleteId, IsPresent, PerformanceRating)
 VALUES 
 (10, 1, 1, 8),
 (10, 2, 1, 9);
 
--- 11. Antrenman Notunu Güncelleme (UPDATE)
+-- Translated comment.
 UPDATE Trainings 
 SET Notes = 'Yağmur nedeniyle salon antrenmanı yapıldı' 
 WHERE Id = 10;
 
--- 12. Bir Oyuncunun Antrenman Puanını Değiştirme (UPDATE)
+-- Translated comment.
 UPDATE TrainingAttendances
 SET PerformanceRating = 10
 WHERE TrainingId = 10 AND AthleteId = 1;
 
 
--- =============================================
--- SAĞLIK VE SAKATLIK (INJURIES)
--- =============================================
+-- Translated comment.
+-- Translated comment.
+-- Translated comment.
 
--- 13. Yeni Sakatlık Kaydı Girme (CREATE)
+-- Translated comment.
 INSERT INTO Injuries (InjuryDate, IsActive, Notes, AthleteId, InjuryTypeId)
 VALUES (GETDATE(), 1, 'Antrenmanda darbe aldı', 1, 4);
 
--- 14. Sakatlığı "İyileşti" Olarak İşaretleme (UPDATE)
--- IsActive = 0 yaparak pasife çekiyoruz
+-- Translated comment.
+-- Translated comment.
 UPDATE Injuries
 SET IsActive = 0, ExpectedReturnDate = GETDATE()
 WHERE Id = 3;
 
--- 15. Hatalı Girilen Sakatlık Kaydını Silme (DELETE)
+-- Translated comment.
 DELETE FROM Injuries WHERE Id = 3;

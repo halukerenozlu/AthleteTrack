@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    /// <inheritdoc />
+    // Translated comment.
     public partial class AddPasswordExpiryToUser : Migration
     {
-        /// <inheritdoc />
+        // Translated comment.
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
@@ -25,7 +25,7 @@ namespace API.Migrations
                 nullable: true);
         }
 
-        /// <inheritdoc />
+        // Translated comment.
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(

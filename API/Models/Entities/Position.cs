@@ -9,9 +9,9 @@ namespace API.Models.Entities
 
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; } = string.Empty; // Örn: Kaleci
+        public string Name { get; set; } = string.Empty; // Translated comment.
 
         [MaxLength(10)]
-        public string ShortName { get; set; } = string.Empty; // Örn: GK
+        public string ShortName { get; set; } = string.Empty; // Translated comment.
     }
 }

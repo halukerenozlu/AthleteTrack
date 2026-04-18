@@ -4,10 +4,10 @@
 
 namespace API.Migrations
 {
-    /// <inheritdoc />
+    // Translated comment.
     public partial class AddPhoneToUser : Migration
     {
-        /// <inheritdoc />
+        // Translated comment.
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
@@ -17,7 +17,7 @@ namespace API.Migrations
                 nullable: true);
         }
 
-        /// <inheritdoc />
+        // Translated comment.
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(

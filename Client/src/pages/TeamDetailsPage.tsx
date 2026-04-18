@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Users, Ruler, Weight, Activity } from "lucide-react"; // Activity ikonu eklendi
+import { ArrowLeft, Users, Ruler, Weight, Activity } from "lucide-react"; // Translated comment.
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -40,12 +40,12 @@ export default function TeamDetailsPage() {
     loadData();
   }, [id]);
 
-  // VKE Hesaplama Fonksiyonu
+  // Translated comment.
   const calculateBMI = (weight: number, height: number) => {
     if (!weight || !height)
       return { value: "-", color: "text-zinc-500", label: "Veri Yok" };
 
-    // Boyu metreye çevir (cm -> m)
+    // Translated comment.
     const heightInMeters = height / 100;
     const bmi = weight / (heightInMeters * heightInMeters);
     const value = bmi.toFixed(1);
@@ -60,7 +60,7 @@ export default function TeamDetailsPage() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* BAŞLIK ALANI */}
+      {/* Translated comment. */}
       <div className="flex items-center gap-4">
         <Link to="/dashboard/teams">
           <Button
@@ -97,7 +97,7 @@ export default function TeamDetailsPage() {
                 <TableHead className="text-zinc-400">Yaş</TableHead>
                 <TableHead className="text-zinc-400">Boy</TableHead>
                 <TableHead className="text-zinc-400">Kilo</TableHead>
-                {/* YENİ: VKE Sütunu */}
+                {/* Translated comment. */}
                 <TableHead className="text-zinc-400">VKE (BMI)</TableHead>
                 <TableHead className="text-right text-zinc-400">
                   İletişim
@@ -125,7 +125,7 @@ export default function TeamDetailsPage() {
                 </TableRow>
               ) : (
                 athletes.map((athlete) => {
-                  // Her satır için BMI hesapla
+                  // Translated comment.
                   const bmi = calculateBMI(athlete.weight, athlete.height);
 
                   return (
@@ -173,7 +173,7 @@ export default function TeamDetailsPage() {
                         </div>
                       </TableCell>
 
-                      {/* --- YENİ VKE GÖSTERİMİ --- */}
+                      {/* Translated comment. */}
                       <TableCell>
                         <div className="flex flex-col">
                           <span

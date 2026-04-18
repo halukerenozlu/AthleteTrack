@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { format, isSameDay, parseISO } from "date-fns";
 import { tr } from "date-fns/locale";
-import { useNavigate } from "react-router-dom"; // Yönlendirme için
+import { useNavigate } from "react-router-dom"; // Translated comment.
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -41,7 +41,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"; // Alert Dialog Bileşenleri
+} from "@/components/ui/alert-dialog"; // Translated comment.
 import { trainingApi } from "@/api/trainingApi";
 import { teamApi } from "@/api/teamApi";
 import type { Training, TrainingType, Team } from "@/types";
@@ -52,10 +52,10 @@ export default function TrainingsPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Dialog & Form Data
+  // Translated comment.
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [trainingToDelete, setTrainingToDelete] = useState<number | null>(null); // Silinecek ID'yi tutar
+  const [trainingToDelete, setTrainingToDelete] = useState<number | null>(null); // Translated comment.
 
   const [teams, setTeams] = useState<Team[]>([]);
   const [types, setTypes] = useState<TrainingType[]>([]);
@@ -70,7 +70,7 @@ export default function TrainingsPage() {
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  // --- VERİLERİ ÇEK ---
+  // Translated comment.
   const fetchData = useCallback(async () => {
     if (!user.id) return;
     try {
@@ -94,7 +94,7 @@ export default function TrainingsPage() {
     fetchData();
   }, [fetchData]);
 
-  // --- ANTRENMAN EKLE ---
+  // Translated comment.
   const handleCreate = async () => {
     if (!date || !formData.teamId || !formData.typeId) {
       toast.warning("Lütfen tüm alanları doldurun.");
@@ -125,14 +125,14 @@ export default function TrainingsPage() {
     }
   };
 
-  // --- SİLME İŞLEMİNİ ONAYLA (YENİ FONKSİYON) ---
+  // Translated comment.
   const confirmDelete = async () => {
-    if (!trainingToDelete) return; // ID yoksa işlem yapma
+    if (!trainingToDelete) return; // Translated comment.
 
     try {
       await trainingApi.deleteTraining(trainingToDelete);
 
-      // Listeden silineni çıkar (Hızlı güncelleme)
+      // Translated comment.
       setTrainings((prev) => prev.filter((t) => t.id !== trainingToDelete));
 
       toast.success("Antrenman ve yoklamalar silindi. 🗑️");
@@ -140,7 +140,7 @@ export default function TrainingsPage() {
       console.error(error);
       toast.error("Silme işlemi başarısız oldu.");
     } finally {
-      setTrainingToDelete(null); // Dialogu kapat
+      setTrainingToDelete(null); // Translated comment.
     }
   };
 
@@ -168,7 +168,7 @@ export default function TrainingsPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* SOL: TAKVİM */}
+        {/* Translated comment. */}
         <div className="lg:col-span-4">
           <Card className="bg-zinc-900/50 border-zinc-800">
             <CardContent className="p-4 flex justify-center">
@@ -221,7 +221,7 @@ export default function TrainingsPage() {
           </div>
         </div>
 
-        {/* SAĞ: LİSTE */}
+        {/* Translated comment. */}
         <div className="lg:col-span-8 space-y-4">
           <h3 className="text-xl font-semibold text-white flex items-center gap-2">
             <CalendarIcon className="text-blue-500" />
@@ -258,7 +258,7 @@ export default function TrainingsPage() {
                       {training.teamName}
                     </span>
                   </div>
-                  {/* SİLME BUTONU: Sadece ID'yi state'e atar, işlemi başlatmaz */}
+                  {/* Translated comment. */}
                   <Button
                     variant="ghost"
                     size="icon"
@@ -290,7 +290,7 @@ export default function TrainingsPage() {
                   )}
 
                   <div className="mt-4 pt-4 border-t border-zinc-800 flex justify-end">
-                    {/* BUTON ARTIK ÇALIŞIYOR */}
+                    {/* Translated comment. */}
                     <Button
                       size="sm"
                       className="bg-zinc-800 hover:bg-zinc-700 text-white"
@@ -308,7 +308,7 @@ export default function TrainingsPage() {
         </div>
       </div>
 
-      {/* MODAL (Gizledim, yukarıdakiyle aynı kalacak) */}
+      {/* Translated comment. */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="bg-zinc-900 border-zinc-800 text-white">
           <DialogHeader>
@@ -399,8 +399,8 @@ export default function TrainingsPage() {
         </DialogContent>
       </Dialog>
 
-      {/* --- SİLME UYARISI (GÜNCELLENDİ) --- */}
-      {/* Sayfanın en altındaki bu blok, silme işlemini yönetir */}
+      {/* Translated comment. */}
+      {/* Translated comment. */}
       <AlertDialog
         open={!!trainingToDelete}
         onOpenChange={() => setTrainingToDelete(null)}
@@ -420,7 +420,7 @@ export default function TrainingsPage() {
               İptal
             </AlertDialogCancel>
 
-            {/* BURASI ÖNEMLİ: onClick olayını confirmDelete fonksiyonuna bağladık */}
+            {/* Translated comment. */}
             <AlertDialogAction
               onClick={confirmDelete}
               className="bg-red-600 hover:bg-red-700 text-white"

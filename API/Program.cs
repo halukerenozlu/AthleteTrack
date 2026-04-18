@@ -1,16 +1,16 @@
 
-using Microsoft.EntityFrameworkCore; // (UseSqlServer için)
-using API.Data;                      // (AppDbContext'i bulması için)
+using Microsoft.EntityFrameworkCore; // Translated comment.
+using API.Data;                      // Translated comment.
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Veritabanı bağlantısını servislere ekliyoruz
+// Translated comment.
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-// -------------------
+// Translated comment.
 
-// Servisleri Tanıtıyoruz (Dependency Injection)
+// Translated comment.
 builder.Services.AddScoped<API.Services.AuthService>();
 builder.Services.AddScoped<API.Services.TeamService>();
 builder.Services.AddScoped<API.Services.AthleteService>();
@@ -20,33 +20,33 @@ builder.Services.AddScoped<API.Services.DashboardService>();
 builder.Services.AddScoped<API.Services.MatchService>();
 builder.Services.AddScoped<API.Services.MatchStatService>();
 
-// 1. Controller desteğini ekle (Bizim mimari için şart)
+// Translated comment.
 builder.Services.AddControllers();
 
-// 2. Swagger/OpenAPI desteği (API'yi test etmek için)
+// Translated comment.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); 
 
 
-// --- EKLENECEK KISIM (CORS AYARI) ---
+// Translated comment.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         policy =>
         {
-            policy.AllowAnyOrigin() // Şimdilik herkese izin veriyoruz (Geliştirme için)
+            policy.AllowAnyOrigin() // Translated comment.
                   .AllowAnyMethod()
                   .AllowAnyHeader();
         });
 });
-// ------------------------------------
+// Translated comment.
 
 
 
 
 var app = builder.Build();
 
-// 3. Geliştirme ortamındaysak Swagger'ı aç
+// Translated comment.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -55,14 +55,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// --- BU SATIRI DA EKLE (Sıralama Önemli: UseAuthorization'dan ÖNCE olmalı) ---
+// Translated comment.
 app.UseCors("AllowReactApp");
-// -----------------------------------------------------------------------------
+// Translated comment.
 
 
 app.UseAuthorization();
 
-// 4. Controller'ları haritala (Controllers klasöründeki dosyaları çalıştırır)
+// Translated comment.
 app.MapControllers();
 
 app.Run();

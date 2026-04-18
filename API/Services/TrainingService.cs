@@ -14,14 +14,14 @@ namespace API.Services
             _context = context;
         }
 
-        // --- 1. ANTRENMAN EKLE (GÜVENLİ TRANSACTION İLE) ---
+        // Translated comment.
         public async Task<Training?> CreateTrainingAsync(CreateTrainingDto model)
         {
-            // Transaction başlatıyoruz: Ya hepsi kaydolur ya hiçbiri.
+            // Translated comment.
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                // A. Antrenmanı Oluştur
+                // Translated comment.
                 var training = new Training
                 {
                     Date = model.Date,
@@ -33,9 +33,9 @@ namespace API.Services
                 };
 
                 _context.Trainings.Add(training);
-                await _context.SaveChangesAsync(); // ID oluşması için kayıt şart
+                await _context.SaveChangesAsync(); // Translated comment.
 
-                // B. Yoklama Listesini Oluştur (Otomatik)
+                // Translated comment.
                 var athletes = await _context.Athletes
                     .Where(a => a.TeamId == model.TeamId)
                     .ToListAsync();
@@ -46,37 +46,37 @@ namespace API.Services
                     {
                         TrainingId = training.Id,
                         AthleteId = athlete.Id,
-                        IsPresent = true, // Varsayılan: Geldi
+                        IsPresent = true, // Translated comment.
                         PerformanceRating = null
                     });
                 }
                 
-                await _context.SaveChangesAsync(); // Yoklamaları kaydet
-                await transaction.CommitAsync();   // Her şey yolundaysa onayla
+                await _context.SaveChangesAsync(); // Translated comment.
+                await transaction.CommitAsync();   // Translated comment.
 
                 Console.WriteLine($"[BAŞARILI] Antrenman {training.Id} oluşturuldu.");
                 return training;
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(); // Hata varsa işlemi geri al
+                await transaction.RollbackAsync(); // Translated comment.
                 Console.WriteLine($"[HATA] Antrenman kaydedilemedi: {ex.Message}");
-                // Detaylı hatayı görmek için:
+                // Translated comment.
                 if (ex.InnerException != null) 
                     Console.WriteLine($"[DETAY] {ex.InnerException.Message}");
                 
-                throw; // Hatayı Controller'a fırlat ki Frontend anlasın
+                throw; // Translated comment.
             }
         }
 
-        // --- 2. HOCANIN ANTRENMANLARINI GETİR ---
+        // Translated comment.
         public async Task<List<TrainingResponseDto>> GetTrainingsByCoachAsync(int coachId)
         {
             var trainings = await _context.Trainings
                 .Include(t => t.Team)
                 .Include(t => t.TrainingType)
                 .Include(t => t.TrainingAttendances)
-                // DÜZELTME: Null referans uyarısı için ! işareti eklendi
+                // Translated comment.
                 .Where(t => t.Team!.CoachId == coachId) 
                 .OrderByDescending(t => t.Date)
                 .ToListAsync();
@@ -87,7 +87,7 @@ namespace API.Services
                 Date = t.Date,
                 DurationMinutes = t.DurationMinutes,
                 Notes = t.Notes,
-                // DÜZELTME: Null kontrolleri (? ve !) eklendi
+                // Translated comment.
                 TeamName = t.Team?.Name ?? "Bilinmiyor",
                 TypeName = t.TrainingType?.Name ?? "-",
                 ColorCode = t.TrainingType?.ColorCode ?? "#333",
@@ -95,7 +95,7 @@ namespace API.Services
             }).ToList();
         }
 
-        // --- 3. YOKLAMA LİSTESİNİ GETİR ---
+        // Translated comment.
         public async Task<List<AttendanceDto>> GetAttendanceAsync(int trainingId)
         {
             var attendanceList = await _context.TrainingAttendances
@@ -106,14 +106,14 @@ namespace API.Services
             return attendanceList.Select(ta => new AttendanceDto
             {
                 AthleteId = ta.AthleteId,
-                // DÜZELTME: İsim birleştirirken null kontrolü
+                // Translated comment.
                 AthleteName = $"{ta.Athlete!.FirstName} {ta.Athlete.LastName}",
                 IsPresent = ta.IsPresent,
                 PerformanceRating = ta.PerformanceRating
             }).ToList();
         }
 
-        // --- 4. YOKLAMAYI KAYDET ---
+        // Translated comment.
         public async Task<bool> SaveAttendanceAsync(SaveAttendanceDto model)
         {
             foreach (var item in model.Attendances)
@@ -131,23 +131,23 @@ namespace API.Services
             return true;
         }
         
-        // --- 5. ANTRENMAN SİL (GÜÇLENDİRİLMİŞ) ---
+        // Translated comment.
         public async Task<bool> DeleteTrainingAsync(int id)
         {
-            // Antrenmanı ve ona bağlı yoklamaları getir
+            // Translated comment.
             var training = await _context.Trainings
-                .Include(t => t.TrainingAttendances) // İlişkili veriyi dahil et
+                .Include(t => t.TrainingAttendances) // Translated comment.
                 .FirstOrDefaultAsync(t => t.Id == id);
 
             if (training == null) return false;
             
-            // Önce bağlı olan yoklama kayıtlarını sil (Restrict hatasını önler)
+            // Translated comment.
             if (training.TrainingAttendances.Any())
             {
                 _context.TrainingAttendances.RemoveRange(training.TrainingAttendances);
             }
             
-            // Sonra antrenmanı sil
+            // Translated comment.
             _context.Trainings.Remove(training);
             await _context.SaveChangesAsync();
             return true;

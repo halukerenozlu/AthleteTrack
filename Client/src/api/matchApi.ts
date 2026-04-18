@@ -2,19 +2,19 @@ import { api } from "./axiosConfig";
 import type { Match, CreateMatchRequest } from "@/types";
 
 export const matchApi = {
-  // Hocanın fikstürünü getir
+  // Translated comment.
   getMatches: async (coachId: number) => {
     const response = await api.get<Match[]>(`/matches/coach/${coachId}`);
     return response.data;
   },
 
-  // Yeni Maç Ekle
+  // Translated comment.
   createMatch: async (data: CreateMatchRequest) => {
     const response = await api.post("/matches", data);
     return response.data;
   },
 
-  // Maç Sil
+  // Translated comment.
   deleteMatch: async (id: number) => {
     const response = await api.delete(`/matches/${id}`);
     return response.data;

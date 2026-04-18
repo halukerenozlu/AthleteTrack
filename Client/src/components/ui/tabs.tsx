@@ -1,4 +1,4 @@
-// BU, KÜTÜPHANE GEREKTİRMEYEN BASİT BİR ALTERNATİFTİR
+// Translated comment.
 import * as React from "react";
 import { cn } from "@/lib/utils";
 

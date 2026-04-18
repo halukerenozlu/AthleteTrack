@@ -1,10 +1,10 @@
-// Giriş yaparken gönderdiğimiz veri
+// Translated comment.
 export interface LoginRequest {
   email: string;
   password: string;
 }
 
-// Backend'den dönen veri (AuthController.cs ile aynı olmalı)
+// Translated comment.
 export interface LoginResponse {
   id: number;
   username: string;
@@ -24,9 +24,9 @@ export interface ChangePasswordRequest {
   newPassword: string;
 }
 
-// --- TAKIM TİPLERİ ---
+// Translated comment.
 
-// Takım Listesi için (Backend: TeamResponseDto)
+// Translated comment.
 export interface Team {
   id: number;
   name: string;
@@ -34,7 +34,7 @@ export interface Team {
   playerCount: number;
 }
 
-// Yeni Takım Eklerken gidecek veri (Backend: CreateTeamDto)
+// Translated comment.
 export interface CreateTeamRequest {
   name: string;
   category: string;
@@ -57,23 +57,23 @@ export interface Athlete {
 export interface CreateAthleteRequest {
   firstName: string;
   lastName: string;
-  jerseyNumber?: number; // Opsiyonel
+  jerseyNumber?: number; // Translated comment.
   height: number;
   weight: number;
   phone?: string;
-  teamId: number; // Hangi takım?
-  positionId: number; // Hangi mevki?
-  birthDate: string; // Tarih
+  teamId: number; // Translated comment.
+  positionId: number; // Translated comment.
+  birthDate: string; // Translated comment.
 }
 
-// Mevki Tipi
+// Translated comment.
 export interface Position {
   id: number;
   name: string;
   shortName: string;
 }
 
-// --- ANTRENMAN TİPLERİ ---
+// Translated comment.
 
 export interface TrainingType {
   id: number;
@@ -83,7 +83,7 @@ export interface TrainingType {
 
 export interface Training {
   id: number;
-  date: string; // ISO string gelir
+  date: string; // Translated comment.
   durationMinutes: number;
   notes?: string;
   teamName: string;
@@ -100,7 +100,7 @@ export interface CreateTrainingRequest {
   trainingTypeId: number;
 }
 
-// Yoklama Tipleri
+// Translated comment.
 export interface AttendanceItem {
   athleteId: number;
   athleteName: string;
@@ -117,7 +117,7 @@ export interface SaveAttendanceRequest {
   }[];
 }
 
-// --- SAĞLIK MERKEZİ TİPLERİ ---
+// Translated comment.
 
 export interface InjuryType {
   id: number;
@@ -129,7 +129,7 @@ export interface Injury {
   id: number;
   athleteName: string;
   teamName: string;
-  athleteImage: string; // Backend byte[] gönderiyor, JSON'da base64 string olur
+  athleteImage: string; // Translated comment.
   injuryTypeName: string;
   injuryDate: string;
   expectedReturnDate?: string;
@@ -145,7 +145,7 @@ export interface CreateInjuryRequest {
   notes?: string;
 }
 
-// --- DASHBOARD TİPLERİ ---
+// Translated comment.
 
 export interface TeamStat {
   teamName: string;
@@ -161,7 +161,7 @@ export interface RecentActivity {
   id: number;
   title: string;
   date: string;
-  type: string; // 'Training', 'Injury' vb.
+  type: string; // Translated comment.
 }
 
 export interface DashboardSummary {
@@ -170,22 +170,22 @@ export interface DashboardSummary {
   attendanceRate: number;
   nextMatchDate: string;
   teamStats: TeamStat[];
-  injuryStats: InjuryStat[]; // Backend'e eklemediysek boş gelebilir, sorun değil
+  injuryStats: InjuryStat[]; // Translated comment.
   recentActivities: RecentActivity[];
   topScorers: TopPerformer[];
   topRatedPlayers: TopPerformer[];
 }
 
-// (MATCHES / FIXTURE)
+// Translated comment.
 export interface Match {
   id: number;
-  matchDate: string; // ISO string
+  matchDate: string; // Translated comment.
   opponent: string;
   isHome: boolean;
   teamName: string;
   teamScore?: number;
   opponentScore?: number;
-  status: string; // "Planlandı" veya "Tamamlandı"
+  status: string; // Translated comment.
 }
 
 export interface CreateMatchRequest {
@@ -195,7 +195,7 @@ export interface CreateMatchRequest {
   teamId: number;
 }
 
-//(STATS)
+// Translated comment.
 
 export interface MatchStatItem {
   id: number;
@@ -203,7 +203,7 @@ export interface MatchStatItem {
   athleteName: string;
   jerseyNumber?: number;
   position: string;
-  athleteImage: string; // Base64
+  athleteImage: string; // Translated comment.
   minutesPlayed: number;
   goals: number;
   assists: number;
@@ -222,7 +222,7 @@ export interface SaveMatchStatsRequest {
     distanceCovered: number;
   }[];
 }
-// GÜNCELLENEN KISIM: Liderlik tabloları eklendi
+// Translated comment.
 export interface TopPerformer {
   athleteId: number;
   name: string;
