@@ -1,7 +1,7 @@
 using API.Models.DTOs;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // ToListAsync için gerekli
+using Microsoft.EntityFrameworkCore; // Translated comment.
 
 namespace API.Controllers
 {
@@ -10,7 +10,7 @@ namespace API.Controllers
     public class TrainingsController : ControllerBase
     {
         private readonly TrainingService _trainingService;
-        // Dropdown verisi için Context'i direkt burada kullanıyoruz (Pratik çözüm)
+        // Translated comment.
         private readonly API.Data.AppDbContext _context; 
 
         public TrainingsController(TrainingService trainingService, API.Data.AppDbContext context)
@@ -19,7 +19,7 @@ namespace API.Controllers
             _context = context;
         }
 
-        // 1. Antrenman Tiplerini Getir (Dropdown İçin Kritik!)
+        // Translated comment.
         [HttpGet("types")]
         public async Task<IActionResult> GetTypes()
         {
@@ -27,7 +27,7 @@ namespace API.Controllers
             return Ok(types);
         }
 
-        // 2. Hocanın Antrenmanlarını Getir
+        // Translated comment.
         [HttpGet("coach/{coachId}")]
         public async Task<IActionResult> GetByCoach(int coachId)
         {
@@ -35,7 +35,7 @@ namespace API.Controllers
             return Ok(list);
         }
 
-        // 3. Yeni Antrenman Ekle
+        // Translated comment.
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTrainingDto model)
         {
@@ -43,7 +43,7 @@ namespace API.Controllers
             return Ok(new { message = "Antrenman planlandı." });
         }
 
-        // 4. Antrenman Sil
+        // Translated comment.
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -52,7 +52,7 @@ namespace API.Controllers
             return Ok(new { message = "Antrenman silindi." });
         }
 
-        // 5. Yoklama Listesini Getir
+        // Translated comment.
         [HttpGet("attendance/{trainingId}")]
         public async Task<IActionResult> GetAttendance(int trainingId)
         {
@@ -60,7 +60,7 @@ namespace API.Controllers
             return Ok(list);
         }
 
-        // 6. Yoklamayı Kaydet
+        // Translated comment.
         [HttpPost("attendance")]
         public async Task<IActionResult> SaveAttendance([FromBody] SaveAttendanceDto model)
         {

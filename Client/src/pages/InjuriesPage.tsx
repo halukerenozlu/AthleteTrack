@@ -46,7 +46,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"; // <-- EKLENDİ
+} from "@/components/ui/alert-dialog"; // Translated comment.
 import { injuryApi } from "@/api/injuryApi";
 import { athleteApi } from "@/api/athleteApi";
 import type { Injury, InjuryType, Athlete } from "@/types";
@@ -55,27 +55,27 @@ export default function InjuriesPage() {
   const [injuries, setInjuries] = useState<Injury[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Dialog Data
+  // Translated comment.
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [injuryToDelete, setInjuryToDelete] = useState<number | null>(null); // <-- SİLME İÇİN STATE
+  const [injuryToDelete, setInjuryToDelete] = useState<number | null>(null); // Translated comment.
 
-  // Dropdown Listeleri
+  // Translated comment.
   const [athletes, setAthletes] = useState<Athlete[]>([]);
   const [injuryTypes, setInjuryTypes] = useState<InjuryType[]>([]);
 
-  // Form
+  // Translated comment.
   const [formData, setFormData] = useState({
     athleteId: "",
     typeId: "",
-    date: new Date().toISOString().split("T")[0], // Bugün
+    date: new Date().toISOString().split("T")[0], // Translated comment.
     returnDate: "",
     notes: "",
   });
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  // --- VERİLERİ ÇEK ---
+  // Translated comment.
   const fetchData = useCallback(async () => {
     if (!user.id) return;
     try {
@@ -100,7 +100,7 @@ export default function InjuriesPage() {
     fetchData();
   }, [fetchData]);
 
-  // --- SAKATLIK BİLDİR ---
+  // Translated comment.
   const handleCreate = async () => {
     if (!formData.athleteId || !formData.typeId || !formData.date) {
       toast.warning("Lütfen zorunlu alanları doldurun.");
@@ -127,7 +127,7 @@ export default function InjuriesPage() {
         date: new Date().toISOString().split("T")[0],
         returnDate: "",
         notes: "",
-      }); // Reset
+      }); // Translated comment.
       fetchData();
     } catch {
       toast.error("Kaydedilemedi.");
@@ -136,7 +136,7 @@ export default function InjuriesPage() {
     }
   };
 
-  // --- DURUM DEĞİŞTİR (İYİLEŞTİ/SAKAT) ---
+  // Translated comment.
   const toggleStatus = async (id: number, currentStatus: boolean) => {
     try {
       await injuryApi.toggleStatus(id);
@@ -155,7 +155,7 @@ export default function InjuriesPage() {
     }
   };
 
-  // --- SİLME İŞLEMİ (YENİ FONKSİYON) ---
+  // Translated comment.
   const confirmDelete = async () => {
     if (!injuryToDelete) return;
 
@@ -166,7 +166,7 @@ export default function InjuriesPage() {
     } catch {
       toast.error("Silinemedi.");
     } finally {
-      setInjuryToDelete(null); // Dialogu kapat
+      setInjuryToDelete(null); // Translated comment.
     }
   };
 
@@ -189,7 +189,7 @@ export default function InjuriesPage() {
         </Button>
       </div>
 
-      {/* LİSTE */}
+      {/* Translated comment. */}
       {loading ? (
         <div className="text-zinc-500 text-center py-10">
           <Loader2 className="animate-spin h-6 w-6 mx-auto" />
@@ -282,7 +282,7 @@ export default function InjuriesPage() {
               </CardContent>
 
               <CardFooter className="pt-2 border-t border-zinc-800/50 flex justify-between">
-                {/* SİLME BUTONU: Sadece ID'yi state'e atar */}
+                {/* Translated comment. */}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -317,7 +317,7 @@ export default function InjuriesPage() {
         </div>
       )}
 
-      {/* --- FORM MODAL --- */}
+      {/* Translated comment. */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="bg-zinc-900 border-zinc-800 text-white">
           <DialogHeader>
@@ -410,7 +410,7 @@ export default function InjuriesPage() {
         </DialogContent>
       </Dialog>
 
-      {/* --- SİLME UYARISI (ALERT DIALOG) --- */}
+      {/* Translated comment. */}
       <AlertDialog
         open={!!injuryToDelete}
         onOpenChange={() => setInjuryToDelete(null)}

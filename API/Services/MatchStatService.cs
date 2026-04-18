@@ -14,10 +14,10 @@ namespace API.Services
             _context = context;
         }
 
-        // 1. Maçın İstatistiklerini Getir (Eğer yoksa takımdaki oyuncuları boş getir)
+        // Translated comment.
         public async Task<List<MatchStatResponseDto>> GetStatsByMatchAsync(int matchId)
         {
-            // Önce bu maça ait kayıtlı istatistik var mı bakalım
+            // Translated comment.
             var existingStats = await _context.MatchStatistics
                 .Include(ms => ms.Athlete)
                 .ThenInclude(a => a!.Position)
@@ -26,7 +26,7 @@ namespace API.Services
 
             if (existingStats.Any())
             {
-                // Varsa onları dön
+                // Translated comment.
                 return existingStats.Select(ms => new MatchStatResponseDto
                 {
                     Id = ms.Id,
@@ -43,7 +43,7 @@ namespace API.Services
                 }).ToList();
             }
 
-            // Yoksa, o takımın oyuncularını bulup boş şablon dönelim
+            // Translated comment.
             var match = await _context.Matches.FindAsync(matchId);
             if (match == null) return new List<MatchStatResponseDto>();
 
@@ -54,13 +54,13 @@ namespace API.Services
 
             return athletes.Select(a => new MatchStatResponseDto
             {
-                Id = 0, // Yeni kayıt
+                Id = 0, // Translated comment.
                 AthleteId = a.Id,
                 AthleteName = $"{a.FirstName} {a.LastName}",
                 JerseyNumber = a.JerseyNumber,
                 Position = a.Position?.Name ?? "-",
                 AthleteImage = a.ProfileImage,
-                MinutesPlayed = 90, // Varsayılan 90dk
+                MinutesPlayed = 90, // Translated comment.
                 Goals = 0,
                 Assists = 0,
                 Rating = 6.0,
@@ -68,18 +68,18 @@ namespace API.Services
             }).ToList();
         }
 
-        // 2. İstatistikleri Kaydet
+        // Translated comment.
         public async Task<bool> SaveStatsAsync(CreateMatchStatDto model)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                // Önce eski kayıtları sil (Temiz güncelleme için en kolayı)
+                // Translated comment.
                 var oldStats = await _context.MatchStatistics.Where(ms => ms.MatchId == model.MatchId).ToListAsync();
                 _context.MatchStatistics.RemoveRange(oldStats);
                 await _context.SaveChangesAsync();
 
-                // Yeni kayıtları ekle
+                // Translated comment.
                 foreach (var stat in model.Stats)
                 {
                     _context.MatchStatistics.Add(new MatchStatistic
@@ -94,13 +94,13 @@ namespace API.Services
                     });
                 }
 
-                // Maç skorunu da güncelle (Otomatik hesaplama)
+                // Translated comment.
                 var match = await _context.Matches.FindAsync(model.MatchId);
                 if (match != null)
                 {
                     match.TeamScore = model.Stats.Sum(s => s.Goals);
-                    // Rakip skoru kullanıcıdan istemedik, şimdilik null veya 0 kalabilir
-                    // İstersen CreateMatchStatDto'ya OpponentScore da ekleyebiliriz.
+                    // Translated comment.
+                    // Translated comment.
                 }
 
                 await _context.SaveChangesAsync();

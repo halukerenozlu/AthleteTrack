@@ -45,7 +45,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { toast } from "sonner"; // Şık bildirimler
+import { toast } from "sonner"; // Translated comment.
 import { teamApi } from "@/api/teamApi";
 import type { Team } from "@/types";
 
@@ -53,23 +53,23 @@ export default function TeamsPage() {
   const navigate = useNavigate();
   const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState(""); // Arama State'i
+  const [searchQuery, setSearchQuery] = useState(""); // Translated comment.
 
-  // Dialog State'leri
+  // Translated comment.
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
 
-  // Silme Onay State'i
+  // Translated comment.
   const [teamToDelete, setTeamToDelete] = useState<number | null>(null);
 
-  // Form State'i
+  // Translated comment.
   const [formData, setFormData] = useState({ name: "", category: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  // --- VERİLERİ GETİR ---
+  // Translated comment.
   const fetchTeams = useCallback(async () => {
     if (!user.id) return;
     try {
@@ -87,22 +87,22 @@ export default function TeamsPage() {
     fetchTeams();
   }, [fetchTeams]);
 
-  // --- ARAMA FİLTRESİ (Frontend Tarafında) ---
+  // Translated comment.
   const filteredTeams = teams.filter(
     (team) =>
       team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       team.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // --- MODAL AÇMA (EKLEME veya DÜZENLEME) ---
+  // Translated comment.
   const openModal = (team?: Team) => {
     if (team) {
-      // Düzenleme Modu
+      // Translated comment.
       setIsEditMode(true);
       setSelectedTeamId(team.id);
       setFormData({ name: team.name, category: team.category });
     } else {
-      // Ekleme Modu
+      // Translated comment.
       setIsEditMode(false);
       setSelectedTeamId(null);
       setFormData({ name: "", category: "" });
@@ -110,7 +110,7 @@ export default function TeamsPage() {
     setIsDialogOpen(true);
   };
 
-  // --- FORMU KAYDET (EKLE veya GÜNCELLE) ---
+  // Translated comment.
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.category) {
@@ -121,14 +121,14 @@ export default function TeamsPage() {
     setIsSubmitting(true);
     try {
       if (isEditMode && selectedTeamId) {
-        // GÜNCELLEME
+        // Translated comment.
         await teamApi.updateTeam(selectedTeamId, {
           ...formData,
           coachId: user.id,
         });
         toast.success("Takım başarıyla güncellendi! 🎉");
       } else {
-        // YENİ EKLEME
+        // Translated comment.
         await teamApi.createTeam({
           ...formData,
           coachId: user.id,
@@ -137,7 +137,7 @@ export default function TeamsPage() {
       }
 
       setIsDialogOpen(false);
-      fetchTeams(); // Listeyi yenile
+      fetchTeams(); // Translated comment.
     } catch {
       toast.error("İşlem sırasında bir hata oluştu.");
     } finally {
@@ -145,7 +145,7 @@ export default function TeamsPage() {
     }
   };
 
-  // --- TAKIM SİLME ---
+  // Translated comment.
   const confirmDelete = async () => {
     if (!teamToDelete) return;
     try {
@@ -155,13 +155,13 @@ export default function TeamsPage() {
     } catch {
       toast.error("Silme başarısız.");
     } finally {
-      setTeamToDelete(null); // Dialogu kapat
+      setTeamToDelete(null); // Translated comment.
     }
   };
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* ÜST KISIM */}
+      {/* Translated comment. */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-white">
@@ -179,7 +179,7 @@ export default function TeamsPage() {
         </Button>
       </div>
 
-      {/* ARAMA ÇUBUĞU */}
+      {/* Translated comment. */}
       <div className="relative">
         <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
         <Input
@@ -190,7 +190,7 @@ export default function TeamsPage() {
         />
       </div>
 
-      {/* İÇERİK ALANI */}
+      {/* Translated comment. */}
       {loading ? (
         <div className="text-zinc-500 text-center py-10 flex flex-col items-center">
           <Loader2 className="animate-spin h-8 w-8 mb-2" /> Yükleniyor...
@@ -203,17 +203,17 @@ export default function TeamsPage() {
           </h3>
         </div>
       ) : (
-        // KART LİSTESİ
+        // Translated comment.
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTeams.map((team) => (
-            // Card bileşenine 'relative' ve 'overflow-hidden' vererek süslemeyi kartın içine hapsediyoruz.
+            // Translated comment.
             <Card
               key={team.id}
               className="bg-zinc-900/50 border-zinc-800 hover:border-blue-500/50 transition-all group relative overflow-hidden"
             >
-              {/* SÜSLEME (Shield): 'absolute' pozisyon ile yerleştiriyoruz. */}
-              {/* DÜZELTME: Butonla çakışmaması için 'bottom-4' yerine 'top-4' veya daha az negatif bir değer kullanabiliriz. */}
-              {/* VEYA, butonu 'relative z-10' yaparak öne çıkarabiliriz. En temizi süslemeyi üstte tutmaktır. */}
+              {/* Translated comment. */}
+              {/* Translated comment. */}
+              {/* Translated comment. */}
               <Shield className="absolute -right-6 -top-6 h-36 w-36 text-zinc-800/20 group-hover:text-blue-900/20 transition-colors rotate-12 pointer-events-none" />
 
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
@@ -221,7 +221,7 @@ export default function TeamsPage() {
                   {team.name}
                 </CardTitle>
                 <div className="flex gap-2">
-                  {/* DÜZENLE BUTONU */}
+                  {/* Translated comment. */}
                   <Button
                     variant="ghost"
                     size="icon"
@@ -230,7 +230,7 @@ export default function TeamsPage() {
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
-                  {/* SİLME BUTONU (Onay kutusunu tetikler) */}
+                  {/* Translated comment. */}
                   <Button
                     variant="ghost"
                     size="icon"
@@ -266,7 +266,7 @@ export default function TeamsPage() {
         </div>
       )}
 
-      {/* --- MODAL (DIALOG) --- */}
+      {/* Translated comment. */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="bg-zinc-900 border-zinc-800 text-white sm:max-w-[425px]">
           <DialogHeader>
@@ -298,7 +298,7 @@ export default function TeamsPage() {
               <Label htmlFor="category" className="text-zinc-300">
                 Kategori
               </Label>
-              {/* DROPDOWN (SELECT) KULLANIMI */}
+              {/* Translated comment. */}
               <Select
                 value={formData.category}
                 onValueChange={(value) =>
@@ -337,7 +337,7 @@ export default function TeamsPage() {
         </DialogContent>
       </Dialog>
 
-      {/* --- SİLME ONAY KUTUSU (ALERT DIALOG) --- */}
+      {/* Translated comment. */}
       <AlertDialog
         open={!!teamToDelete}
         onOpenChange={() => setTeamToDelete(null)}

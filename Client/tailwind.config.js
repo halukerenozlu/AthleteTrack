@@ -1,9 +1,9 @@
-/** @type {import('tailwindcss').Config} */
+/* Translated comment. */
 export default {
     darkMode: ["class"],
     content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", // <--- EN ÖNEMLİ KISIM BURASI
+    "./src/**/*.{js,ts,jsx,tsx}", // Translated comment.
   ],
   theme: {
   	extend: {

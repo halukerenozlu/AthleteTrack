@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox"; // Checkbox eklendi
+import { Checkbox } from "@/components/ui/checkbox"; // Translated comment.
 import { Link, useNavigate } from "react-router-dom";
 import {
   Trophy,
@@ -18,30 +18,30 @@ import {
   Moon,
   Sun,
   LockKeyhole,
-} from "lucide-react"; // İkonlar
+} from "lucide-react"; // Translated comment.
 import { authApi } from "@/api/authApi";
-import { toast } from "sonner"; // <-- Toast için eklendi
+import { toast } from "sonner"; // Translated comment.
 
 export default function LoginPage() {
   const navigate = useNavigate();
 
-  // State'ler
+  // Translated comment.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // YENİ: KVKK Onayı ve Tema
+  // Translated comment.
   const [isAgreed, setIsAgreed] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
-  // Tema Yönetimi (Sayfa açılınca ve değişimde çalışır)
+  // Translated comment.
   useEffect(() => {
-    // LocalStorage'dan temayı oku, yoksa 'dark' yap
+    // Translated comment.
     const savedTheme = localStorage.getItem("theme") || "dark";
     setIsDarkMode(savedTheme === "dark");
 
-    // HTML etiketine class ekle/çıkar
+    // Translated comment.
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
     root.classList.add(savedTheme);
@@ -56,7 +56,7 @@ export default function LoginPage() {
     root.classList.remove("light", "dark");
     root.classList.add(newTheme);
 
-    // YENİ: Tema değişince bilgi mesajı göster
+    // Translated comment.
     toast.info("Tema değiştirildi.", {
       description:
         "Not: Bu özellik deneyseldir ve şimdilik sadece giriş ekranında aktiftir.",
@@ -69,14 +69,14 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    // 1. KVKK Kontrolü (Ekstra güvenlik)
+    // Translated comment.
     if (!isAgreed) {
       setError("Lütfen giriş yapabilmek için gizlilik sözleşmesini onaylayın.");
       setLoading(false);
       return;
     }
 
-    // 2. Domain Kontrolü
+    // Translated comment.
     if (!email.toLowerCase().endsWith("@athletetrack.com")) {
       setError(
         "Sadece kurumsal (@athletetrack.com) e-posta adresleri ile giriş yapabilirsiniz."
@@ -90,7 +90,7 @@ export default function LoginPage() {
       localStorage.setItem("user", JSON.stringify(user));
       navigate("/dashboard");
     } catch (error: unknown) {
-      // Hata tipini güvenli hale getiriyoruz
+      // Translated comment.
       const err = error as { response?: { data?: { message?: string } } };
       console.error(err);
       setError(
@@ -102,10 +102,10 @@ export default function LoginPage() {
     }
   };
 
-  // Linklere tıklandığında Landing Page Footer'a gitme fonksiyonu
+  // Translated comment.
   const scrollToFooter = () => {
     navigate("/");
-    // Biraz bekleyip scroll yap (Sayfa geçişi tamamlansın diye)
+    // Translated comment.
     setTimeout(() => {
       document.getElementById("footer")?.scrollIntoView({ behavior: "smooth" });
     }, 100);
@@ -113,10 +113,10 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden transition-colors duration-300">
-      {/* --- ARKA PLAN EFEKTLERİ --- */}
+      {/* Translated comment. */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* --- ÜST BUTONLAR (GERİ DÖN & TEMA) --- */}
+      {/* Translated comment. */}
       <div className="absolute top-8 left-8 right-8 flex justify-between items-center z-20">
         <Link
           to="/"
@@ -125,7 +125,7 @@ export default function LoginPage() {
           <ArrowLeft size={20} /> Ana Sayfaya Dön
         </Link>
 
-        {/* Tema Değiştirme Butonu */}
+        {/* Translated comment. */}
         <Button
           variant="outline"
           size="icon"
@@ -140,7 +140,7 @@ export default function LoginPage() {
         </Button>
       </div>
 
-      {/* --- LOGIN KARTI --- */}
+      {/* Translated comment. */}
       <Card className="w-full max-w-md bg-card/50 backdrop-blur-sm border-border relative z-10 shadow-xl">
         <CardHeader className="space-y-1 text-center">
           <div className="flex justify-center mb-4">
@@ -156,7 +156,7 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Hata Mesajı */}
+          {/* Translated comment. */}
           {error && (
             <div className="p-3 rounded-md bg-red-500/10 border border-red-500/50 text-red-500 text-sm text-center flex items-center justify-center gap-2">
               <LockKeyhole className="h-4 w-4" /> {error}
@@ -164,7 +164,7 @@ export default function LoginPage() {
           )}
 
           <form onSubmit={handleLogin} className="space-y-4">
-            {/* KVKK / GİZLİLİK ONAYI (BURASI YENİ) */}
+            {/* Translated comment. */}
             <div className="flex items-start space-x-2 p-3 border border-border rounded-md bg-muted/30">
               <Checkbox
                 id="terms"
@@ -192,7 +192,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* FORM ALANLARI (ONAY YOKSA KAPALI) */}
+            {/* Translated comment. */}
             <div
               className={`space-y-4 transition-opacity duration-300 ${
                 !isAgreed ? "opacity-50 pointer-events-none" : "opacity-100"
@@ -207,7 +207,7 @@ export default function LoginPage() {
                   type="email"
                   placeholder="ornek: kerem@athletetrack.com"
                   required
-                  disabled={!isAgreed} // Onay yoksa kapalı
+                  disabled={!isAgreed} // Translated comment.
                   className="bg-background border-input focus:border-blue-500 text-foreground placeholder:text-muted-foreground"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -218,7 +218,7 @@ export default function LoginPage() {
                   <Label htmlFor="password" className="text-foreground">
                     Şifre
                   </Label>
-                  {/* Link Yönlendirmesi Değişti */}
+                  {/* Translated comment. */}
                   <button
                     type="button"
                     onClick={scrollToFooter}
@@ -231,7 +231,7 @@ export default function LoginPage() {
                   id="password"
                   type="password"
                   required
-                  disabled={!isAgreed} // Onay yoksa kapalı
+                  disabled={!isAgreed} // Translated comment.
                   className="bg-background border-input focus:border-blue-500 text-foreground"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -240,7 +240,7 @@ export default function LoginPage() {
               <Button
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white h-11 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 type="submit"
-                disabled={loading || !isAgreed} // Onay yoksa buton da kapalı
+                disabled={loading || !isAgreed} // Translated comment.
               >
                 {loading ? (
                   <>

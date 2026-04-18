@@ -11,46 +11,46 @@ namespace API.Data
 
         public DbSet<User> Users { get; set; } = null!;
         
-        // Temel Tablolar
+        // Translated comment.
         public DbSet<Team> Teams { get; set; } = null!;
         public DbSet<Position> Positions { get; set; } = null!;
         public DbSet<InjuryType> InjuryTypes { get; set; } = null!;
         public DbSet<TrainingType> TrainingTypes { get; set; } = null!;
         
-        // Ana Tablolar
+        // Translated comment.
         public DbSet<Athlete> Athletes { get; set; } = null!;
         public DbSet<Training> Trainings { get; set; } = null!;
         public DbSet<Injury> Injuries { get; set; } = null!;
         public DbSet<Match> Matches { get; set; } = null!;
         
-        // Detay Tabloları
+        // Translated comment.
         public DbSet<TrainingAttendance> TrainingAttendances { get; set; } = null!;
         public DbSet<MatchStatistic> MatchStatistics { get; set; } = null!;
 
-        // --- BURASI EKLENDİ: CASCADE DELETE SORUNUNU ÇÖZEN KISIM ---
+        // Translated comment.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // --- BURAYI DÜZELTİYORUZ ---
-            // Training tablosunda TrainingAttendances listesi olduğu için 
-            // .WithMany() parantezini boş bırakmamalıyız.
+            // Translated comment.
+            // Translated comment.
+            // Translated comment.
             
             modelBuilder.Entity<TrainingAttendance>()
                 .HasOne(t => t.Training)
-                .WithMany(t => t.TrainingAttendances) // <-- DÜZELTME: Listeyi gösterdik
+                .WithMany(t => t.TrainingAttendances) // Translated comment.
                 .HasForeignKey(t => t.TrainingId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Athlete tablosunda henüz bir liste (attendance list) tanımlamadığımız için
-            // burası boş kalabilir (.WithMany())
+            // Translated comment.
+            // Translated comment.
             modelBuilder.Entity<TrainingAttendance>()
                 .HasOne(a => a.Athlete)
                 .WithMany()
                 .HasForeignKey(a => a.AthleteId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // MatchStatistic ayarları aynen kalabilir
+            // Translated comment.
             modelBuilder.Entity<MatchStatistic>()
                 .HasOne(m => m.Match)
                 .WithMany()
@@ -63,6 +63,6 @@ namespace API.Data
                 .HasForeignKey(a => a.AthleteId)
                 .OnDelete(DeleteBehavior.Restrict); 
         }
-        // -----------------------------------------------------------
+        // Translated comment.
     }
 }

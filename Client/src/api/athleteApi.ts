@@ -2,31 +2,31 @@ import { api } from "./axiosConfig";
 import type { Athlete, CreateAthleteRequest } from "@/types";
 
 export const athleteApi = {
-  // Tüm sporcuları getir
+  // Translated comment.
   getAllAthletes: async (coachId: number) => {
     const response = await api.get<Athlete[]>(`/athletes/coach/${coachId}`);
     return response.data;
   },
 
-  // Takıma göre getir
+  // Translated comment.
   getAthletesByTeam: async (teamId: number) => {
     const response = await api.get<Athlete[]>(`/athletes/team/${teamId}`);
     return response.data;
   },
 
-  // Sporcu Ekle (Geriye ID döner)
+  // Translated comment.
   addAthlete: async (data: CreateAthleteRequest) => {
     const response = await api.post("/athletes", data);
-    return response.data; // { message: "...", id: 123 } döner
+    return response.data; // Translated comment.
   },
 
-  // Sporcu Sil
+  // Translated comment.
   deleteAthlete: async (id: number) => {
     const response = await api.delete(`/athletes/${id}`);
     return response.data;
   },
 
-  // --- YENİ EKLENEN: FOTOĞRAF YÜKLEME ---
+  // Translated comment.
   uploadPhoto: async (id: number, file: File) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -36,7 +36,7 @@ export const athleteApi = {
     });
     return response.data;
   },
-  // YENİ: Sporcu Güncelle
+  // Translated comment.
   updateAthlete: async (id: number, data: CreateAthleteRequest) => {
     const response = await api.put(`/athletes/${id}`, data);
     return response.data;

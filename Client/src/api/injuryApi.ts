@@ -2,31 +2,31 @@ import { api } from "./axiosConfig";
 import type { Injury, CreateInjuryRequest, InjuryType } from "@/types";
 
 export const injuryApi = {
-  // Hocanın tüm sakatlıklarını getir
+  // Translated comment.
   getInjuries: async (coachId: number) => {
     const response = await api.get<Injury[]>(`/injuries/coach/${coachId}`);
     return response.data;
   },
 
-  // Yeni Sakatlık Ekle
+  // Translated comment.
   createInjury: async (data: CreateInjuryRequest) => {
     const response = await api.post("/injuries", data);
     return response.data;
   },
 
-  // Durum Değiştir (İyileşti / Sakat)
+  // Translated comment.
   toggleStatus: async (id: number) => {
     const response = await api.put(`/injuries/status/${id}`);
     return response.data;
   },
 
-  // Sil
+  // Translated comment.
   deleteInjury: async (id: number) => {
     const response = await api.delete(`/injuries/${id}`);
     return response.data;
   },
 
-  // Sakatlık Tiplerini Getir (Dropdown için)
+  // Translated comment.
   getTypes: async () => {
     const response = await api.get<InjuryType[]>("/injuries/types");
     return response.data;

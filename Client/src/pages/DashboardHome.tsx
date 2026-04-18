@@ -19,11 +19,11 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { StatCard } from "@/components/dashboard/StatCard"; // StatCard bileşenini çağırdık
+import { StatCard } from "@/components/dashboard/StatCard"; // Translated comment.
 import { dashboardApi } from "@/api/dashboardApi";
 import type { DashboardSummary } from "@/types";
 import { toast } from "sonner";
-// Grafikler için Recharts
+// Translated comment.
 import {
   BarChart,
   Bar,
@@ -45,7 +45,7 @@ export default function DashboardHome() {
     if (!user.id) return;
     try {
       setLoading(true);
-      // Backend'den özet verileri çekiyoruz
+      // Translated comment.
       const data = await dashboardApi.getSummary(user.id);
       setSummary(data);
     } catch (error) {
@@ -68,12 +68,12 @@ export default function DashboardHome() {
     );
   }
 
-  // Eğer veri yoksa veya hata varsa
+  // Translated comment.
   if (!summary) return null;
 
   return (
     <div className="space-y-6 animate-fade-in pb-10">
-      {/* 1. İSTATİSTİK KARTLARI (Gerçek Veri) */}
+      {/* Translated comment. */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Toplam Sporcu"
@@ -102,9 +102,9 @@ export default function DashboardHome() {
         />
       </div>
 
-      {/* 2. GRAFİKLER (Takım Dağılımı ve Sağlık) */}
+      {/* Translated comment. */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* SOL: Çubuk Grafik (Takım Oyuncu Sayıları) */}
+        {/* Translated comment. */}
         <Card className="lg:col-span-2 bg-zinc-900/50 border-zinc-800">
           <CardHeader>
             <CardTitle className="text-lg text-white">
@@ -156,14 +156,14 @@ export default function DashboardHome() {
           </CardContent>
         </Card>
 
-        {/* SAĞ: Sakatlık Durumu (Görsel Kart) */}
+        {/* Translated comment. */}
         <Card className="bg-zinc-900/50 border-zinc-800 flex flex-col justify-center items-center p-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/10 rounded-full blur-3xl"></div>
 
           <div className="relative w-40 h-40 flex items-center justify-center mb-4">
-            {/* Daire Efekti */}
+            {/* Translated comment. */}
             <div className="absolute inset-0 rounded-full border-8 border-zinc-800"></div>
-            {/* Kırmızı Daire Dilimi (Sakatlık varsa döner) */}
+            {/* Translated comment. */}
             {summary.activeInjuries > 0 && (
               <div className="absolute inset-0 rounded-full border-8 border-t-red-600 border-r-transparent border-b-transparent border-l-transparent rotate-45 animate-spin-slow"></div>
             )}
@@ -195,9 +195,9 @@ export default function DashboardHome() {
         </Card>
       </div>
 
-      {/* 3. ALT BÖLÜM: AKTİVİTELER VE LİDERLİK TABLOSU */}
+      {/* Translated comment. */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* SOL: SON AKTİVİTELER (Geniş - 2 Birim) */}
+        {/* Translated comment. */}
         <Card className="lg:col-span-2 bg-zinc-900/50 border-zinc-800">
           <CardHeader>
             <CardTitle className="text-lg text-white flex items-center gap-2">
@@ -252,7 +252,7 @@ export default function DashboardHome() {
           </CardContent>
         </Card>
 
-        {/* SAĞ: EN İYİLER / LİDERLİK TABLOSU (Dar - 1 Birim) */}
+        {/* Translated comment. */}
         <Card className="bg-zinc-900/50 border-zinc-800">
           <CardHeader>
             <CardTitle className="text-lg text-white flex items-center gap-2">
@@ -261,7 +261,7 @@ export default function DashboardHome() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {/* A. Gol Krallığı */}
+            {/* Translated comment. */}
             <div>
               <h4 className="text-sm font-semibold text-zinc-400 mb-3 flex items-center gap-2">
                 <Flame className="h-4 w-4 text-orange-500" /> Gol Krallığı
@@ -308,7 +308,7 @@ export default function DashboardHome() {
 
             <div className="h-px bg-zinc-800 my-4"></div>
 
-            {/* B. En Yüksek Puanlılar */}
+            {/* Translated comment. */}
             <div>
               <h4 className="text-sm font-semibold text-zinc-400 mb-3 flex items-center gap-2">
                 <Medal className="h-4 w-4 text-purple-500" /> En Yüksek Puan

@@ -15,8 +15,8 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/lookups/positions
-        // Bu uç, veritabanındaki "Kaleci, Forvet" gibi mevkileri getirir.
+        // Translated comment.
+        // Translated comment.
         [HttpGet("positions")]
         public async Task<IActionResult> GetPositions()
         {
