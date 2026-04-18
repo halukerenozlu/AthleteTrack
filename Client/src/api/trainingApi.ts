@@ -8,31 +8,31 @@ import type {
 } from "@/types";
 
 export const trainingApi = {
-  // Hocanın tüm antrenmanlarını getir
+  // Get all trainings of the coach
   getTrainings: async (coachId: number) => {
     const response = await api.get<Training[]>(`/trainings/coach/${coachId}`);
     return response.data;
   },
 
-  // Antrenman Ekle
+  // Add training
   createTraining: async (data: CreateTrainingRequest) => {
     const response = await api.post("/trainings", data);
     return response.data;
   },
 
-  // Antrenman Sil
+  // Delete training
   deleteTraining: async (id: number) => {
     const response = await api.delete(`/trainings/${id}`);
     return response.data;
   },
 
-  // Antrenman Tiplerini Getir (Kondisyon, Taktik vb.)
+  // Fetch training types (Conditioning, Tactics, etc.)
   getTypes: async () => {
     const response = await api.get<TrainingType[]>("/trainings/types");
     return response.data;
   },
 
-  // 1. Yoklama Listesini Getir
+  // 1. Get Attendance List
   getAttendance: async (trainingId: number) => {
     const response = await api.get<AttendanceItem[]>(
       `/trainings/attendance/${trainingId}`
@@ -40,7 +40,7 @@ export const trainingApi = {
     return response.data;
   },
 
-  // 2. Yoklamayı Kaydet
+  // 2. Save Attendance
   saveAttendance: async (data: SaveAttendanceRequest) => {
     const response = await api.post("/trainings/attendance", data);
     return response.data;

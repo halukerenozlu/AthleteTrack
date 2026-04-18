@@ -16,7 +16,7 @@ namespace API.Controllers
         }
 
         // GET: api/lookups/positions
-        // Bu uç, veritabanındaki "Kaleci, Forvet" gibi mevkileri getirir.
+        // Returns position records such as "Goalkeeper" and "Forward" from the database.
         [HttpGet("positions")]
         public async Task<IActionResult> GetPositions()
         {

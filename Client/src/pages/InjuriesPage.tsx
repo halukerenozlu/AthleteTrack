@@ -46,7 +46,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"; // <-- EKLENDİ
+} from "@/components/ui/alert-dialog"; // <-- ADDED
 import { injuryApi } from "@/api/injuryApi";
 import { athleteApi } from "@/api/athleteApi";
 import type { Injury, InjuryType, Athlete } from "@/types";
@@ -58,9 +58,9 @@ export default function InjuriesPage() {
   // Dialog Data
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [injuryToDelete, setInjuryToDelete] = useState<number | null>(null); // <-- SİLME İÇİN STATE
+  const [injuryToDelete, setInjuryToDelete] = useState<number | null>(null); // <-- STATE FOR DELETE
 
-  // Dropdown Listeleri
+  // Dropdown lists
   const [athletes, setAthletes] = useState<Athlete[]>([]);
   const [injuryTypes, setInjuryTypes] = useState<InjuryType[]>([]);
 
@@ -68,14 +68,14 @@ export default function InjuriesPage() {
   const [formData, setFormData] = useState({
     athleteId: "",
     typeId: "",
-    date: new Date().toISOString().split("T")[0], // Bugün
+    date: new Date().toISOString().split("T")[0], // Today
     returnDate: "",
     notes: "",
   });
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  // --- VERİLERİ ÇEK ---
+  // --- FETCH DATA ---
   const fetchData = useCallback(async () => {
     if (!user.id) return;
     try {
@@ -100,7 +100,7 @@ export default function InjuriesPage() {
     fetchData();
   }, [fetchData]);
 
-  // --- SAKATLIK BİLDİR ---
+  // --- REPORT INJURY ---
   const handleCreate = async () => {
     if (!formData.athleteId || !formData.typeId || !formData.date) {
       toast.warning("Lütfen zorunlu alanları doldurun.");
@@ -136,7 +136,7 @@ export default function InjuriesPage() {
     }
   };
 
-  // --- DURUM DEĞİŞTİR (İYİLEŞTİ/SAKAT) ---
+  // --- TOGGLE STATUS (RECOVERED/INJURED) ---
   const toggleStatus = async (id: number, currentStatus: boolean) => {
     try {
       await injuryApi.toggleStatus(id);
@@ -155,7 +155,7 @@ export default function InjuriesPage() {
     }
   };
 
-  // --- SİLME İŞLEMİ (YENİ FONKSİYON) ---
+  // --- DELETE ACTION (NEW FUNCTION) ---
   const confirmDelete = async () => {
     if (!injuryToDelete) return;
 
@@ -189,7 +189,7 @@ export default function InjuriesPage() {
         </Button>
       </div>
 
-      {/* LİSTE */}
+      {/* LIST */}
       {loading ? (
         <div className="text-zinc-500 text-center py-10">
           <Loader2 className="animate-spin h-6 w-6 mx-auto" />
@@ -282,7 +282,7 @@ export default function InjuriesPage() {
               </CardContent>
 
               <CardFooter className="pt-2 border-t border-zinc-800/50 flex justify-between">
-                {/* SİLME BUTONU: Sadece ID'yi state'e atar */}
+                {/* DELETE BUTTON: Only stores ID in state */}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -410,7 +410,7 @@ export default function InjuriesPage() {
         </DialogContent>
       </Dialog>
 
-      {/* --- SİLME UYARISI (ALERT DIALOG) --- */}
+      {/* --- DELETE WARNING (ALERT DIALOG) --- */}
       <AlertDialog
         open={!!injuryToDelete}
         onOpenChange={() => setInjuryToDelete(null)}

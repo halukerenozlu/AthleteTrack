@@ -10,7 +10,7 @@ namespace API.Controllers
     public class InjuriesController : ControllerBase
     {
         private readonly InjuryService _injuryService;
-        private readonly API.Data.AppDbContext _context; // Lookup için
+        private readonly API.Data.AppDbContext _context; // For lookup queries
 
         public InjuriesController(InjuryService injuryService, API.Data.AppDbContext context)
         {
@@ -34,7 +34,7 @@ namespace API.Controllers
             return Ok(new { message = "Sakatlık kaydedildi." });
         }
 
-        // PUT: api/injuries/status/5 (İyileşti/Sakat)
+        // PUT: api/injuries/status/5 (Recovered/Injured)
         [HttpPut("status/{id}")]
         public async Task<IActionResult> ToggleStatus(int id)
         {
@@ -52,7 +52,7 @@ namespace API.Controllers
             return Ok(new { message = "Kayıt silindi." });
         }
 
-        // GET: api/injuries/types (Dropdown için)
+        // GET: api/injuries/types (for dropdown)
         [HttpGet("types")]
         public async Task<IActionResult> GetTypes()
         {

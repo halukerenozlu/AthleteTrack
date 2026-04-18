@@ -1,4 +1,4 @@
-// BU, KÜTÜPHANE GEREKTİRMEYEN BASİT BİR ALTERNATİFTİR
+// SIMPLE ALTERNATIVE THAT DOES NOT REQUIRE A LIBRARY
 import * as React from "react";
 import { cn } from "@/lib/utils";
 

@@ -11,7 +11,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
-import { heroSlides } from "../constants/heroSlides"; // Resimler buradan geliyor
+import { heroSlides } from "../constants/heroSlides"; // Images are loaded from here
 
 // ============ UTILITY FUNCTIONS ============
 function cn(...classes: (string | boolean | undefined)[]) {
@@ -59,7 +59,7 @@ function HeroSection() {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
   }, []);
 
-  // Otomatik slayt geçişi
+  // Automatic slide transition
   useEffect(() => {
     const timer = setInterval(nextSlide, 5000);
     return () => clearInterval(timer);
@@ -178,7 +178,7 @@ function HeroSection() {
             takım yönetimi tek platformda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* GÜNCELLEME: Yönlendirme /login yerine /pricing yapıldı */}
+            {/* UPDATE: Redirect changed from /login to /pricing */}
             <LiquidButton onClick={() => navigate("/pricing")}>
               Hemen Başla
             </LiquidButton>

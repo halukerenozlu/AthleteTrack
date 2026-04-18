@@ -14,14 +14,14 @@ namespace API.Services
             _context = context;
         }
 
-        // 1. Hocanın Tüm Sakatlıklarını Getir (Aktif/Pasif Hepsi)
+        // 1. Fetch all injuries for the coach (active/inactive)
         public async Task<List<InjuryResponseDto>> GetInjuriesByCoachAsync(int coachId)
         {
             var injuries = await _context.Injuries
                 .Include(i => i.InjuryType)
                 .Include(i => i.Athlete)
-                .ThenInclude(a => a!.Team) // Sporcunun takımı
-                .Where(i => i.Athlete!.Team!.CoachId == coachId) // Sadece bu hocanın sporcuları
+                .ThenInclude(a => a!.Team) // Athlete team
+                .Where(i => i.Athlete!.Team!.CoachId == coachId) // Only this coach's athletes
                 .OrderByDescending(i => i.InjuryDate)
                 .ToListAsync();
 
@@ -39,7 +39,7 @@ namespace API.Services
             }).ToList();
         }
 
-        // 2. Yeni Sakatlık Ekle
+        // 2. Create new injury
         public async Task<Injury> CreateInjuryAsync(CreateInjuryDto model)
         {
             var injury = new Injury
@@ -49,7 +49,7 @@ namespace API.Services
                 InjuryDate = model.InjuryDate,
                 ExpectedReturnDate = model.ExpectedReturnDate,
                 Notes = model.Notes,
-                IsActive = true // Yeni eklenen sakatlık aktiftir
+                IsActive = true // Newly created injury is active
             };
 
             _context.Injuries.Add(injury);
@@ -57,18 +57,18 @@ namespace API.Services
             return injury;
         }
 
-        // 3. İyileşti Olarak İşaretle (Durum Güncelle)
+        // 3. Mark as recovered (status toggle)
         public async Task<bool> ToggleStatusAsync(int id)
         {
             var injury = await _context.Injuries.FindAsync(id);
             if (injury == null) return false;
 
-            injury.IsActive = !injury.IsActive; // Tersine çevir (Aktif <-> Pasif)
+            injury.IsActive = !injury.IsActive; // Toggle (Active <-> Inactive)
             await _context.SaveChangesAsync();
             return true;
         }
 
-        // 4. Sil
+        // 4. Delete
         public async Task<bool> DeleteInjuryAsync(int id)
         {
             var injury = await _context.Injuries.FindAsync(id);

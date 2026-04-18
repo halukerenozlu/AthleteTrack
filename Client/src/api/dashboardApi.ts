@@ -2,7 +2,7 @@ import { api } from "./axiosConfig";
 import type { DashboardSummary } from "@/types";
 
 export const dashboardApi = {
-  // Özet verileri getir
+  // Fetch summary data
   getSummary: async (coachId: number) => {
     const response = await api.get<DashboardSummary>(
       `/dashboard/summary/${coachId}`

@@ -2,7 +2,7 @@ using API.Data;
 using API.Models.Entities;
 using API.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
-// using BCrypt.Net; <-- Bu satırı sildik, gerek yok.
+// using BCrypt.Net; // Removed: not required
 
 namespace API.Services
 {
@@ -15,10 +15,10 @@ namespace API.Services
             _context = context;
         }
 
-        // --- LOGIN İŞLEMİ (HİBRİT KONTROL) ---
+        // --- LOGIN FLOW (HYBRID CHECK) ---
         public async Task<User?> LoginAsync(string email, string password)
         {
-            // 1. Kullanıcıyı Stored Procedure ile getir
+            // 1. Fetch user via stored procedure
             var userList = await _context.Users
                 .FromSqlRaw("EXEC sp_CheckUserLogin @Email = {0}", email)
                 .ToListAsync();
@@ -27,32 +27,32 @@ namespace API.Services
 
             if (user == null) return null;
 
-            // Eğer hesap pasife alınmışsa, şifreye bakmaya bile gerek yok.
+            // If the account is inactive, skip password validation.
                  if (!user.IsActive) 
-                     return null; // Veya özel hata fırlatabilirsin
+                     return null; // Or throw a custom error
 
 
-            // 2. ŞİFRE KONTROLÜ (KRİTİK NOKTA) 🛡️
+            // 2. PASSWORD VALIDATION (CRITICAL) 🛡️
             bool isPasswordValid = false;
 
-            // Eğer veritabanındaki şifre bir Hash ise (Genelde $ ile başlar)
+            // If the database password is a hash (usually starts with $)
             if (user.PasswordHash.StartsWith("$"))
             {
                 try 
                 {
-                    // Hash doğrulaması yap
+                    // Verify hash
                     isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
                 }
                 catch 
                 {
-                    // Hash bozuksa düz metin kontrolü dene (Yedek plan)
+                    // If hash is invalid, try plaintext comparison (fallback)
                     isPasswordValid = (user.PasswordHash == password);
                 }
             }
             else
             {
-                // Eğer şifre "$..." ile başlamıyorsa DÜZ METİNDİR (Örn: "123456")
-                // Direkt eşitlik kontrolü yap
+                // If password does not start with "$...", treat it as plain text (e.g., "123456")
+                // Perform direct equality check
                 isPasswordValid = (user.PasswordHash == password);
             }
 
@@ -61,7 +61,7 @@ namespace API.Services
             return user;
         }
 
-        // --- PROFİL GÜNCELLEME ---
+        // --- UPDATE PROFILE ---
         public async Task<bool> UpdateProfileAsync(int userId, UpdateProfileDto model)
         {
             var user = await _context.Users.FindAsync(userId);
@@ -74,7 +74,7 @@ namespace API.Services
             return true;
         }
 
-        // --- FOTOĞRAF GÜNCELLEME ---
+        // --- UPDATE PROFILE PHOTO ---
         public async Task<bool> UpdateProfileImageAsync(int userId, byte[] imageBytes)
         {
             var user = await _context.Users.FindAsync(userId);
@@ -85,13 +85,13 @@ namespace API.Services
             return true;
         }
 
-        // --- ŞİFRE DEĞİŞTİRME ---
+        // --- CHANGE PASSWORD ---
         public async Task<string> ChangePasswordAsync(int userId, ChangePasswordDto model)
         {
             var user = await _context.Users.FindAsync(userId);
             if (user == null) return "Kullanıcı bulunamadı.";
 
-            // 1. Eski şifre kontrolü (Burada da Hibrit yapıyoruz ki hata vermesin)
+            // 1. Validate current password (hybrid check to avoid errors)
             bool isOldPasswordValid = false;
             if (user.PasswordHash.StartsWith("$"))
             {
@@ -105,7 +105,7 @@ namespace API.Services
             if (!isOldPasswordValid)
                 return "Mevcut şifreniz yanlış!";
 
-            // 2. Yeni şifreyi MUTLAKA Hash'le ve kaydet
+            // 2. Hash and save the new password
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
             
             user.PasswordHash = passwordHash;
@@ -115,7 +115,7 @@ namespace API.Services
             await _context.SaveChangesAsync();
             return "OK";
         }
-        // RESİM GETİRME METODU
+        // FETCH PROFILE IMAGE METHOD
         public async Task<byte[]?> GetProfileImageAsync(int userId)
         {
             var user = await _context.Users.FindAsync(userId);

@@ -14,14 +14,14 @@ namespace API.Services
             _context = context;
         }
 
-        // --- 1. ANTRENMAN EKLE (GÜVENLİ TRANSACTION İLE) ---
+        // --- 1. CREATE TRAINING (WITH SAFE TRANSACTION) ---
         public async Task<Training?> CreateTrainingAsync(CreateTrainingDto model)
         {
-            // Transaction başlatıyoruz: Ya hepsi kaydolur ya hiçbiri.
+            // Start transaction: either all operations succeed or none do.
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                // A. Antrenmanı Oluştur
+                // A. Create training
                 var training = new Training
                 {
                     Date = model.Date,
@@ -33,9 +33,9 @@ namespace API.Services
                 };
 
                 _context.Trainings.Add(training);
-                await _context.SaveChangesAsync(); // ID oluşması için kayıt şart
+                await _context.SaveChangesAsync(); // Required to generate training ID
 
-                // B. Yoklama Listesini Oluştur (Otomatik)
+                // B. Create attendance list automatically
                 var athletes = await _context.Athletes
                     .Where(a => a.TeamId == model.TeamId)
                     .ToListAsync();
@@ -46,37 +46,37 @@ namespace API.Services
                     {
                         TrainingId = training.Id,
                         AthleteId = athlete.Id,
-                        IsPresent = true, // Varsayılan: Geldi
+                        IsPresent = true, // Default: present
                         PerformanceRating = null
                     });
                 }
                 
-                await _context.SaveChangesAsync(); // Yoklamaları kaydet
-                await transaction.CommitAsync();   // Her şey yolundaysa onayla
+                await _context.SaveChangesAsync(); // Save attendance records
+                await transaction.CommitAsync();   // Commit when everything succeeds
 
-                Console.WriteLine($"[BAŞARILI] Antrenman {training.Id} oluşturuldu.");
+                Console.WriteLine($"[SUCCESS] Training {training.Id} created.");
                 return training;
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(); // Hata varsa işlemi geri al
-                Console.WriteLine($"[HATA] Antrenman kaydedilemedi: {ex.Message}");
-                // Detaylı hatayı görmek için:
+                await transaction.RollbackAsync(); // Roll back on error
+                Console.WriteLine($"[ERROR] Failed to save training: {ex.Message}");
+                // Log inner exception details if available:
                 if (ex.InnerException != null) 
-                    Console.WriteLine($"[DETAY] {ex.InnerException.Message}");
+                    Console.WriteLine($"[DETAIL] {ex.InnerException.Message}");
                 
-                throw; // Hatayı Controller'a fırlat ki Frontend anlasın
+                throw; // Rethrow so the controller can handle the error
             }
         }
 
-        // --- 2. HOCANIN ANTRENMANLARINI GETİR ---
+        // --- 2. GET COACH TRAININGS ---
         public async Task<List<TrainingResponseDto>> GetTrainingsByCoachAsync(int coachId)
         {
             var trainings = await _context.Trainings
                 .Include(t => t.Team)
                 .Include(t => t.TrainingType)
                 .Include(t => t.TrainingAttendances)
-                // DÜZELTME: Null referans uyarısı için ! işareti eklendi
+                // FIX: Added ! to suppress null reference warning
                 .Where(t => t.Team!.CoachId == coachId) 
                 .OrderByDescending(t => t.Date)
                 .ToListAsync();
@@ -87,7 +87,7 @@ namespace API.Services
                 Date = t.Date,
                 DurationMinutes = t.DurationMinutes,
                 Notes = t.Notes,
-                // DÜZELTME: Null kontrolleri (? ve !) eklendi
+                // FIX: Added null checks (? and !)
                 TeamName = t.Team?.Name ?? "Bilinmiyor",
                 TypeName = t.TrainingType?.Name ?? "-",
                 ColorCode = t.TrainingType?.ColorCode ?? "#333",
@@ -95,7 +95,7 @@ namespace API.Services
             }).ToList();
         }
 
-        // --- 3. YOKLAMA LİSTESİNİ GETİR ---
+        // --- 3. GET ATTENDANCE LIST ---
         public async Task<List<AttendanceDto>> GetAttendanceAsync(int trainingId)
         {
             var attendanceList = await _context.TrainingAttendances
@@ -106,14 +106,14 @@ namespace API.Services
             return attendanceList.Select(ta => new AttendanceDto
             {
                 AthleteId = ta.AthleteId,
-                // DÜZELTME: İsim birleştirirken null kontrolü
+                // FIX: Null-safe name concatenation
                 AthleteName = $"{ta.Athlete!.FirstName} {ta.Athlete.LastName}",
                 IsPresent = ta.IsPresent,
                 PerformanceRating = ta.PerformanceRating
             }).ToList();
         }
 
-        // --- 4. YOKLAMAYI KAYDET ---
+        // --- 4. SAVE ATTENDANCE ---
         public async Task<bool> SaveAttendanceAsync(SaveAttendanceDto model)
         {
             foreach (var item in model.Attendances)
@@ -131,23 +131,23 @@ namespace API.Services
             return true;
         }
         
-        // --- 5. ANTRENMAN SİL (GÜÇLENDİRİLMİŞ) ---
+        // --- 5. DELETE TRAINING (ENHANCED) ---
         public async Task<bool> DeleteTrainingAsync(int id)
         {
-            // Antrenmanı ve ona bağlı yoklamaları getir
+            // Fetch training and its related attendance records
             var training = await _context.Trainings
-                .Include(t => t.TrainingAttendances) // İlişkili veriyi dahil et
+                .Include(t => t.TrainingAttendances) // Include related data
                 .FirstOrDefaultAsync(t => t.Id == id);
 
             if (training == null) return false;
             
-            // Önce bağlı olan yoklama kayıtlarını sil (Restrict hatasını önler)
+            // Delete linked attendance records first (prevents restrict errors)
             if (training.TrainingAttendances.Any())
             {
                 _context.TrainingAttendances.RemoveRange(training.TrainingAttendances);
             }
             
-            // Sonra antrenmanı sil
+            // Then delete the training
             _context.Trainings.Remove(training);
             await _context.SaveChangesAsync();
             return true;

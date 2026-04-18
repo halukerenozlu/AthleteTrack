@@ -55,7 +55,7 @@ export default function MatchesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [matchToDelete, setMatchToDelete] = useState<number | null>(null);
 
-  // Takım Listesi (Dropdown için)
+  // Team List (for dropdown)
   const [teams, setTeams] = useState<Team[]>([]);
 
   // Form
@@ -69,7 +69,7 @@ export default function MatchesPage() {
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  // --- VERİLERİ ÇEK ---
+  // --- FETCH DATA ---
   const fetchData = useCallback(async () => {
     if (!user.id) return;
     try {
@@ -91,7 +91,7 @@ export default function MatchesPage() {
     fetchData();
   }, [fetchData]);
 
-  // --- MAÇ EKLE ---
+  // --- ADD MATCH ---
   const handleCreate = async () => {
     if (!formData.teamId || !formData.opponent || !formData.date) {
       toast.warning("Lütfen zorunlu alanları doldurun.");
@@ -120,7 +120,7 @@ export default function MatchesPage() {
     }
   };
 
-  // --- SİLME ---
+  // --- DELETE ---
   const confirmDelete = async () => {
     if (!matchToDelete) return;
     try {
@@ -153,7 +153,7 @@ export default function MatchesPage() {
         </Button>
       </div>
 
-      {/* LİSTE */}
+      {/* LIST */}
       {loading ? (
         <div className="text-zinc-500 text-center py-10">
           <Loader2 className="animate-spin h-6 w-6 mx-auto" />
@@ -170,7 +170,7 @@ export default function MatchesPage() {
               className="bg-zinc-900/50 border-zinc-800 hover:border-zinc-700 transition-all"
             >
               <CardContent className="p-6 flex flex-col md:flex-row items-center justify-between gap-6">
-                {/* Sol Taraf: Tarih ve Takım */}
+                {/* Left side: Date and Team */}
                 <div className="flex items-center gap-6 flex-1">
                   <div className="flex flex-col items-center justify-center bg-zinc-900 border border-zinc-800 rounded-lg p-3 w-20 h-20 text-center">
                     <span className="text-xs text-zinc-500 uppercase font-bold">
@@ -219,9 +219,9 @@ export default function MatchesPage() {
                   )}
                 </div>
 
-                {/* Sağ: Aksiyonlar (BUTONLAR BURADA) */}
+                {/* Right: Actions (buttons here) */}
                 <div className="flex items-center gap-2">
-                  {/* DÜZELTME: Hem Tamamlandı hem Planlandı durumu için buton göster */}
+                  {/* FIX: Show button for both Completed and Planned statuses */}
                   {match.status === "Tamamlandı" ? (
                     <Button
                       variant="ghost"
@@ -355,7 +355,7 @@ export default function MatchesPage() {
         </DialogContent>
       </Dialog>
 
-      {/* --- SİLME UYARISI --- */}
+      {/* --- DELETE WARNING --- */}
       <AlertDialog
         open={!!matchToDelete}
         onOpenChange={() => setMatchToDelete(null)}

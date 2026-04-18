@@ -3,8 +3,8 @@ namespace API.Models.DTOs
     public class CreateMatchDto
     {
         public DateTime MatchDate { get; set; }
-        public string Opponent { get; set; } = string.Empty; // Rakip Takım
-        public bool IsHome { get; set; } // İç Saha mı?
+        public string Opponent { get; set; } = string.Empty; // Opponent team
+        public bool IsHome { get; set; } // Home match?
         public int TeamId { get; set; }
     }
 
@@ -16,11 +16,11 @@ namespace API.Models.DTOs
         public bool IsHome { get; set; }
         public string TeamName { get; set; } = string.Empty;
         
-        // Skor (Oynanmamışsa null gelir)
+        // Score (null if not played)
         public int? TeamScore { get; set; }
         public int? OpponentScore { get; set; }
         
-        // Durum (Oynandı / Gelecek)
+        // Status (Played / Upcoming)
         public string Status => TeamScore.HasValue ? "Tamamlandı" : "Planlandı";
     }
 }

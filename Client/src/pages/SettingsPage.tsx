@@ -62,7 +62,7 @@ export default function SettingsPage() {
     confirm: "",
   });
 
-  // --- 1. FOTOĞRAF YÜKLEME ---
+  // --- 1. PHOTO UPLOAD ---
   const handlePhotoClick = () => {
     fileInputRef.current?.click();
   };
@@ -86,7 +86,7 @@ export default function SettingsPage() {
     }
   };
 
-  // --- 2. PROFİL GÜNCELLEME ---
+  // --- 2. PROFILE UPDATE ---
   const handleProfileUpdate = async () => {
     if (!user) return;
     setLoading(true);
@@ -111,7 +111,7 @@ export default function SettingsPage() {
     }
   };
 
-  // --- 3. ŞİFRE DEĞİŞTİRME ---
+  // --- 3. PASSWORD CHANGE ---
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
@@ -243,7 +243,7 @@ export default function SettingsPage() {
                   <Label htmlFor="email">Email Adresi</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-2.5 h-4 w-4 text-zinc-500" />
-                    {/* DÜZELTME: Artık dinamik user.email gösteriliyor */}
+                    {/* FIX: user.email is now displayed dynamically */}
                     <Input
                       id="email"
                       defaultValue={user.email}

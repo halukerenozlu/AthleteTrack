@@ -29,7 +29,7 @@ export default function PricingPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Amatör Paket */}
+          {/* Amateur package */}
           <Card className="bg-zinc-900 border-zinc-800 text-white">
             <CardHeader>
               <CardTitle>Amatör</CardTitle>

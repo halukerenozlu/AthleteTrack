@@ -15,7 +15,7 @@ namespace API.Controllers
             _athleteService = athleteService;
         }
 
-        // --- YENİ EKLENEN: Tüm Sporcuları Getir (Sporcular Sayfası İçin) ---
+        // --- NEWLY ADDED: Fetch all athletes (for Athletes Page) ---
         [HttpGet("coach/{coachId}")]
         public async Task<IActionResult> GetAllByCoach(int coachId)
         {
@@ -23,7 +23,7 @@ namespace API.Controllers
             return Ok(athletes);
         }
 
-        // --- ESKİLER (Takım Detay Sayfası İçin) ---
+        // --- EXISTING: For Team Details Page ---
         [HttpGet("team/{teamId}")]
         public async Task<IActionResult> GetByTeam(int teamId)
         {
@@ -31,7 +31,7 @@ namespace API.Controllers
             return Ok(athletes);
         }
 
-        // --- SPORCU EKLEME ---
+        // --- CREATE ATHLETE ---
         [HttpPost]
         public async Task<IActionResult> AddAthlete([FromBody] CreateAthleteDto model)
         {
@@ -39,7 +39,7 @@ namespace API.Controllers
             return Ok(new { message = "Sporcu eklendi.", id = createdAthlete.Id });
         }
 
-        // --- SPORCU SİLME ---
+        // --- DELETE ATHLETE ---
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAthlete(int id)
         {
@@ -48,7 +48,7 @@ namespace API.Controllers
             return Ok(new { message = "Sporcu silindi." });
         }
 
-        // --- FOTOĞRAF YÜKLEME ---
+        // --- PHOTO UPLOAD ---
         [HttpPost("upload-photo/{id}")]
         public async Task<IActionResult> UploadPhoto(int id, IFormFile file)
         {
@@ -63,7 +63,7 @@ namespace API.Controllers
             return Ok(new { message = "Fotoğraf güncellendi." });
         }
 
-        // --- FOTOĞRAF GETİRME ---
+        // --- FETCH PHOTO ---
         [HttpGet("image/{id}")]
         public async Task<IActionResult> GetImage(int id)
         {

@@ -1,16 +1,16 @@
 
-using Microsoft.EntityFrameworkCore; // (UseSqlServer için)
-using API.Data;                      // (AppDbContext'i bulması için)
+using Microsoft.EntityFrameworkCore; // Required for UseSqlServer
+using API.Data;                      // Required for AppDbContext
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Veritabanı bağlantısını servislere ekliyoruz
+// Add database connection services
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 // -------------------
 
-// Servisleri Tanıtıyoruz (Dependency Injection)
+// Register services (Dependency Injection)
 builder.Services.AddScoped<API.Services.AuthService>();
 builder.Services.AddScoped<API.Services.TeamService>();
 builder.Services.AddScoped<API.Services.AthleteService>();
@@ -20,21 +20,21 @@ builder.Services.AddScoped<API.Services.DashboardService>();
 builder.Services.AddScoped<API.Services.MatchService>();
 builder.Services.AddScoped<API.Services.MatchStatService>();
 
-// 1. Controller desteğini ekle (Bizim mimari için şart)
+// 1. Add controller support
 builder.Services.AddControllers();
 
-// 2. Swagger/OpenAPI desteği (API'yi test etmek için)
+// 2. Add Swagger/OpenAPI support for API testing
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); 
 
 
-// --- EKLENECEK KISIM (CORS AYARI) ---
+// --- ADDED SECTION (CORS CONFIGURATION) ---
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         policy =>
         {
-            policy.AllowAnyOrigin() // Şimdilik herkese izin veriyoruz (Geliştirme için)
+            policy.AllowAnyOrigin() // For now, allow all origins in development
                   .AllowAnyMethod()
                   .AllowAnyHeader();
         });
@@ -46,7 +46,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// 3. Geliştirme ortamındaysak Swagger'ı aç
+// 3. Enable Swagger in development environment
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -55,14 +55,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// --- BU SATIRI DA EKLE (Sıralama Önemli: UseAuthorization'dan ÖNCE olmalı) ---
+// --- ADD THIS LINE TOO (Order matters: must be before UseAuthorization) ---
 app.UseCors("AllowReactApp");
 // -----------------------------------------------------------------------------
 
 
 app.UseAuthorization();
 
-// 4. Controller'ları haritala (Controllers klasöründeki dosyaları çalıştırır)
+// 4. Map controllers
 app.MapControllers();
 
 app.Run();

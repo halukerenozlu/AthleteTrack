@@ -25,8 +25,8 @@ namespace API.Controllers
                 return Unauthorized(new { message = "Email veya şifre hatalı!" });
             }
 
-            // Giriş başarılı! Frontend'e kullanıcının bilgilerini dönüyoruz.
-            // Bu bilgileri React tarafında Sidebar'da göstereceğiz.
+            // Login successful; return user details to the frontend.
+            // These values are used in the React sidebar.
             return Ok(new
             {
                 id = user.Id,
@@ -34,7 +34,7 @@ namespace API.Controllers
                 fullName = user.FullName,
                 role = user.Role,
                 email = user.Email, 
-                // YENİ: Frontend bu bilgiye göre sarı kutuyu gösterecek
+                // NEW: Frontend uses this flag to show the yellow warning box.
                 isTemporaryPassword = user.IsTemporaryPassword,
                 message = "Giriş başarılı"
             });
@@ -53,7 +53,7 @@ namespace API.Controllers
         public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordDto model)
         {
 
-            // YENİ: Basit Şifre Kuralı
+            // NEW: Simple password rule
             if (model.NewPassword.Length < 6)
                 return BadRequest(new { message = "Yeni şifre en az 6 karakter olmalıdır." });
 
@@ -77,7 +77,7 @@ namespace API.Controllers
             if (file == null || file.Length == 0)
                 return BadRequest(new { message = "Lütfen bir dosya seçin." });
 
-            // 2MB Kontrolü (Hoca şartı)
+            // 2MB file size limit check
             if (file.Length > 2 * 1024 * 1024)
                 return BadRequest(new { message = "Dosya boyutu 2MB'dan büyük olamaz." });
 
@@ -85,8 +85,8 @@ namespace API.Controllers
             {
                 await file.CopyToAsync(memoryStream);
                 
-                // Servis katmanında veritabanına kaydetme işini çağırıyoruz
-                // (Bunu AuthService'e eklememiz gerekecek)
+                // Call service layer method to persist data in the database.
+                // (Implemented in AuthService.)
                 var result = await _authService.UpdateProfileImageAsync(id, memoryStream.ToArray());
                 
                 if (!result) return NotFound("Kullanıcı bulunamadı.");
@@ -101,9 +101,9 @@ namespace API.Controllers
             var imageBytes = await _authService.GetProfileImageAsync(id);
             
             if (imageBytes == null || imageBytes.Length == 0)
-                return NotFound(); // Resim yoksa 404 dön
+                return NotFound(); // Return 404 when no image exists
 
-            // Resmi tarayıcıya dosya olarak gönderiyoruz
+            // Return image file to the browser
             return File(imageBytes, "image/jpeg");
         }
 

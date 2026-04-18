@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { toast } from "sonner"; // Toast mesajı için gerekli
+import { toast } from "sonner"; // Required for toast notifications
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
@@ -47,13 +47,13 @@ export default function DashboardLayout() {
   });
 
   const displayName = user?.fullName || user?.username || "Hocam";
-  // Sadece ilk ismi alıyoruz (Örn: "Kerem Antrenör" -> "Kerem")
+  // Use only the first name (e.g., "Kerem Coach" -> "Kerem")
   const firstName = displayName.split(" ")[0];
 
   return (
-    // Sabit Karanlık Tema (bg-black)
+    // Fixed dark theme (bg-black)
     <div className="min-h-screen bg-black text-white font-sans flex">
-      {/* ============ SABİT SIDEBAR ============ */}
+      {/* ============ FIXED SIDEBAR ============ */}
       <aside className="w-64 border-r border-zinc-800 bg-zinc-950 hidden md:flex flex-col fixed h-full z-10">
         <div className="p-6 flex items-center gap-2">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -88,7 +88,7 @@ export default function DashboardLayout() {
             label="Sağlık Merkezi"
             path="/dashboard/health"
           />
-          {/* EKLENEN KISIM: Maçlar Menüsü */}
+          {/* ADDED SECTION: Matches menu */}
           <SidebarItem
             icon={<Trophy size={20} />}
             label="Fikstür / Maçlar"
@@ -167,7 +167,7 @@ export default function DashboardLayout() {
               variant="outline"
               size="icon"
               className="border-zinc-800 bg-zinc-900 hover:bg-zinc-800 text-white"
-              // BİLDİRİM MESAJI
+              // NOTIFICATION MESSAGE
               onClick={() => toast.info("Bildirim özelliği çok yakında...")}
             >
               <Bell className="h-4 w-4" />
