@@ -1,6 +1,6 @@
 namespace API.Models.DTOs
 {
-    // Translated comment.
+    // Ekleme Modeli
     public class CreateMatchStatDto
     {
         public int MatchId { get; set; }
@@ -17,7 +17,7 @@ namespace API.Models.DTOs
         public double DistanceCovered { get; set; }
     }
 
-    // Translated comment.
+    // Listeleme Modeli (Response)
     public class MatchStatResponseDto
     {
         public int Id { get; set; }

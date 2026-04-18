@@ -14,7 +14,7 @@ namespace API.Services
             _context = context;
         }
 
-        // Translated comment.
+        // 1. Maç Ekle
         public async Task<Match> CreateMatchAsync(CreateMatchDto model)
         {
             var match = new Match
@@ -30,13 +30,13 @@ namespace API.Services
             return match;
         }
 
-        // Translated comment.
+        // 2. Hocanın Fikstürünü Getir
         public async Task<List<MatchResponseDto>> GetMatchesByCoachAsync(int coachId)
         {
             var matches = await _context.Matches
                 .Include(m => m.Team)
                 .Where(m => m.Team!.CoachId == coachId)
-                .OrderBy(m => m.MatchDate) // Translated comment.
+                .OrderBy(m => m.MatchDate) // Tarihe göre sırala
                 .ToListAsync();
 
             return matches.Select(m => new MatchResponseDto
@@ -51,7 +51,7 @@ namespace API.Services
             }).ToList();
         }
 
-        // Translated comment.
+        // 3. Maç Sil
         public async Task<bool> DeleteMatchAsync(int id)
         {
             var match = await _context.Matches.FindAsync(id);

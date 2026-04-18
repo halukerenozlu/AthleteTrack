@@ -56,7 +56,7 @@ export default function AthletesPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Translated comment.
+  // Dialog & Form State'leri
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedAthleteId, setSelectedAthleteId] = useState<number | null>(
@@ -99,7 +99,7 @@ export default function AthletesPage() {
       setTeams(teamsData);
       setPositions(positionsData);
     } catch (error) {
-      console.error("Data loading error", error);
+      console.error("Veri yükleme hatası", error);
       toast.error("Veriler yüklenirken hata oluştu.");
     } finally {
       setLoading(false);
@@ -152,17 +152,17 @@ export default function AthletesPage() {
     setIsDialogOpen(true);
   };
 
-  // Translated comment.
+  // --- KAYDETME İŞLEMİ (KONTROLLER EKLENDİ) ---
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Translated comment.
+    // 1. Zorunlu Alan Kontrolü
     if (!formData.teamId || !formData.positionId) {
       toast.warning("Lütfen takım ve mevki seçin.");
       return;
     }
 
-    // Translated comment.
+    // 2. ASTRONOMİK SAYI KONTROLÜ (YENİ) 🛡️
     const jersey = parseInt(formData.jerseyNumber);
     const height = parseInt(formData.height);
     const weight = parseFloat(formData.weight);
@@ -494,7 +494,7 @@ export default function AthletesPage() {
               </div>
             </div>
 
-            {/* Translated comment. */}
+            {/* ASTRONOMİK SAYILARA KARŞI KORUMA EKLENDİ */}
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="jersey" className="text-zinc-300">
@@ -551,7 +551,7 @@ export default function AthletesPage() {
                 <Label htmlFor="birthDate" className="text-zinc-300">
                   Doğum Tarihi
                 </Label>
-                {/* Translated comment. */}
+                {/* TARİH KISITLAMASI */}
                 <Input
                   id="birthDate"
                   type="date"

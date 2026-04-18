@@ -9,7 +9,7 @@ interface SidebarItemProps {
 export function SidebarItem({ icon, label, path }: SidebarItemProps) {
   const location = useLocation();
 
-  // Translated comment.
+  // Aktif link kontrolü
   const isActive =
     path === "/dashboard"
       ? location.pathname === "/dashboard"

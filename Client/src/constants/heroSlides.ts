@@ -1,11 +1,11 @@
-// Translated comment.
-// Translated comment.
-// Translated comment.
-// Translated comment.
+// Burası Hero kısmındaki slider verilerini yönettiğimiz yer.
+// Eğer kendi resimlerini kullanacaksan:
+// 1. Resimleri Client/public/assets klasörüne at.
+// 2. image kısmına "/assets/resim-adi.jpg" yaz.
 
 export const heroSlides = [
   {
-    // Translated comment.
+    // Örnek yerel kullanım: image: "/assets/spor-yonetimi.jpg",
     image:
       "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1920&h=1080&fit=crop",
     alt: "Spor yönetimi",

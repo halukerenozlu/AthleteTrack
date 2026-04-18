@@ -18,17 +18,17 @@ namespace API.Models.Entities
 
         public int? JerseyNumber { get; set; } 
         public DateTime BirthDate { get; set; }
-        public int Height { get; set; } // Translated comment.
-        public double Weight { get; set; } // Translated comment.
+        public int Height { get; set; } // cm
+        public double Weight { get; set; } // kg
 
         public string? Phone { get; set; }
         public byte[]? ProfileImage { get; set; } 
 
-        // Translated comment.
+        // --- İLİŞKİLER ---
         public int? TeamId { get; set; }
         [ForeignKey("TeamId")]
         public Team? Team { get; set; }
-        // Translated comment.
+        // Sporcuyu direkt hocaya bağlıyoruz
         public int CoachId { get; set; }
         public int PositionId { get; set; }
         [ForeignKey("PositionId")]

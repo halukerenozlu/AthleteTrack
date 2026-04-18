@@ -25,8 +25,8 @@ namespace API.Controllers
                 return Unauthorized(new { message = "Email veya şifre hatalı!" });
             }
 
-            // Translated comment.
-            // Translated comment.
+            // Giriş başarılı! Frontend'e kullanıcının bilgilerini dönüyoruz.
+            // Bu bilgileri React tarafında Sidebar'da göstereceğiz.
             return Ok(new
             {
                 id = user.Id,
@@ -34,7 +34,7 @@ namespace API.Controllers
                 fullName = user.FullName,
                 role = user.Role,
                 email = user.Email, 
-                // Translated comment.
+                // YENİ: Frontend bu bilgiye göre sarı kutuyu gösterecek
                 isTemporaryPassword = user.IsTemporaryPassword,
                 message = "Giriş başarılı"
             });
@@ -53,7 +53,7 @@ namespace API.Controllers
         public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordDto model)
         {
 
-            // Translated comment.
+            // YENİ: Basit Şifre Kuralı
             if (model.NewPassword.Length < 6)
                 return BadRequest(new { message = "Yeni şifre en az 6 karakter olmalıdır." });
 
@@ -77,7 +77,7 @@ namespace API.Controllers
             if (file == null || file.Length == 0)
                 return BadRequest(new { message = "Lütfen bir dosya seçin." });
 
-            // Translated comment.
+            // 2MB Kontrolü (Hoca şartı)
             if (file.Length > 2 * 1024 * 1024)
                 return BadRequest(new { message = "Dosya boyutu 2MB'dan büyük olamaz." });
 
@@ -85,8 +85,8 @@ namespace API.Controllers
             {
                 await file.CopyToAsync(memoryStream);
                 
-                // Translated comment.
-                // Translated comment.
+                // Servis katmanında veritabanına kaydetme işini çağırıyoruz
+                // (Bunu AuthService'e eklememiz gerekecek)
                 var result = await _authService.UpdateProfileImageAsync(id, memoryStream.ToArray());
                 
                 if (!result) return NotFound("Kullanıcı bulunamadı.");
@@ -101,9 +101,9 @@ namespace API.Controllers
             var imageBytes = await _authService.GetProfileImageAsync(id);
             
             if (imageBytes == null || imageBytes.Length == 0)
-                return NotFound(); // Translated comment.
+                return NotFound(); // Resim yoksa 404 dön
 
-            // Translated comment.
+            // Resmi tarayıcıya dosya olarak gönderiyoruz
             return File(imageBytes, "image/jpeg");
         }
 

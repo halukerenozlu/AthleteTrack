@@ -15,7 +15,7 @@ namespace API.Controllers
             _athleteService = athleteService;
         }
 
-        // Translated comment.
+        // --- YENİ EKLENEN: Tüm Sporcuları Getir (Sporcular Sayfası İçin) ---
         [HttpGet("coach/{coachId}")]
         public async Task<IActionResult> GetAllByCoach(int coachId)
         {
@@ -23,7 +23,7 @@ namespace API.Controllers
             return Ok(athletes);
         }
 
-        // Translated comment.
+        // --- ESKİLER (Takım Detay Sayfası İçin) ---
         [HttpGet("team/{teamId}")]
         public async Task<IActionResult> GetByTeam(int teamId)
         {
@@ -31,7 +31,7 @@ namespace API.Controllers
             return Ok(athletes);
         }
 
-        // Translated comment.
+        // --- SPORCU EKLEME ---
         [HttpPost]
         public async Task<IActionResult> AddAthlete([FromBody] CreateAthleteDto model)
         {
@@ -39,7 +39,7 @@ namespace API.Controllers
             return Ok(new { message = "Sporcu eklendi.", id = createdAthlete.Id });
         }
 
-        // Translated comment.
+        // --- SPORCU SİLME ---
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAthlete(int id)
         {
@@ -48,7 +48,7 @@ namespace API.Controllers
             return Ok(new { message = "Sporcu silindi." });
         }
 
-        // Translated comment.
+        // --- FOTOĞRAF YÜKLEME ---
         [HttpPost("upload-photo/{id}")]
         public async Task<IActionResult> UploadPhoto(int id, IFormFile file)
         {
@@ -63,7 +63,7 @@ namespace API.Controllers
             return Ok(new { message = "Fotoğraf güncellendi." });
         }
 
-        // Translated comment.
+        // --- FOTOĞRAF GETİRME ---
         [HttpGet("image/{id}")]
         public async Task<IActionResult> GetImage(int id)
         {
@@ -72,7 +72,7 @@ namespace API.Controllers
             return File(imageBytes, "image/jpeg");
         }
 
-        // Translated comment.
+        // PUT: api/athletes/5
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAthlete(int id, [FromBody] CreateAthleteDto model)
         {

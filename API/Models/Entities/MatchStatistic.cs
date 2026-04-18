@@ -8,21 +8,21 @@ namespace API.Models.Entities
         [Key]
         public int Id { get; set; }
 
-        // Translated comment.
+        // Hangi Maç?
         public int MatchId { get; set; }
         [ForeignKey("MatchId")]
         public Match? Match { get; set; }
 
-        // Translated comment.
+        // Hangi Oyuncu?
         public int AthleteId { get; set; }
         [ForeignKey("AthleteId")]
         public Athlete? Athlete { get; set; }
 
-        // Translated comment.
-        public int MinutesPlayed { get; set; } // Translated comment.
+        // İstatistikler
+        public int MinutesPlayed { get; set; } // Dakika
         public int Goals { get; set; } = 0;
         public int Assists { get; set; } = 0;
-        public double Rating { get; set; } = 0.0; // Translated comment.
-        public double DistanceCovered { get; set; } = 0.0; // Translated comment.
+        public double Rating { get; set; } = 0.0; // 10 üzerinden puan
+        public double DistanceCovered { get; set; } = 0.0; // Koşu mesafesi (km)
     }
 }

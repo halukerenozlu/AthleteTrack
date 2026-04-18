@@ -2,7 +2,7 @@ using API.Data;
 using API.Models.Entities;
 using API.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
-// Translated comment.
+// using BCrypt.Net; <-- Bu satırı sildik, gerek yok.
 
 namespace API.Services
 {
@@ -15,10 +15,10 @@ namespace API.Services
             _context = context;
         }
 
-        // Translated comment.
+        // --- LOGIN İŞLEMİ (HİBRİT KONTROL) ---
         public async Task<User?> LoginAsync(string email, string password)
         {
-            // Translated comment.
+            // 1. Kullanıcıyı Stored Procedure ile getir
             var userList = await _context.Users
                 .FromSqlRaw("EXEC sp_CheckUserLogin @Email = {0}", email)
                 .ToListAsync();
@@ -27,32 +27,32 @@ namespace API.Services
 
             if (user == null) return null;
 
-            // Translated comment.
+            // Eğer hesap pasife alınmışsa, şifreye bakmaya bile gerek yok.
                  if (!user.IsActive) 
-                     return null; // Translated comment.
+                     return null; // Veya özel hata fırlatabilirsin
 
 
-            // Translated comment.
+            // 2. ŞİFRE KONTROLÜ (KRİTİK NOKTA) 🛡️
             bool isPasswordValid = false;
 
-            // Translated comment.
+            // Eğer veritabanındaki şifre bir Hash ise (Genelde $ ile başlar)
             if (user.PasswordHash.StartsWith("$"))
             {
                 try 
                 {
-                    // Translated comment.
+                    // Hash doğrulaması yap
                     isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
                 }
                 catch 
                 {
-                    // Translated comment.
+                    // Hash bozuksa düz metin kontrolü dene (Yedek plan)
                     isPasswordValid = (user.PasswordHash == password);
                 }
             }
             else
             {
-                // Translated comment.
-                // Translated comment.
+                // Eğer şifre "$..." ile başlamıyorsa DÜZ METİNDİR (Örn: "123456")
+                // Direkt eşitlik kontrolü yap
                 isPasswordValid = (user.PasswordHash == password);
             }
 
@@ -61,7 +61,7 @@ namespace API.Services
             return user;
         }
 
-        // Translated comment.
+        // --- PROFİL GÜNCELLEME ---
         public async Task<bool> UpdateProfileAsync(int userId, UpdateProfileDto model)
         {
             var user = await _context.Users.FindAsync(userId);
@@ -74,7 +74,7 @@ namespace API.Services
             return true;
         }
 
-        // Translated comment.
+        // --- FOTOĞRAF GÜNCELLEME ---
         public async Task<bool> UpdateProfileImageAsync(int userId, byte[] imageBytes)
         {
             var user = await _context.Users.FindAsync(userId);
@@ -85,13 +85,13 @@ namespace API.Services
             return true;
         }
 
-        // Translated comment.
+        // --- ŞİFRE DEĞİŞTİRME ---
         public async Task<string> ChangePasswordAsync(int userId, ChangePasswordDto model)
         {
             var user = await _context.Users.FindAsync(userId);
             if (user == null) return "Kullanıcı bulunamadı.";
 
-            // Translated comment.
+            // 1. Eski şifre kontrolü (Burada da Hibrit yapıyoruz ki hata vermesin)
             bool isOldPasswordValid = false;
             if (user.PasswordHash.StartsWith("$"))
             {
@@ -105,7 +105,7 @@ namespace API.Services
             if (!isOldPasswordValid)
                 return "Mevcut şifreniz yanlış!";
 
-            // Translated comment.
+            // 2. Yeni şifreyi MUTLAKA Hash'le ve kaydet
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
             
             user.PasswordHash = passwordHash;
@@ -115,7 +115,7 @@ namespace API.Services
             await _context.SaveChangesAsync();
             return "OK";
         }
-        // Translated comment.
+        // RESİM GETİRME METODU
         public async Task<byte[]?> GetProfileImageAsync(int userId)
         {
             var user = await _context.Users.FindAsync(userId);

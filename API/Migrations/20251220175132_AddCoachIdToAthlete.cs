@@ -4,10 +4,10 @@
 
 namespace API.Migrations
 {
-    // Translated comment.
+    /// <inheritdoc />
     public partial class AddCoachIdToAthlete : Migration
     {
-        // Translated comment.
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
@@ -18,7 +18,7 @@ namespace API.Migrations
                 defaultValue: 0);
         }
 
-        // Translated comment.
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(

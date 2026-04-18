@@ -4,24 +4,24 @@ import type {
   LoginRequest,
   LoginResponse,
   UpdateProfileRequest,
-} from "@/types"; // Translated comment.
+} from "@/types"; // Birazdan types oluşturacağız
 
 export const authApi = {
   login: async (data: LoginRequest) => {
     const response = await api.post<LoginResponse>("/auth/login", data);
     return response.data;
   },
-  // Translated comment.
+  // YENİ: Profil Güncelleme
   updateProfile: async (id: number, data: UpdateProfileRequest) => {
     const response = await api.put(`/auth/update-profile/${id}`, data);
     return response.data;
   },
-  // Translated comment.
+  // YENİ: Şifre Değiştirme
   changePassword: async (id: number, data: ChangePasswordRequest) => {
     const response = await api.post(`/auth/change-password/${id}`, data);
     return response.data;
   },
-  // Translated comment.
+  // YENİ: Profil Fotoğrafı Yükleme
   uploadPhoto: async (id: number, file: File) => {
     const formData = new FormData();
     formData.append("file", file);

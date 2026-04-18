@@ -19,7 +19,7 @@ import type { AttendanceItem } from "@/types";
 
 export default function TrainingDetailsPage() {
   const { id } = useParams();
-  // Translated comment.
+  //const navigate = useNavigate();
   const [attendanceList, setAttendanceList] = useState<AttendanceItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -41,7 +41,7 @@ export default function TrainingDetailsPage() {
     loadData();
   }, [id]);
 
-  // Translated comment.
+  // --- DURUM DEĞİŞTİR (VAR/YOK) ---
   const togglePresence = (athleteId: number) => {
     setAttendanceList((prev) =>
       prev.map((item) =>
@@ -52,10 +52,10 @@ export default function TrainingDetailsPage() {
     );
   };
 
-  // Translated comment.
+  // --- PUAN DEĞİŞTİR ---
   const handleRatingChange = (athleteId: number, value: string) => {
     const rating = parseInt(value);
-    if (value !== "" && (isNaN(rating) || rating < 1 || rating > 10)) return; // Translated comment.
+    if (value !== "" && (isNaN(rating) || rating < 1 || rating > 10)) return; // 1-10 arası kontrol
 
     setAttendanceList((prev) =>
       prev.map((item) =>
@@ -66,7 +66,7 @@ export default function TrainingDetailsPage() {
     );
   };
 
-  // Translated comment.
+  // --- KAYDET ---
   const handleSave = async () => {
     if (!id) return;
     setIsSaving(true);
@@ -80,8 +80,8 @@ export default function TrainingDetailsPage() {
         })),
       });
       toast.success("Yoklama başarıyla kaydedildi! ✅");
-      // Translated comment.
-      // Translated comment.
+      // İsteğe bağlı: Kaydettikten sonra geri dön
+      // navigate("/dashboard/trainings");
     } catch {
       toast.error("Kaydetme başarısız.");
     } finally {
@@ -89,16 +89,16 @@ export default function TrainingDetailsPage() {
     }
   };
 
-  // Translated comment.
+  // --- İSTATİSTİKLER ---
   const presentCount = attendanceList.filter((a) => a.isPresent).length;
   const totalCount = attendanceList.length;
 
-  // Translated comment.
+  // YENİ: Anlık Ortalama Hesaplama
   const totalScore = attendanceList.reduce(
     (acc, curr) => acc + (curr.performanceRating || 0),
     0
   );
-  // Translated comment.
+  // Puan girilen oyuncu sayısı (0 puanları ortalamaya katmayalım diye)
   const ratedCount = attendanceList.filter(
     (a) => a.performanceRating && a.performanceRating > 0
   ).length;
@@ -107,7 +107,7 @@ export default function TrainingDetailsPage() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* Translated comment. */}
+      {/* ÜST BAŞLIK */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex items-center gap-4">
           <Link to="/dashboard/trainings">
@@ -148,7 +148,7 @@ export default function TrainingDetailsPage() {
         </Button>
       </div>
 
-      {/* Translated comment. */}
+      {/* LİSTE */}
       <Card className="bg-zinc-900/50 border-zinc-800">
         <CardHeader>
           <CardTitle className="text-white flex items-center gap-2">
@@ -194,7 +194,7 @@ export default function TrainingDetailsPage() {
                     key={item.athleteId}
                     className="border-zinc-800 hover:bg-zinc-900/20"
                   >
-                    {/* Translated comment. */}
+                    {/* OYUNCU İSMİ */}
                     <TableCell className="font-medium text-white flex items-center gap-3">
                       <Avatar className="h-9 w-9 border border-zinc-700">
                         <AvatarImage
@@ -216,7 +216,7 @@ export default function TrainingDetailsPage() {
                       </span>
                     </TableCell>
 
-                    {/* Translated comment. */}
+                    {/* DURUM BUTONU (GELDİ / GELMEDİ) */}
                     <TableCell className="text-center">
                       <button
                         onClick={() => togglePresence(item.athleteId)}
@@ -235,7 +235,7 @@ export default function TrainingDetailsPage() {
                       </button>
                     </TableCell>
 
-                    {/* Translated comment. */}
+                    {/* PERFORMANS PUANI (INPUT) */}
                     <TableCell className="text-right">
                       <div className="flex justify-end">
                         <Input

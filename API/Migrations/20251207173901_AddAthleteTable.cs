@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    // Translated comment.
+    /// <inheritdoc />
     public partial class AddAthleteTable : Migration
     {
-        // Translated comment.
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -57,7 +57,7 @@ namespace API.Migrations
                 column: "TeamId");
         }
 
-        // Translated comment.
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

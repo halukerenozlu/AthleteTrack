@@ -14,7 +14,7 @@ namespace API.Controllers
             _dashboardService = dashboardService;
         }
 
-        // Translated comment.
+        // GET: api/dashboard/summary/1
         [HttpGet("summary/{coachId}")]
         public async Task<IActionResult> GetSummary(int coachId)
         {

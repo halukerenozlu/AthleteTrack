@@ -15,7 +15,7 @@ namespace API.Controllers
             _statService = statService;
         }
 
-        // Translated comment.
+        // GET: api/matchstats/match/5
         [HttpGet("match/{matchId}")]
         public async Task<IActionResult> GetByMatch(int matchId)
         {
@@ -23,7 +23,7 @@ namespace API.Controllers
             return Ok(list);
         }
 
-        // Translated comment.
+        // POST: api/matchstats
         [HttpPost]
         public async Task<IActionResult> Save([FromBody] CreateMatchStatDto model)
         {

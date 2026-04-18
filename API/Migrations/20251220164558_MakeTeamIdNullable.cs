@@ -4,10 +4,10 @@
 
 namespace API.Migrations
 {
-    // Translated comment.
+    /// <inheritdoc />
     public partial class MakeTeamIdNullable : Migration
     {
-        // Translated comment.
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
@@ -30,7 +30,7 @@ namespace API.Migrations
                 principalColumn: "Id");
         }
 
-        // Translated comment.
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(

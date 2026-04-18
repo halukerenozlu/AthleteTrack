@@ -9,32 +9,32 @@ namespace API.Models.Entities
 
         [Required]
         [MaxLength(50)]
-        public string Username { get; set; } = string.Empty; // Translated comment.
+        public string Username { get; set; } = string.Empty; // Kullanıcı Adı
 
         [Required]
         [EmailAddress]
         [MaxLength(100)]
-        public string Email { get; set; } = string.Empty; // Translated comment.
+        public string Email { get; set; } = string.Empty; // Email (Login için)
 
         [Required]
-        public string PasswordHash { get; set; } = string.Empty; // Translated comment.
+        public string PasswordHash { get; set; } = string.Empty; // Şifreli Şifre
 
         [MaxLength(20)]
-        public string Role { get; set; } = "Coach"; // Translated comment.
+        public string Role { get; set; } = "Coach"; // Admin, Coach, Player
 
-        public string? FullName { get; set; } // Translated comment.
+        public string? FullName { get; set; } // Ad Soyad
 
-        public string? PhoneNumber { get; set; } // Translated comment.
+        public string? PhoneNumber { get; set; } // Telefon numarası
 
-        // Translated comment.
+        // Hocanın "Image/Binary" şartı için resmi byte dizisi olarak tutuyoruz.
         public byte[]? ProfileImage { get; set; }
 
-        public bool IsTemporaryPassword { get; set; } = true; // Translated comment.
-        public DateTime? PasswordExpiresAt { get; set; } // Translated comment.
+        public bool IsTemporaryPassword { get; set; } = true; // İlk başta herkesinki geçicidir
+        public DateTime? PasswordExpiresAt { get; set; } // Ne zaman doluyor?
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        // Translated comment.
+        // YENİ: Hesap açık mı kapalı mı? (Varsayılan: true/açık)
         public bool IsActive { get; set; } = true;
     }
 }

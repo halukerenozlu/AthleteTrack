@@ -4,10 +4,10 @@
 
 namespace API.Migrations
 {
-    // Translated comment.
+    /// <inheritdoc />
     public partial class AddProfileImageToUser : Migration
     {
-        // Translated comment.
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<byte[]>(
@@ -17,7 +17,7 @@ namespace API.Migrations
                 nullable: true);
         }
 
-        // Translated comment.
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(

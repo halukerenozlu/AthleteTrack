@@ -10,7 +10,7 @@ namespace API.Controllers
     public class InjuriesController : ControllerBase
     {
         private readonly InjuryService _injuryService;
-        private readonly API.Data.AppDbContext _context; // Translated comment.
+        private readonly API.Data.AppDbContext _context; // Lookup için
 
         public InjuriesController(InjuryService injuryService, API.Data.AppDbContext context)
         {
@@ -18,7 +18,7 @@ namespace API.Controllers
             _context = context;
         }
 
-        // Translated comment.
+        // GET: api/injuries/coach/1
         [HttpGet("coach/{coachId}")]
         public async Task<IActionResult> GetByCoach(int coachId)
         {
@@ -26,7 +26,7 @@ namespace API.Controllers
             return Ok(list);
         }
 
-        // Translated comment.
+        // POST: api/injuries
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateInjuryDto model)
         {
@@ -34,7 +34,7 @@ namespace API.Controllers
             return Ok(new { message = "Sakatlık kaydedildi." });
         }
 
-        // Translated comment.
+        // PUT: api/injuries/status/5 (İyileşti/Sakat)
         [HttpPut("status/{id}")]
         public async Task<IActionResult> ToggleStatus(int id)
         {
@@ -43,7 +43,7 @@ namespace API.Controllers
             return Ok(new { message = "Durum güncellendi." });
         }
 
-        // Translated comment.
+        // DELETE: api/injuries/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -52,7 +52,7 @@ namespace API.Controllers
             return Ok(new { message = "Kayıt silindi." });
         }
 
-        // Translated comment.
+        // GET: api/injuries/types (Dropdown için)
         [HttpGet("types")]
         public async Task<IActionResult> GetTypes()
         {

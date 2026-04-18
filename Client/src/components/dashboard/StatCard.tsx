@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 
-// Translated comment.
-// Translated comment.
+// TypeScript için veri tiplerini (Interface) tanımlıyoruz.
+// Bu sayede yanlış veri gönderirsen VS Code seni uyarır.
 interface StatCardProps {
   title: string;
   value: string;

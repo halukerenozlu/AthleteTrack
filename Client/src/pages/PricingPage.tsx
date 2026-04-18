@@ -29,7 +29,7 @@ export default function PricingPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Translated comment. */}
+          {/* Amatör Paket */}
           <Card className="bg-zinc-900 border-zinc-800 text-white">
             <CardHeader>
               <CardTitle>Amatör</CardTitle>
@@ -75,7 +75,7 @@ export default function PricingPage() {
             </CardFooter>
           </Card>
 
-          {/* Translated comment. */}
+          {/* Profesyonel Paket */}
           <Card className="bg-zinc-900 border-blue-500/50 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 bg-blue-600 text-xs px-3 py-1">
               POPÜLER
@@ -125,7 +125,7 @@ export default function PricingPage() {
             </CardFooter>
           </Card>
 
-          {/* Translated comment. */}
+          {/* Enterprise Paket */}
           <Card className="bg-zinc-900 border-zinc-800 text-white">
             <CardHeader>
               <CardTitle>Kulüp</CardTitle>
