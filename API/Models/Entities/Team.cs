@@ -10,17 +10,17 @@ namespace API.Models.Entities
 
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; } = string.Empty; // Örn: U19 Takımı
+        public string Name { get; set; } = string.Empty; // Example: U19 Team
 
         [MaxLength(50)]
-        public string Category { get; set; } = string.Empty; // Örn: Altyapı
+        public string Category { get; set; } = string.Empty; // Example: Academy
 
-        // İlişki: Hangi Hoca Yönetiyor?
+        // Relationship: Which coach manages this team?
         public int? CoachId { get; set; }
         [ForeignKey("CoachId")]
         public User? Coach { get; set; }
 
-        // Bu takımın oyuncuları kimler? (One-to-Many)
+        // Team athletes (one-to-many)
         public ICollection<Athlete> Athletes { get; set; } = new List<Athlete>();
 
     

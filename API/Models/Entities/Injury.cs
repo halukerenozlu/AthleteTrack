@@ -8,19 +8,19 @@ namespace API.Models.Entities
         [Key]
         public int Id { get; set; }
 
-        public DateTime InjuryDate { get; set; } // Sakatlanma Tarihi
-        public DateTime? ExpectedReturnDate { get; set; } // Tahmini Dönüş
-        public bool IsActive { get; set; } = true; // Hala sakat mı?
+        public DateTime InjuryDate { get; set; } // Injury date
+        public DateTime? ExpectedReturnDate { get; set; } // Expected return date
+        public bool IsActive { get; set; } = true; // Still injured?
 
         public string? Notes { get; set; }
 
-        // --- İLİŞKİLER ---
-        // 1. Kim Sakatlandı?
+        // --- RELATIONSHIPS ---
+        // 1. Which athlete is injured?
         public int AthleteId { get; set; }
         [ForeignKey("AthleteId")]
         public Athlete? Athlete { get; set; }
 
-        // 2. Ne Tür Sakatlık? -> InjuryTypes ile bağlanıyor!
+        // 2. Which injury type? -> Linked to InjuryTypes
         public int InjuryTypeId { get; set; }
         [ForeignKey("InjuryTypeId")]
         public InjuryType? InjuryType { get; set; }

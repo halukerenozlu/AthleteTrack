@@ -3,7 +3,7 @@ export default {
     darkMode: ["class"],
     content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", // <--- EN ÖNEMLİ KISIM BURASI
+    "./src/**/*.{js,ts,jsx,tsx}", // <--- MOST IMPORTANT SECTION
   ],
   theme: {
   	extend: {

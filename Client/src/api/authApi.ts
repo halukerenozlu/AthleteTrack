@@ -4,24 +4,24 @@ import type {
   LoginRequest,
   LoginResponse,
   UpdateProfileRequest,
-} from "@/types"; // Birazdan types oluşturacağız
+} from "@/types"; // Types are defined in the shared types file
 
 export const authApi = {
   login: async (data: LoginRequest) => {
     const response = await api.post<LoginResponse>("/auth/login", data);
     return response.data;
   },
-  // YENİ: Profil Güncelleme
+  // NEW: Update profile
   updateProfile: async (id: number, data: UpdateProfileRequest) => {
     const response = await api.put(`/auth/update-profile/${id}`, data);
     return response.data;
   },
-  // YENİ: Şifre Değiştirme
+  // NEW: Change password
   changePassword: async (id: number, data: ChangePasswordRequest) => {
     const response = await api.post(`/auth/change-password/${id}`, data);
     return response.data;
   },
-  // YENİ: Profil Fotoğrafı Yükleme
+  // NEW: Upload profile photo
   uploadPhoto: async (id: number, file: File) => {
     const formData = new FormData();
     formData.append("file", file);

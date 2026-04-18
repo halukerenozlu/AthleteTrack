@@ -24,11 +24,11 @@ namespace API.Models.Entities
         public string? Phone { get; set; }
         public byte[]? ProfileImage { get; set; } 
 
-        // --- İLİŞKİLER ---
+        // --- RELATIONSHIPS ---
         public int? TeamId { get; set; }
         [ForeignKey("TeamId")]
         public Team? Team { get; set; }
-        // Sporcuyu direkt hocaya bağlıyoruz
+        // Link athlete directly to coach
         public int CoachId { get; set; }
         public int PositionId { get; set; }
         [ForeignKey("PositionId")]

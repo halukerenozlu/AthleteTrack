@@ -9,7 +9,7 @@ namespace API.Models.Entities
 
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; } = string.Empty; // Örn: Kondisyon
+        public string Name { get; set; } = string.Empty; // Example: Conditioning
         
         [MaxLength(7)]
         public string ColorCode { get; set; } = "#000000"; 

@@ -1,10 +1,10 @@
-// Giriş yaparken gönderdiğimiz veri
+// Payload sent during login
 export interface LoginRequest {
   email: string;
   password: string;
 }
 
-// Backend'den dönen veri (AuthController.cs ile aynı olmalı)
+// Response returned from backend (must match AuthController.cs)
 export interface LoginResponse {
   id: number;
   username: string;
@@ -24,9 +24,9 @@ export interface ChangePasswordRequest {
   newPassword: string;
 }
 
-// --- TAKIM TİPLERİ ---
+// --- TEAM TYPES ---
 
-// Takım Listesi için (Backend: TeamResponseDto)
+// Team List for (Backend: TeamResponseDto)
 export interface Team {
   id: number;
   name: string;
@@ -34,7 +34,7 @@ export interface Team {
   playerCount: number;
 }
 
-// Yeni Takım Eklerken gidecek veri (Backend: CreateTeamDto)
+// Data sent when adding a new team (Backend: CreateTeamDto)
 export interface CreateTeamRequest {
   name: string;
   category: string;
@@ -57,23 +57,23 @@ export interface Athlete {
 export interface CreateAthleteRequest {
   firstName: string;
   lastName: string;
-  jerseyNumber?: number; // Opsiyonel
+  jerseyNumber?: number; // Optional
   height: number;
   weight: number;
   phone?: string;
-  teamId: number; // Hangi takım?
-  positionId: number; // Hangi mevki?
-  birthDate: string; // Tarih
+  teamId: number; // Target team
+  positionId: number; // Target position
+  birthDate: string; // Date
 }
 
-// Mevki Tipi
+// Position type
 export interface Position {
   id: number;
   name: string;
   shortName: string;
 }
 
-// --- ANTRENMAN TİPLERİ ---
+// --- TRAINING TYPES ---
 
 export interface TrainingType {
   id: number;
@@ -83,7 +83,7 @@ export interface TrainingType {
 
 export interface Training {
   id: number;
-  date: string; // ISO string gelir
+  date: string; // ISO string
   durationMinutes: number;
   notes?: string;
   teamName: string;
@@ -100,7 +100,7 @@ export interface CreateTrainingRequest {
   trainingTypeId: number;
 }
 
-// Yoklama Tipleri
+// Attendance types
 export interface AttendanceItem {
   athleteId: number;
   athleteName: string;
@@ -117,7 +117,7 @@ export interface SaveAttendanceRequest {
   }[];
 }
 
-// --- SAĞLIK MERKEZİ TİPLERİ ---
+// --- HEALTH CENTER TYPES ---
 
 export interface InjuryType {
   id: number;
@@ -129,7 +129,7 @@ export interface Injury {
   id: number;
   athleteName: string;
   teamName: string;
-  athleteImage: string; // Backend byte[] gönderiyor, JSON'da base64 string olur
+  athleteImage: string; // Backend returns byte[]; JSON uses base64 string
   injuryTypeName: string;
   injuryDate: string;
   expectedReturnDate?: string;
@@ -145,7 +145,7 @@ export interface CreateInjuryRequest {
   notes?: string;
 }
 
-// --- DASHBOARD TİPLERİ ---
+// --- DASHBOARD TYPES ---
 
 export interface TeamStat {
   teamName: string;
@@ -161,7 +161,7 @@ export interface RecentActivity {
   id: number;
   title: string;
   date: string;
-  type: string; // 'Training', 'Injury' vb.
+  type: string; // 'Training', 'Injury', etc.
 }
 
 export interface DashboardSummary {
@@ -170,7 +170,7 @@ export interface DashboardSummary {
   attendanceRate: number;
   nextMatchDate: string;
   teamStats: TeamStat[];
-  injuryStats: InjuryStat[]; // Backend'e eklemediysek boş gelebilir, sorun değil
+  injuryStats: InjuryStat[]; // May be empty if backend does not provide it
   recentActivities: RecentActivity[];
   topScorers: TopPerformer[];
   topRatedPlayers: TopPerformer[];
@@ -185,7 +185,7 @@ export interface Match {
   teamName: string;
   teamScore?: number;
   opponentScore?: number;
-  status: string; // "Planlandı" veya "Tamamlandı"
+  status: string; // "Planned" or "Completed"
 }
 
 export interface CreateMatchRequest {
@@ -222,7 +222,7 @@ export interface SaveMatchStatsRequest {
     distanceCovered: number;
   }[];
 }
-// GÜNCELLENEN KISIM: Liderlik tabloları eklendi
+// UPDATED SECTION: Leaderboard tables added
 export interface TopPerformer {
   athleteId: number;
   name: string;

@@ -36,7 +36,7 @@ function App() {
           <Route index element={<DashboardHome />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="teams" element={<TeamsPage />} />
-          {/* YENİ ROTA: :id kısmı değişkendir */}
+          {/* NEW ROUTE: :id segment is dynamic */}
           <Route path="teams/:id" element={<TeamDetailsPage />} />
           <Route path="athletes" element={<AthletesPage />} />
           <Route path="trainings" element={<TrainingsPage />} />
@@ -44,7 +44,7 @@ function App() {
           <Route path="health" element={<InjuriesPage />} />
           <Route path="matches" element={<MatchesPage />} />
           <Route path="matches/:id/stats" element={<MatchStatsPage />} />
-          {/* Gelecek sayfalar buraya... */}
+          {/* Future pages go here... */}
         </Route>
       </Routes>
       <Toaster position="top-right" theme="dark" richColors />

@@ -45,7 +45,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { toast } from "sonner"; // Şık bildirimler
+import { toast } from "sonner"; // Toast notifications
 import { teamApi } from "@/api/teamApi";
 import type { Team } from "@/types";
 
@@ -53,23 +53,23 @@ export default function TeamsPage() {
   const navigate = useNavigate();
   const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState(""); // Arama State'i
+  const [searchQuery, setSearchQuery] = useState(""); // Search state
 
-  // Dialog State'leri
+  // Dialog states
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
 
-  // Silme Onay State'i
+  // Delete confirmation state
   const [teamToDelete, setTeamToDelete] = useState<number | null>(null);
 
-  // Form State'i
+  // Form state
   const [formData, setFormData] = useState({ name: "", category: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  // --- VERİLERİ GETİR ---
+  // --- FETCH DATA ---
   const fetchTeams = useCallback(async () => {
     if (!user.id) return;
     try {
@@ -87,22 +87,22 @@ export default function TeamsPage() {
     fetchTeams();
   }, [fetchTeams]);
 
-  // --- ARAMA FİLTRESİ (Frontend Tarafında) ---
+  // --- SEARCH FILTER (FRONTEND SIDE) ---
   const filteredTeams = teams.filter(
     (team) =>
       team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       team.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // --- MODAL AÇMA (EKLEME veya DÜZENLEME) ---
+  // --- OPEN MODAL (CREATE OR EDIT) ---
   const openModal = (team?: Team) => {
     if (team) {
-      // Düzenleme Modu
+      // Edit mode
       setIsEditMode(true);
       setSelectedTeamId(team.id);
       setFormData({ name: team.name, category: team.category });
     } else {
-      // Ekleme Modu
+      // Create mode
       setIsEditMode(false);
       setSelectedTeamId(null);
       setFormData({ name: "", category: "" });
@@ -110,7 +110,7 @@ export default function TeamsPage() {
     setIsDialogOpen(true);
   };
 
-  // --- FORMU KAYDET (EKLE veya GÜNCELLE) ---
+  // --- SAVE FORM (CREATE OR UPDATE) ---
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.category) {
@@ -121,14 +121,14 @@ export default function TeamsPage() {
     setIsSubmitting(true);
     try {
       if (isEditMode && selectedTeamId) {
-        // GÜNCELLEME
+        // Update
         await teamApi.updateTeam(selectedTeamId, {
           ...formData,
           coachId: user.id,
         });
         toast.success("Takım başarıyla güncellendi! 🎉");
       } else {
-        // YENİ EKLEME
+        // Create
         await teamApi.createTeam({
           ...formData,
           coachId: user.id,
@@ -137,7 +137,7 @@ export default function TeamsPage() {
       }
 
       setIsDialogOpen(false);
-      fetchTeams(); // Listeyi yenile
+      fetchTeams(); // Refresh list
     } catch {
       toast.error("İşlem sırasında bir hata oluştu.");
     } finally {
@@ -145,7 +145,7 @@ export default function TeamsPage() {
     }
   };
 
-  // --- TAKIM SİLME ---
+  // --- DELETE TEAM ---
   const confirmDelete = async () => {
     if (!teamToDelete) return;
     try {
@@ -161,7 +161,7 @@ export default function TeamsPage() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* ÜST KISIM */}
+      {/* TOP SECTION */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-white">
@@ -179,7 +179,7 @@ export default function TeamsPage() {
         </Button>
       </div>
 
-      {/* ARAMA ÇUBUĞU */}
+      {/* SEARCH BAR */}
       <div className="relative">
         <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
         <Input
@@ -190,7 +190,7 @@ export default function TeamsPage() {
         />
       </div>
 
-      {/* İÇERİK ALANI */}
+      {/* CONTENT AREA */}
       {loading ? (
         <div className="text-zinc-500 text-center py-10 flex flex-col items-center">
           <Loader2 className="animate-spin h-8 w-8 mb-2" /> Yükleniyor...
@@ -203,17 +203,17 @@ export default function TeamsPage() {
           </h3>
         </div>
       ) : (
-        // KART LİSTESİ
+        // Card list
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTeams.map((team) => (
-            // Card bileşenine 'relative' ve 'overflow-hidden' vererek süslemeyi kartın içine hapsediyoruz.
+            // Keep the decoration inside the card using 'relative' and 'overflow-hidden'.
             <Card
               key={team.id}
               className="bg-zinc-900/50 border-zinc-800 hover:border-blue-500/50 transition-all group relative overflow-hidden"
             >
-              {/* SÜSLEME (Shield): 'absolute' pozisyon ile yerleştiriyoruz. */}
-              {/* DÜZELTME: Butonla çakışmaması için 'bottom-4' yerine 'top-4' veya daha az negatif bir değer kullanabiliriz. */}
-              {/* VEYA, butonu 'relative z-10' yaparak öne çıkarabiliriz. En temizi süslemeyi üstte tutmaktır. */}
+              {/* Decoration (Shield): positioned with 'absolute'. */}
+              {/* FIX: To avoid overlap, use 'top-4' instead of 'bottom-4' or reduce negative offset. */}
+              {/* Alternatively, set button to 'relative z-10'. Keeping decoration at top is cleaner. */}
               <Shield className="absolute -right-6 -top-6 h-36 w-36 text-zinc-800/20 group-hover:text-blue-900/20 transition-colors rotate-12 pointer-events-none" />
 
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
@@ -221,7 +221,7 @@ export default function TeamsPage() {
                   {team.name}
                 </CardTitle>
                 <div className="flex gap-2">
-                  {/* DÜZENLE BUTONU */}
+                  {/* EDIT BUTTON */}
                   <Button
                     variant="ghost"
                     size="icon"
@@ -230,7 +230,7 @@ export default function TeamsPage() {
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
-                  {/* SİLME BUTONU (Onay kutusunu tetikler) */}
+                  {/* DELETE BUTTON (triggers confirmation dialog) */}
                   <Button
                     variant="ghost"
                     size="icon"
@@ -337,7 +337,7 @@ export default function TeamsPage() {
         </DialogContent>
       </Dialog>
 
-      {/* --- SİLME ONAY KUTUSU (ALERT DIALOG) --- */}
+      {/* --- DELETE CONFIRMATION DIALOG --- */}
       <AlertDialog
         open={!!teamToDelete}
         onOpenChange={() => setTeamToDelete(null)}

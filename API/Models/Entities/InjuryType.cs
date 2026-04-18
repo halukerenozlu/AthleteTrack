@@ -9,7 +9,7 @@ namespace API.Models.Entities
 
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; } = string.Empty; // Örn: Ön Çapraz Bağ
+        public string Name { get; set; } = string.Empty; // Example: ACL tear
 
         public string? Description { get; set; }
     }

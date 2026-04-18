@@ -56,7 +56,7 @@ export default function AthletesPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Dialog & Form State'leri
+  // Dialog and form states
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedAthleteId, setSelectedAthleteId] = useState<number | null>(
@@ -99,7 +99,7 @@ export default function AthletesPage() {
       setTeams(teamsData);
       setPositions(positionsData);
     } catch (error) {
-      console.error("Veri yükleme hatası", error);
+      console.error("Data loading error", error);
       toast.error("Veriler yüklenirken hata oluştu.");
     } finally {
       setLoading(false);
@@ -152,17 +152,17 @@ export default function AthletesPage() {
     setIsDialogOpen(true);
   };
 
-  // --- KAYDETME İŞLEMİ (KONTROLLER EKLENDİ) ---
+  // --- SAVE ACTION (VALIDATIONS ADDED) ---
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 1. Zorunlu Alan Kontrolü
+    // 1. Required field validation
     if (!formData.teamId || !formData.positionId) {
       toast.warning("Lütfen takım ve mevki seçin.");
       return;
     }
 
-    // 2. ASTRONOMİK SAYI KONTROLÜ (YENİ) 🛡️
+    // 2. Extreme value validation (NEW) 🛡️
     const jersey = parseInt(formData.jerseyNumber);
     const height = parseInt(formData.height);
     const weight = parseFloat(formData.weight);
@@ -494,7 +494,7 @@ export default function AthletesPage() {
               </div>
             </div>
 
-            {/* ASTRONOMİK SAYILARA KARŞI KORUMA EKLENDİ */}
+            {/* Protection against extreme values added */}
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="jersey" className="text-zinc-300">
@@ -551,7 +551,7 @@ export default function AthletesPage() {
                 <Label htmlFor="birthDate" className="text-zinc-300">
                   Doğum Tarihi
                 </Label>
-                {/* TARİH KISITLAMASI */}
+                {/* Date constraint */}
                 <Input
                   id="birthDate"
                   type="date"

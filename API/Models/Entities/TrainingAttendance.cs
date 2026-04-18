@@ -8,20 +8,20 @@ namespace API.Models.Entities
         [Key]
         public int Id { get; set; }
 
-        // Hangi Antrenman?
+        // Which training?
         public int TrainingId { get; set; }
         [ForeignKey("TrainingId")]
         public Training? Training { get; set; }
 
-        // Hangi Oyuncu?
+        // Which athlete?
         public int AthleteId { get; set; }
         [ForeignKey("AthleteId")]
         public Athlete? Athlete { get; set; }
 
-        // Katıldı mı? (Varsayılan: Evet)
+        // Attended? (Default: yes)
         public bool IsPresent { get; set; } = true;
         
-        // Performans Puanı (1-10 arası, Opsiyonel)
+        // Performance rating (1-10, optional)
         public int? PerformanceRating { get; set; }
     }
 }
